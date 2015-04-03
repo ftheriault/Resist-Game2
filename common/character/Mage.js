@@ -7,7 +7,7 @@ module.exports = Mage = function() {
 Mage.prototype = new Sprite();
 
 Mage.prototype.initPlayer = function (id, name) {
-	this.build(true, id, name, "Mage", 30, 30, 90, 50, 0.04);
+	this.build(true, id, name, "Mage", 30, 30, 60, 60, 80, 80, 0.04);
 }
 
 Mage.prototype.digestMessage = function () {

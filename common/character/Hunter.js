@@ -7,7 +7,7 @@ module.exports = Hunter = function() {
 Hunter.prototype = new Sprite();
 
 Hunter.prototype.initPlayer = function (id, name) {
-	this.build(true, id, name, "Hunter", 30, 30, 90, 50, 0.04);
+	this.build(true, id, name, "Hunter", 30, 30, 90, 90, 50, 50, 0.07);
 }
 
 Hunter.prototype.digestMessage = function () {

@@ -7,7 +7,7 @@ module.exports = Priest = function() {
 Priest.prototype = new Sprite();
 
 Priest.prototype.initPlayer = function (id, name) {
-	this.build(true, id, name, "Priest", 30, 30, 90, 50, 0.04);
+	this.build(true, id, name, "Priest", 30, 30, 70, 70, 50, 50, 0.04);
 }
 
 Priest.prototype.digestMessage = function () {

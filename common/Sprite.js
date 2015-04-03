@@ -6,7 +6,7 @@ module.exports = Sprite = function() {
 	};
 }
 
-Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, mana, speed){
+Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, maxLife, mana, maxMana, speed){
 	this.type = type;
 	this.tileSpriteList = [];
 
@@ -20,6 +20,8 @@ Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, mana, sp
 	this.data.destY = y;
 	this.data.life = life;
 	this.data.mana = mana;
+	this.data.maxLife = maxLife;
+	this.data.maxMana = maxMana;
 	this.data.speed = speed;
 }
 
@@ -169,12 +171,12 @@ Sprite.prototype.draw = function (ctx) {
 
 	if (this.data.life > 0) {
 		ctx.fillStyle = "red";
-		//ctx.fillRect(this.data.x - (20 + this.maxLife/20)/2, this.data.y - 25, (20 + this.maxLife/20) * (1.0 * this.life/this.maxLife), 5);
+		ctx.fillRect(this.data.x - (20 + this.data.maxLife/20)/2, this.data.y - 25, (20 + this.data.maxLife/20) * (1.0 * this.data.life/this.data.maxLife), 5);
 	}
 
 	if (this.data.isPlayer) {
-		ctx.fillStyle = "black";
+		ctx.fillStyle = "white";
 		ctx.font = "10px Arial";
-		ctx.fillText(this.data.name, this.x - 20, this.y + 50);
+		ctx.fillText(this.data.name, this.data.x - 20, this.data.y + 50);
 	}
 }
