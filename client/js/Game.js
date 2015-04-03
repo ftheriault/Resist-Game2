@@ -43,6 +43,8 @@ Game.prototype.connect = function(username, playerType) {
 		}
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
 			game.spriteList = [];
+			
+			game.level = new (window[serverMessage.level.name])();
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
@@ -105,8 +107,13 @@ Game.prototype.click = function(x, y) {
 }
 
 Game.prototype.tick = function(delta) {
-	this.ctx.fillStyle = "black";
-	this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+	if (this.level != null) {
+		this.level.draw();
+	}
+	else {
+		this.ctx.fillStyle = "black";
+		this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+	}
 
 	for (var i = 0; i < this.spriteList.length; i++) {
 		this.spriteList[i].tick(delta);

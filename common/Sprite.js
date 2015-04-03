@@ -6,7 +6,7 @@ module.exports = Sprite = function() {
 	};
 }
 
-Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, maxLife, mana, maxMana, speed){
+Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana, maxMana, speed){
 	this.type = type;
 	this.tileSpriteList = [];
 
@@ -14,15 +14,18 @@ Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, maxLife,
 	this.data.isPlayer = isPlayer;
 	this.data.name = name;
 	this.data.id = id;
-	this.data.x = x;
-	this.data.y = y;
-	this.data.destX = x;
-	this.data.destY = y;
 	this.data.life = life;
 	this.data.mana = mana;
 	this.data.maxLife = maxLife;
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
+}
+
+Sprite.prototype.spawnPoint = function (x, y) {
+	this.data.x = x;
+	this.data.y = y;
+	this.data.destX = x;
+	this.data.destY = y;
 }
 
 Sprite.prototype.copy = function (sprite) {

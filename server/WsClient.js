@@ -29,6 +29,7 @@ module.exports = WsClient = function(ws) {
 				}
 
 				this.sprite.initPlayer(this.id, message.username);
+				this.sprite.spawnPoint(global.level.spawnX, global.level.spawnY)
 				global.level.spriteList.push(this.sprite);
 
 				this.send({
