@@ -27,8 +27,30 @@ Sprite.prototype.digest = function(msg){
 }
 
 Sprite.prototype.tick = function(delta){
+	if (Math.abs(this.data.x - this.data.destX) > 2) {
+		if (this.data.x < this.data.destX) {
+			this.data.x += this.data.speed * delta;
+		}
+		else if (this.data.x > this.data.destX) {
+			this.data.x -= this.data.speed * delta;
+		}
+	}
+	else {
+		this.data.x = this.data.destX;
+	}
 	
-	// move sprite
+	if (Math.abs(this.data.y - this.data.destY) > 2) {
+		if (this.data.y < this.data.destY) {
+			this.data.y += this.data.speed * delta;
+		}
+		else if (this.data.y > this.data.destY) {
+			this.data.y -= this.data.speed * delta;
+		}
+	}
+	else {
+		this.data.y = this.data.destY;
+	}
+	
 	this.update();
 }
 

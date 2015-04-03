@@ -10,8 +10,8 @@ function Game() {
 	this.spriteList = [];
 
 	document.getElementById("canvas").onclick = function (e) { 
-		game.click(e.pageX - game.ctx.offsetWidth, 
-				   e.pageY - game.ctx.offsetHeight) ;
+		game.click(e.pageX - document.getElementById("canvas").offsetLeft, 
+				   e.pageY - document.getElementById("canvas").offsetTop) ;
 	}
 }
 
@@ -47,8 +47,8 @@ Game.prototype.connect = function(username, playerType) {
 			var found = false;
 
 			for (var i = 0; i < game.spriteList.length; i++) {
-				if (game.spriteList[i].id == serverMessage.sprite.data.id) {
-					game.spriteList[i].copy(serverMessage.sprite.type);
+				if (game.spriteList[i].data.id == serverMessage.sprite.data.id) {
+					game.spriteList[i].copy(serverMessage.sprite.data);
 					found = true;
 					break;
 				}
