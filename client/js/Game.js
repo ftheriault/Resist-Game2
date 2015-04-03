@@ -10,8 +10,8 @@ function Game() {
 	this.spriteList = [];
 
 	document.getElementById("canvas").onclick = function (e) { 
-		game.click(e.pageX - document.getElementById("canvas").offsetLeft, 
-				   e.pageY - document.getElementById("canvas").offsetTop) ;
+		game.click(e.pageX - document.getElementById("canvas-container").offsetLeft, 
+				   e.pageY - document.getElementById("canvas-container").offsetTop) ;
 	}
 }
 
@@ -78,7 +78,7 @@ Game.prototype.send = function(data) {
 }
 
 Game.prototype.click = function(x, y) {
-	
+	console.log(x + "/" + y)
 	if (this.playerId != null) {
 		this.send({
 			type : "ACTION_CLICK",

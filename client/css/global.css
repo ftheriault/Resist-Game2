@@ -1,32 +1,145 @@
 * {
-	margin:0;
 	padding:0;
+	margin:0;
 }
 
 html {
-	background-image: url('../images/background.jpg');
-	background-size:cover;
+	background-color: black;
+	background-position: 50% 50%;
+	background-size: 100%;
+	background-image: url('../images/splash.jpg');
+	background-repeat: no-repeat;
 	height:100%;
 	color:white;
 }
 
 h1 {
+	margin:20px;
 	text-align: center;
-	margin:50px 0;
+	font-size: 2em;
 }
 
-#menu {
+h2 {
+	margin: 10px;
 	text-align: center;
 }
 
-#container {
-	width:700px;
-	height:700px;
-	margin:20px auto;
+h3 {
+	font-size: 1.4em;
+	text-align: center;
+}
+
+p {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+ul {
+	list-style-position: inside;
+}
+
+a {
+	color:#aaa;
+	text-decoration: none;
+}
+
+a:hover {
+	color:#666;
+}
+
+.clear {
+	clear:both;
+}
+
+.footer {
+	position: fixed;
+	bottom:0;
+	padding: 10px;
+	font-size: 1.2em;
+}
+
+.selected {
+	background-color: #444 !important;
+}
+
+button.btn-enter {
+	background-color: transparent;
+	border:0px;
+	cursor: pointer;
+	background-image: url('../images/btn-normal.png');
+	width: 239px;
+	height:71px;
+	font-size: 1.3em;
+}
+
+button.btn-enter:hover {
+	background-color: transparent;
+	border:0px;
+	cursor: pointer;
+	background-image: url('../images/btn-pressed.png');
+	width: 239px;
+	height:71px;
+	font-size: 1.3em;
+}
+
+.canvas-container {
+	width: 700px;
+	height: 700px;
+	margin: 10px auto 0px auto;
+	border: 1px solid #666;
+	background: black;
+	position: relative;
+	border-radius: 6px;
+}
+
+
+.commands {
+	width: 700px;
+	margin: 10px auto 0px auto;
+}
+
+.login-section {
+	position: absolute;
+	width: 660px;
+	background-color: black;
+	border:2px solid white;
+	top:100px;
+	padding:30px;
+	margin-left:-12px;
+	text-align: center;
+	border-radius: 6px;
+}
+
+.login-section input[type=text] {
+	font-size: 25px;
+	color:#666;
+	border-radius: 6px;
+}
+
+.player-class {
+	cursor: pointer;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+	float:left;
+	width:150px;
+	height:200px;
+	background-color: black;
 	border:1px solid white;
+	border-radius: 6px;
+	box-shadow: 0 0 8px #aaa;
+
+	transition: background-color 1s, font-size 1s, left 1s ease-out;                        
+    -webkit-transition: background-color 1s, font-size 1s, left 1s ease-out;
 }
 
-#container div {
-	font-size: 15px;
-	font-weight: bold;
+.player-class p {
+	height:60px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.about-page {
+	padding:30px;
+	font-size: 1.1em;
 }
