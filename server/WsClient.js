@@ -20,18 +20,15 @@ module.exports = WsClient = function(ws) {
 					this.sprite = new Warrior(); 
 				}
 
-				this.sprite.initPlayer();
+				this.sprite.initPlayer(this.id, message.username);
+				global.level.spriteList.push(this.sprite);
 
 				this.send({
-					type 	: "SET_PLAYER",
+					type 	: "SET_PLAYER_ID",
 					id 		: this.id,
-					playerType : this.sprite.type,
-					x		: this.sprite.x,
-					y		: this.sprite.y
 				});
 
-				// send all sprites data
-
+				global.wsServer.broadcastState();
 			}
 		}
 		else {
@@ -40,7 +37,8 @@ module.exports = WsClient = function(ws) {
 	}
 
 	this.connectionClosed = function () {
-		// broadcast to all that client is gone
+		global.level.spriteList.splice(global.level.spriteList.indexOf(this.sprite), 1);
+		global.wsServer.broadcastState();
 	}
 
 	this.send = function (message) {

@@ -14,10 +14,21 @@ module.exports = WsServerWrapper = function (wsPort) {
 		});
 
 		ws.on('close', function() {
-			wsClient.connectionClosed();
 			wsServer.clients.splice(wsServer.clients.indexOf(wsClient), 1);
+			wsClient.connectionClosed();
 		});		
 
 		wsServer.clients.push(wsClient);
 	});
+
+}
+
+WsServerWrapper.prototype.broadcastState = function () {
+	
+	for (var i = 0; i < this.clients.length; i++) {
+		this.clients[i].send({
+			type : "GAME_STATE_UPDATE",
+			level : global.level
+		});
+	};
 }

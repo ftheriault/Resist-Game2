@@ -1,23 +1,33 @@
 module.exports = Sprite = function() {
-	this.messageList = [];
+	
 }
 
-Sprite.prototype.build = function(type, x, y, life, mana, speed){
+Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, mana, speed){
 	this.type = type;
-	this.x = x;
-	this.y = y;
-	this.life = life;
-	this.mana = mana;
-	this.speed = speed;
+
+	this.data = {};
+	this.data.isPlayer = isPlayer;
+	this.data.name = name;
+	this.data.id = id;
+	this.data.x = x;
+	this.data.y = y;
+	this.data.destX = x;
+	this.data.destY = y;
+	this.data.life = life;
+	this.data.mana = mana;
+	this.data.speed = speed;
 }
 
-Sprite.prototype.digest = function(){
-	if (messageList.length > 0) {
-		exports.digestMessage(messageList.shift());
-	}
+Sprite.prototype.copy = function (spriteData) {
+	this.data = spriteData;
+}
+
+Sprite.prototype.digest = function(msg){
+	this.digestMessage(msg);
 }
 
 Sprite.prototype.tick = function(){
 	// move sprite
-	exports.update();
-};
+	this.update();
+}
+

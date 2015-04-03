@@ -23,9 +23,22 @@ Game.prototype.connect = function(username, playerType) {
 	}
 
 	this.ws.onmessage = function(e){
-		var serverMessage = e.data;
-		console.log(serverMessage);
-		// create character here.
+		var serverMessage = JSON.parse(e.data);
+		
+		if (serverMessage.type == "SET_PLAYER_ID") {
+			game.playerId = serverMessage.id;
+		}
+		else if (serverMessage.type == "GAME_STATE_UPDATE") {
+			game.spriteList = [];
+
+			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
+				var sprite = new (window["Hunter"])();
+				sprite.copy(serverMessage.level.spriteList[i].data);
+
+				game.spriteList.push(sprite);
+			};
+			
+		}
 	}
 
 	this.ws.onclose = function(){
@@ -46,6 +59,8 @@ Game.prototype.tick = function(delta) {
 	this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
 
 	for (var i = 0; i < this.spriteList.length; i++) {
-		this.spriteList.tick(delta);
+		this.spriteList[i].tick(delta);
+
+		this.spriteList[i].draw();
 	}
 }
