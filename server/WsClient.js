@@ -1,5 +1,7 @@
 var Hunter = require('./../common/character/Hunter');
 var Warrior = require('./../common/character/Warrior');
+var Mage = require('./../common/character/Mage');
+var Priest = require('./../common/character/Priest');
 
 module.exports = WsClient = function(ws) {
 	this.ws = ws;
@@ -16,8 +18,14 @@ module.exports = WsClient = function(ws) {
 				if (message.playerType == "Hunter") {
 					this.sprite = new Hunter();
 				}
-				else {
+				else if (message.playerType == "Mage") {
+					this.sprite = new Mage(); 
+				}
+				else if (message.playerType == "Warrior") {
 					this.sprite = new Warrior(); 
+				}
+				else {
+					this.sprite = new Priest(); 
 				}
 
 				this.sprite.initPlayer(this.id, message.username);

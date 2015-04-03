@@ -13,6 +13,14 @@ function Game() {
 		game.click(e.pageX - document.getElementById("canvas-container").offsetLeft, 
 				   e.pageY - document.getElementById("canvas-container").offsetTop) ;
 	}
+
+	document.getElementById("canvas").oncontextmenu = function (event) {
+		event.preventDefault();
+
+		if (game.ws != null) {
+			game.rightClick();
+		}
+	}
 }
 
 Game.prototype.connect = function(username, playerType) {
@@ -38,8 +46,8 @@ Game.prototype.connect = function(username, playerType) {
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
-				sprite.copy(serverMessage.level.spriteList[i].data);
-
+				sprite.copy(serverMessage.level.spriteList[i]);
+				sprite.loadTextureImages();
 				game.spriteList.push(sprite);
 			}
 		}
@@ -48,7 +56,8 @@ Game.prototype.connect = function(username, playerType) {
 
 			for (var i = 0; i < game.spriteList.length; i++) {
 				if (game.spriteList[i].data.id == serverMessage.sprite.data.id) {
-					game.spriteList[i].copy(serverMessage.sprite.data);
+					game.spriteList[i].copy(serverMessage.sprite);
+					game.spriteList[i].loadTextureImages();
 					found = true;
 					break;
 				}
@@ -56,8 +65,8 @@ Game.prototype.connect = function(username, playerType) {
 
 			if (!found) {
 				var sprite = new (window[serverMessage.sprite.type])();
-				sprite.copy(serverMessage.sprite.data);
-
+				sprite.copy(serverMessage.sprite);
+				sprite.loadTextureImages();
 				game.spriteList.push(sprite);
 			}
 
@@ -77,8 +86,15 @@ Game.prototype.send = function(data) {
 	this.ws.send(JSON.stringify(data));
 }
 
-Game.prototype.click = function(x, y) {
-	console.log(x + "/" + y)
+Game.prototype.rightClick = function(x, y) {
+	if (this.playerId != null) {
+		this.send({
+			type : "RIGHT_CLICK"
+		});
+	}
+}
+
+Game.prototype.click = function(x, y) {	
 	if (this.playerId != null) {
 		this.send({
 			type : "ACTION_CLICK",

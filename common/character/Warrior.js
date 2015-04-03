@@ -17,8 +17,3 @@ Warrior.prototype.digestMessage = function () {
 Warrior.prototype.update = function () {
 
 }
-
-Warrior.prototype.draw = function () {
-	game.ctx.fillStyle = "blue";
-	game.ctx.fillRect(this.data.x, this.data.y, 20, 20);
-}

@@ -17,8 +17,3 @@ Hunter.prototype.digestMessage = function () {
 Hunter.prototype.update = function () {
 
 }
-
-Hunter.prototype.draw = function () {
-	game.ctx.fillStyle = "red";
-	game.ctx.fillRect(this.data.x, this.data.y, 20, 20);
-}
