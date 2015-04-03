@@ -8,6 +8,11 @@ function Game() {
 
 	this.playerId = null;
 	this.spriteList = [];
+
+	document.getElementById("canvas").onclick = function (e) { 
+		game.click(e.pageX - game.ctx.offsetWidth, 
+				   e.pageY - game.ctx.offsetHeight) ;
+	}
 }
 
 Game.prototype.connect = function(username, playerType) {
@@ -32,12 +37,30 @@ Game.prototype.connect = function(username, playerType) {
 			game.spriteList = [];
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
-				var sprite = new (window["Hunter"])();
+				var sprite = new (window[serverMessage.level.spriteList[i].type])();
 				sprite.copy(serverMessage.level.spriteList[i].data);
 
 				game.spriteList.push(sprite);
-			};
-			
+			}
+		}
+		else if (serverMessage.type == "SPRITE_STATE_UPDATE") {
+			var found = false;
+
+			for (var i = 0; i < game.spriteList.length; i++) {
+				if (game.spriteList[i].id == serverMessage.sprite.data.id) {
+					game.spriteList[i].copy(serverMessage.sprite.type);
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				var sprite = new (window[serverMessage.sprite.type])();
+				sprite.copy(serverMessage.sprite.data);
+
+				game.spriteList.push(sprite);
+			}
+
 		}
 	}
 
@@ -52,6 +75,17 @@ Game.prototype.connect = function(username, playerType) {
 
 Game.prototype.send = function(data) {
 	this.ws.send(JSON.stringify(data));
+}
+
+Game.prototype.click = function(x, y) {
+	
+	if (this.playerId != null) {
+		this.send({
+			type : "ACTION_CLICK",
+			destX : x,
+			destY : y
+		});
+	}
 }
 
 Game.prototype.tick = function(delta) {

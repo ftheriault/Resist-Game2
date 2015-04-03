@@ -23,12 +23,29 @@ module.exports = WsServerWrapper = function (wsPort) {
 
 }
 
-WsServerWrapper.prototype.broadcastState = function () {
+WsServerWrapper.prototype.sendStateTo = function (to) {
+	to.send({
+		type : "GAME_STATE_UPDATE",
+		level : global.level
+	});
+}
+
+WsServerWrapper.prototype.broadcastState = function (sprite) {
 	
-	for (var i = 0; i < this.clients.length; i++) {
-		this.clients[i].send({
-			type : "GAME_STATE_UPDATE",
-			level : global.level
-		});
-	};
+	if (sprite == null) {
+		for (var i = 0; i < this.clients.length; i++) {
+			this.clients[i].send({
+				type : "GAME_STATE_UPDATE",
+				level : global.level
+			});
+		};
+	}
+	else {
+		for (var i = 0; i < this.clients.length; i++) {
+			this.clients[i].send({
+				type : "SPRITE_STATE_UPDATE",
+				sprite : sprite
+			});
+		};	
+	}
 }

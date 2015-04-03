@@ -26,7 +26,8 @@ Sprite.prototype.digest = function(msg){
 	this.digestMessage(msg);
 }
 
-Sprite.prototype.tick = function(){
+Sprite.prototype.tick = function(delta){
+	
 	// move sprite
 	this.update();
 }

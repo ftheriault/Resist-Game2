@@ -28,11 +28,16 @@ module.exports = WsClient = function(ws) {
 					id 		: this.id,
 				});
 
-				global.wsServer.broadcastState();
+				global.wsServer.sendStateTo(this);
+				global.wsServer.broadcastState(this.sprite);
 			}
 		}
 		else {
-			// must be an action
+			if (message.type == "ACTION_CLICK") {
+				this.sprite.data.destX = message.destX;
+				this.sprite.data.destY = message.destY;
+				global.wsServer.broadcastState(this.sprite);
+			}
 		}
 	}
 
