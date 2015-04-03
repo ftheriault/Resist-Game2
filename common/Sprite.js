@@ -1,5 +1,9 @@
 module.exports = Sprite = function() {
-	
+	this.tileSpriteList = [];
+	this.data = {
+		x : 20,
+		y : 25
+	};
 }
 
 Sprite.prototype.build = function(isPlayer, id, name, type, x, y, life, mana, speed){
@@ -110,7 +114,7 @@ Sprite.prototype.loadTextureImages = function() {
 	this.currentAnimationRow = 2;
 }
 
-Sprite.prototype.draw = function () {
+Sprite.prototype.draw = function (ctx) {
 	for (var i = 0; i < this.tileSpriteList.length; i++) {
 		if (this.pendingAnimation == null && this.tileSpriteList[i].type == "WALK") {
 			var walking = false;
@@ -145,10 +149,10 @@ Sprite.prototype.draw = function () {
 				this.tileSpriteList[i].changeColumnInterval(0, 0);						
 			}
 
-			this.tileSpriteList[i].tick(game.ctx, this.data.x, this.data.y);
+			this.tileSpriteList[i].tick(ctx, this.data.x, this.data.y);
 		}
 		else if (this.pendingAnimation == this.tileSpriteList[i].type) {
-			this.tileSpriteList[i].tick(game.ctx, this.data.x, this.data.y);
+			this.tileSpriteList[i].tick(ctx, this.data.x, this.data.y);
 			this.tileSpriteList[i].changeRow(this.currentAnimationRow);	
 
 			if (this.tileSpriteList[i].imageCurrentCol == this.tileSpriteList[i].imageAnimationColMin) {
@@ -164,13 +168,13 @@ Sprite.prototype.draw = function () {
 	}
 
 	if (this.data.life > 0) {
-		game.ctx.fillStyle = "red";
+		ctx.fillStyle = "red";
 		//ctx.fillRect(this.data.x - (20 + this.maxLife/20)/2, this.data.y - 25, (20 + this.maxLife/20) * (1.0 * this.life/this.maxLife), 5);
 	}
 
 	if (this.data.isPlayer) {
-		game.ctx.fillStyle = "black";
-		game.ctx.font = "10px Arial";
-		game.ctx.fillText(this.data.name, this.x - 20, this.y + 50);
+		ctx.fillStyle = "black";
+		ctx.font = "10px Arial";
+		ctx.fillText(this.data.name, this.x - 20, this.y + 50);
 	}
 }

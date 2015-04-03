@@ -111,6 +111,6 @@ Game.prototype.tick = function(delta) {
 	for (var i = 0; i < this.spriteList.length; i++) {
 		this.spriteList[i].tick(delta);
 
-		this.spriteList[i].draw();
+		this.spriteList[i].draw(this.ctx);
 	}
 }
