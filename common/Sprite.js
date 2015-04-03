@@ -1,24 +1,23 @@
-(function(exports){
+module.exports = Sprite = function() {
+	this.messageList = [];
+}
 
-	exports.messageList = [];
+Sprite.prototype.build = function(type, x, y, life, mana, speed){
+	this.type = type;
+	this.x = x;
+	this.y = y;
+	this.life = life;
+	this.mana = mana;
+	this.speed = speed;
+}
 
-	exports.build = function(x, y, life, mana, speed){
-		this.x = x;
-		this.y = y;
-		this.life = life;
-		this.mana = mana;
-		this.speed = speed;
+Sprite.prototype.digest = function(){
+	if (messageList.length > 0) {
+		exports.digestMessage(messageList.shift());
 	}
+}
 
-	exports.digest = function(){
-		if (messageList.length > 0) {
-			exports.digestMessage(messageList.shift());
-		}
-	}
-
-	exports.tick = function(){
-		// move sprite
-		exports.update();
-	};
-
-})(typeof exports === 'undefined'? this.Sprite = {}: exports);
+Sprite.prototype.tick = function(){
+	// move sprite
+	exports.update();
+};

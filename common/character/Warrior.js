@@ -1,12 +1,11 @@
-if (typeof exports !== 'undefined') {
-	var Sprite = require.main.require('./../common/Sprite');
+var Sprite = require.main.require('./../common/Sprite');
+
+module.exports = Warrior = function() {
+
 }
 
-(function(exports){
-	exports.prototype = Object.create(Sprite);
+Warrior.prototype = new Sprite();
 
-	exports.prototype.initPlayer = function () {
-		this.build(30, 30, 70, 50, 0.5);
-	}
-
-})(typeof exports === 'undefined'? this.Warrior = {} : exports);
+Warrior.prototype.initPlayer = function () {
+	this.build("WARRIOR", 30, 30, 70, 50, 0.4);
+}
