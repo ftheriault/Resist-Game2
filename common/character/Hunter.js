@@ -10,6 +10,10 @@ Hunter.prototype.initPlayer = function (id, name) {
 	this.build(true, id, name, "Hunter", 90, 90, 50, 50, 0.07);
 }
 
+Hunter.prototype.loadUI = function() {	
+	this.spriteUI = new SpriteUI("human", ["hair-head", "leather-torso", "leather-pants"]);
+}
+
 Hunter.prototype.digestMessage = function () {
 
 }

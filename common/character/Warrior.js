@@ -10,6 +10,11 @@ Warrior.prototype.initPlayer = function (id, name) {
 	this.build(true, id, name, "Warrior", 110, 110, 10, 10, 0.06);
 }
 
+Warrior.prototype.loadUI = function() {	
+	this.spriteUI = new SpriteUI("human", ["mail-head", "mail-torso", "mail-pants"]);
+}
+
+
 Warrior.prototype.digestMessage = function () {
 
 }

@@ -5,18 +5,18 @@ var animation
 var tmpList = [];
 
 window.onload = function () {
-	tmpList.push(new Sprite());
+	tmpList.push(new Warrior());
 	tmpList[tmpList.length - 1].type = "Warrior";
-	tmpList[tmpList.length - 1].loadTextureImages();
-	tmpList.push(new Sprite());
+	tmpList[tmpList.length - 1].loadUI();
+	tmpList.push(new Mage());
 	tmpList[tmpList.length - 1].type = "Mage";
-	tmpList[tmpList.length - 1].loadTextureImages();
-	tmpList.push(new Sprite());
+	tmpList[tmpList.length - 1].loadUI();
+	tmpList.push(new Priest());
 	tmpList[tmpList.length - 1].type = "Priest";
-	tmpList[tmpList.length - 1].loadTextureImages();
-	tmpList.push(new Sprite());
+	tmpList[tmpList.length - 1].loadUI();
+	tmpList.push(new Hunter());
 	tmpList[tmpList.length - 1].type = "Hunter";
-	tmpList[tmpList.length - 1].loadTextureImages();
+	tmpList[tmpList.length - 1].loadUI();
 
 	currentClassSelection = "warrior-class";
 	$("#warrior-class").addClass("selected");
