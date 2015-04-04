@@ -11,7 +11,7 @@ Hunter.prototype.initPlayer = function (id, name) {
 }
 
 Hunter.prototype.loadUI = function() {	
-	this.spriteUI = new SpriteUI("human", ["hair-head", "leather-torso", "leather-pants"]);
+	this.spriteUI = new SpriteUI("human", ["hair-head", "leather-feet", "leather-torso", "leather-pants"]);
 }
 
 Hunter.prototype.digestMessage = function () {

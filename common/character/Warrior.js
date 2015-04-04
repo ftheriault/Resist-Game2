@@ -11,7 +11,7 @@ Warrior.prototype.initPlayer = function (id, name) {
 }
 
 Warrior.prototype.loadUI = function() {	
-	this.spriteUI = new SpriteUI("human", ["mail-head", "mail-torso", "mail-pants"]);
+	this.spriteUI = new SpriteUI("human", ["mail-head", "mail-feet", "mail-glove", "mail-torso", "mail-arm", "mail-pants"]);
 }
 
 
