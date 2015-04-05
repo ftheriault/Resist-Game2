@@ -42,10 +42,16 @@ module.exports = WsClient = function(ws) {
 			}
 		}
 		else {
-			if (message.type == "ACTION_CLICK") {
+			if (message.type == "MOVE_TO") {
 				this.sprite.data.destX = message.destX;
 				this.sprite.data.destY = message.destY;
 				global.wsServer.broadcastState(this.sprite);
+			}
+			else if (message.type == "ACTION_CLICK") {
+				// message.key
+			}
+			else if (message.type == "TARGET_ID") {
+				// message.spriteId
 			}
 		}
 	}

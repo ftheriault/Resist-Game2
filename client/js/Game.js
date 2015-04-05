@@ -21,6 +21,12 @@ function Game() {
 			game.rightClick();
 		}
 	}
+
+	document.onkeyup = function (e) {
+		if (game.ws != null) {
+			game.actionKey(e.which);
+		}
+	}
 }
 
 Game.prototype.connect = function(username, playerType) {
@@ -88,7 +94,7 @@ Game.prototype.send = function(data) {
 	this.ws.send(JSON.stringify(data));
 }
 
-Game.prototype.rightClick = function(x, y) {
+Game.prototype.rightClick = function() {
 	if (this.playerId != null) {
 		this.send({
 			type : "RIGHT_CLICK"
@@ -96,10 +102,35 @@ Game.prototype.rightClick = function(x, y) {
 	}
 }
 
+Game.prototype.actionKey = function(code) {
+	if (this.playerId != null) {
+		console.log(code)
+		var key = null;
+		if (code == 49) key = 1;
+		else if (code == 50) key = 2;
+		else if (code == 51) key = 3;
+		else if (code == 52) key = 4;
+		else if (code == 53) key = 5;
+		else if (code == 54) key = 6;
+		else if (code == 55) key = 7;
+		else if (code == 56) key = 8;
+		else if (code == 57) key = 9;
+
+		// target if possible
+
+		if (key != null) {
+			this.send({
+				type : "ACTION_CLICK",
+				key : key
+			});
+		}
+	}
+}
+
 Game.prototype.click = function(x, y) {	
 	if (this.playerId != null) {
 		this.send({
-			type : "ACTION_CLICK",
+			type : "MOVE_TO",
 			destX : x,
 			destY : y
 		});
