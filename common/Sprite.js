@@ -68,9 +68,8 @@ Sprite.prototype.digest = function(msg){
 	this.digestMessage(msg);
 }
 
-Sprite.prototype.triggerActionAtIndex = function(idx){
-	console.log(this.data.actions[idx]);
-	this.data.actions[idx].trigger(this);
+Sprite.prototype.triggerActionAtIndex = function(idx, mouseX, mouseY){
+	this.data.actions[idx].trigger(this, mouseX, mouseY);
 }
 
 Sprite.prototype.tick = function(delta){

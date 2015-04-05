@@ -17,6 +17,6 @@ HealingPotion.prototype.update = function () {
 
 }
 
-HealingPotion.prototype.triggerEvent = function (fromSprite) {
+HealingPotion.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	// trigger action and send animation
 }

@@ -21,6 +21,6 @@ Slash.prototype.update = function () {
 
 }
 
-Slash.prototype.triggerEvent = function (fromSprite) {
+Slash.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	// trigger action and send animation
 }

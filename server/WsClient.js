@@ -49,7 +49,7 @@ module.exports = WsClient = function(ws) {
 			}
 			else if (message.type == "ACTION_CLICK") {
 				if (message.key != null && !isNaN(message.key) && message.key - 1 < this.sprite.data.actions.length) {
-					this.sprite.triggerActionAtIndex(message.key - 1);
+					this.sprite.triggerActionAtIndex(message.key - 1, message.mouseX, message.mouseY);
 				}
 			}
 			else if (message.type == "TARGET_ID") {

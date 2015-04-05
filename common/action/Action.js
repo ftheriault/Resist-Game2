@@ -14,10 +14,10 @@ Action.prototype.tick = function (delta) {
 	}
 }
 
-Action.prototype.trigger = function (fromSprite) {
+Action.prototype.trigger = function (fromSprite, mouseX, mouseY) {
 	if (this.data.currentCooldown <= 0) {
 		this.data.currentCooldown = this.data.cooldown;
-		this.triggerEvent(fromSprite);
+		this.triggerEvent(fromSprite, mouseX, mouseY);
 	}
 }
 

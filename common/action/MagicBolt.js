@@ -17,6 +17,6 @@ MagicBolt.prototype.update = function () {
 
 }
 
-MagicBolt.prototype.triggerEvent = function (fromSprite) {
+MagicBolt.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	// trigger action and send animation
 }

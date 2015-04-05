@@ -17,6 +17,6 @@ FireBolt.prototype.update = function () {
 
 }
 
-FireBolt.prototype.triggerEvent = function (fromSprite) {
+FireBolt.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	// trigger action and send animation
 }

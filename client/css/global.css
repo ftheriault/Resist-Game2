@@ -82,16 +82,38 @@ button.btn-enter:hover {
 	font-size: 1.3em;
 }
 
+canvas {
+	position: relative;
+}
+
 .canvas-container {
-	width: 700px;
+	width: 1000px;
 	height: 700px;
 	margin: 10px auto 0px auto;
 	border: 1px solid #666;
 	background: black;
-	position: relative;
 	border-radius: 6px;
 }
 
+.left {
+	float:left;
+	width: 150px;
+	height: 700px;
+	opacity: 0;
+}
+
+.middle {
+	float:left;
+	width: 700px;
+	height: 700px;
+}
+
+.right {
+	float:left;
+	width: 150px;
+	height: 700px;
+	opacity: 0;
+}
 
 .commands {
 	width: 700px;
@@ -103,7 +125,7 @@ button.btn-enter:hover {
 	width: 660px;
 	background-color: black;
 	border:2px solid white;
-	top:100px;
+	top:250px;
 	padding:30px;
 	margin-left:-12px;
 	text-align: center;

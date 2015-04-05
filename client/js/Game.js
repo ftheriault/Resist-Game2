@@ -7,11 +7,19 @@ function Game() {
 	this.serverLocation = 'localhost:8081';	
 
 	this.playerId = null;
+	this.playerSprite = null;
 	this.spriteList = [];
+	this.mouseX = 0;
+	this.mouseY = 0;
 
 	document.getElementById("canvas").onclick = function (e) { 
-		game.click(e.pageX - document.getElementById("canvas-container").offsetLeft, 
-				   e.pageY - document.getElementById("canvas-container").offsetTop) ;
+		game.click(e.pageX - document.getElementById("canvas").offsetLeft, 
+				   e.pageY - document.getElementById("canvas").offsetTop) ;
+	}
+
+	document.getElementById("canvas").onmousemove = function (e) { 
+		game.mouseX = e.pageX - document.getElementById("canvas").offsetLeft;
+		game.mouseY = e.pageY - document.getElementById("canvas").offsetTop;
 	}
 
 	document.getElementById("canvas").oncontextmenu = function (event) {
@@ -46,6 +54,13 @@ Game.prototype.connect = function(username, playerType) {
 		
 		if (serverMessage.type == "SET_PLAYER_ID") {
 			game.playerId = serverMessage.id;
+
+			this.gameActionBar = new GameActionBar();
+			this.gameDataBar = new GameDataBar();
+			
+			$(".gui").animate({
+				opacity:1
+			}, 1000);
 		}
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
 			game.spriteList = [];
@@ -57,6 +72,10 @@ Game.prototype.connect = function(username, playerType) {
 				sprite.copy(serverMessage.level.spriteList[i]);
 				sprite.loadUI();
 				game.spriteList.push(sprite);
+
+				if (sprite.id == this.playerId) {
+					this.playerSprite = sprite;
+				}
 			}
 		}
 		else if (serverMessage.type == "SPRITE_STATE_UPDATE") {
@@ -120,7 +139,9 @@ Game.prototype.actionKey = function(code) {
 		if (key != null) {
 			this.send({
 				type : "ACTION_CLICK",
-				key : key
+				key : key,
+				mouseX : game.mouseX,
+				mouseY : game.mouseY
 			});
 		}
 	}
@@ -149,5 +170,13 @@ Game.prototype.tick = function(delta) {
 		this.spriteList[i].tick(delta);
 
 		this.spriteList[i].draw(this.ctx);
+	}
+
+	if (this.gameActionBar != null) {
+		this.gameActionBar.tick(delta);
+	}
+
+	if (this.gameDataBar != null) {
+		this.gameDataBar.tick(delta);
 	}
 }
