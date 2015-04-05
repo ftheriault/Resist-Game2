@@ -55,8 +55,8 @@ Game.prototype.connect = function(username, playerType) {
 		if (serverMessage.type == "SET_PLAYER_ID") {
 			game.playerId = serverMessage.id;
 
-			this.gameActionBar = new GameActionBar();
-			this.gameDataBar = new GameDataBar();
+			game.gameActionBar = new GameActionBar();
+			game.gameDataBar = new GameDataBar();
 			
 			$(".gui").animate({
 				opacity:1
@@ -73,8 +73,8 @@ Game.prototype.connect = function(username, playerType) {
 				sprite.loadUI();
 				game.spriteList.push(sprite);
 
-				if (sprite.id == this.playerId) {
-					this.playerSprite = sprite;
+				if (sprite.data.id == game.playerId) {
+					game.playerSprite = sprite;
 				}
 			}
 		}
@@ -134,15 +134,18 @@ Game.prototype.actionKey = function(code) {
 		else if (code == 56) key = 8;
 		else if (code == 57) key = 9;
 
-		// target if possible
+		// find target if possible
 
-		if (key != null) {
-			this.send({
-				type : "ACTION_CLICK",
-				key : key,
-				mouseX : game.mouseX,
-				mouseY : game.mouseY
-			});
+		if (key != null && this.playerSprite != null && this.playerSprite.data.actions.length >= key) {
+			
+			if (this.playerSprite.data.actions[key - 1].data.currentCooldown <= 0) {				
+				this.send({
+					type : "ACTION_CLICK",
+					key : key,
+					mouseX : game.mouseX,
+					mouseY : game.mouseY
+				});
+			}
 		}
 	}
 }
