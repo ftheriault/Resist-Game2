@@ -69,7 +69,7 @@ function SpriteUI(race, itemList, attackType) {
 	// melee
 	if (weaponType == "attack") {
 		imageSpriteUI = new TiledImage("images/items/weapon-dagger.png", "attack", 6, 4);
-		imageSpriteUI.changeColumnInterval(0, 8);
+		imageSpriteUI.changeColumnInterval(0, 5);
 		this.items.push(imageSpriteUI);
 		
 		imageSpriteUI = new TiledImage("images/items/weapon-shield-walk.png", "walk", 9, 4);

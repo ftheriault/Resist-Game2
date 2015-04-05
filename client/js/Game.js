@@ -83,8 +83,10 @@ Game.prototype.connect = function(username, playerType) {
 
 			for (var i = 0; i < game.spriteList.length; i++) {
 				if (game.spriteList[i].data.id == serverMessage.sprite.data.id) {
+					var spriteUI = game.spriteList[i].spriteUI;
 					game.spriteList[i].copy(serverMessage.sprite);
 					game.spriteList[i].loadUI();
+					game.spriteList[i].spriteUI = spriteUI;
 					found = true;
 					break;
 				}

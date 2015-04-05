@@ -49,7 +49,7 @@ Sprite.prototype.buildActions = function() {
 	}	
 };
 
-Sprite.prototype.spawnPoint = function (x, y) {
+Sprite.prototype.setLocation = function (x, y) {
 	this.data.x = x;
 	this.data.y = y;
 	this.data.destX = x;
