@@ -48,7 +48,9 @@ module.exports = WsClient = function(ws) {
 				global.wsServer.broadcastState(this.sprite);
 			}
 			else if (message.type == "ACTION_CLICK") {
-				// message.key
+				if (message.key != null && !isNaN(message.key) && message.key - 1 < this.sprite.data.actions.length) {
+					this.sprite.triggerActionAtIndex(message.key - 1);
+				}
 			}
 			else if (message.type == "TARGET_ID") {
 				// message.spriteId

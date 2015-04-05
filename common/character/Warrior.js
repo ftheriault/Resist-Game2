@@ -1,4 +1,5 @@
 var Sprite = require('../Sprite');
+var Slash = require('../action/Slash');
 
 module.exports = Warrior = function() {
 
@@ -7,7 +8,7 @@ module.exports = Warrior = function() {
 Warrior.prototype = new Sprite();
 
 Warrior.prototype.initPlayer = function (id, name) {
-	this.build(true, id, name, "Warrior", 110, 110, 10, 10, 0.06);
+	this.build(true, id, name, "Warrior", 110, 110, 10, 10, 0.06, [ new Slash(null, 1) ]);
 }
 
 Warrior.prototype.loadUI = function() {	

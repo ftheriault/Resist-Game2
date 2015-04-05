@@ -104,7 +104,6 @@ Game.prototype.rightClick = function() {
 
 Game.prototype.actionKey = function(code) {
 	if (this.playerId != null) {
-		console.log(code)
 		var key = null;
 		if (code == 49) key = 1;
 		else if (code == 50) key = 2;

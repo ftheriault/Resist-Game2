@@ -1,3 +1,9 @@
+var Shoot = require('./action/Shoot');
+var Slash = require('./action/Slash');
+var MagicBolt = require('./action/MagicBolt');
+var FireBolt = require('./action/FireBolt');
+var HealingPotion = require('./action/HealingPotion');
+
 module.exports = Sprite = function() {
 	this.data = {
 		x : 20,
@@ -5,7 +11,7 @@ module.exports = Sprite = function() {
 	};
 }
 
-Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana, maxMana, speed){
+Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana, maxMana, speed, actions){
 	this.type = type;
 
 	this.data = {};
@@ -17,7 +23,31 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxLife = maxLife;
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
+	this.data.actions = actions; 
+
+	this.buildActions();
 }
+
+Sprite.prototype.buildActions = function() {
+	var actions = this.data.actions;
+	this.data.actions = [];
+
+	for (var i = 0; i < actions.length; i++) {
+		if (actions[i].type == "shoot") {
+			this.data.actions.push(new Shoot(actions[i].data));
+		}
+		else if (actions[i].type == "slash") {
+			this.data.actions.push(new Slash(actions[i].data));
+		}
+		else if (actions[i].type == "magic-bolt") {
+			this.data.actions.push(new MagicBolt(actions[i].data));
+		}
+		else if (actions[i].type == "fire-bolt") {
+			this.data.actions.push(new FireBolt(actions[i].data));
+		}
+
+	}	
+};
 
 Sprite.prototype.spawnPoint = function (x, y) {
 	this.data.x = x;
@@ -30,10 +60,17 @@ Sprite.prototype.copy = function (sprite) {
 	this.tileSpriteList = [];
 	this.type = sprite.type;
 	this.data = sprite.data;
+
+	this.buildActions();
 }
 
 Sprite.prototype.digest = function(msg){
 	this.digestMessage(msg);
+}
+
+Sprite.prototype.triggerActionAtIndex = function(idx){
+	console.log(this.data.actions[idx]);
+	this.data.actions[idx].trigger(this);
 }
 
 Sprite.prototype.tick = function(delta){
@@ -59,6 +96,10 @@ Sprite.prototype.tick = function(delta){
 	}
 	else {
 		this.data.y = this.data.destY;
+	}
+
+	for (var i = 0; i < this.data.actions.length; i++) {
+		this.data.actions[i].tick(delta);
 	}
 	
 	this.update();

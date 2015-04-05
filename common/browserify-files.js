@@ -3,5 +3,12 @@ var Sprite = require('./Sprite'),
 	Hunter = require('./character/Hunter'),
 	Priest = require('./character/Priest'),
 	Mage = require('./character/Mage'),
-	Level1 = require('./level/Level1')
+	Level1 = require('./level/Level1'),
+
+	Action = require('./action/Action'),
+	Slash = require('./action/Slash'),
+	Shoot = require('./action/Shoot'),
+	MagicBolt = require('./action/MagicBolt'),
+	FireBolt = require('./action/FireBolt'),
+	HealingPotion = require('./action/HealingPotion')
 	
