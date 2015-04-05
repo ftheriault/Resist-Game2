@@ -15,8 +15,6 @@ console.log("---------------------------------");
 console.log("        Server loaded");
 console.log("---------------------------------");
 
-var previousNow = new Date();
-
 global.spriteId = 0;
 
 var Level1 = require('./../common/level/Level1');
@@ -24,14 +22,8 @@ global.level = new Level1();
 global.level.init();
 
 function tick() {
-	var now = new Date();
-	var delta = now - previousNow;
-	previousNow = now;
-
-	for (var i = 0; i < global.level.spriteList.length; i++) {
-		global.level.spriteList[i].tick(delta);
-	}
-
+	global.level.tick();
+	
 	setTimeout(tick, 30);
 }
 

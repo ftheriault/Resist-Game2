@@ -3,6 +3,8 @@ var Sprite = require('./Sprite'),
 	Hunter = require('./character/Hunter'),
 	Priest = require('./character/Priest'),
 	Mage = require('./character/Mage'),
+
+	Level = require('./level/Level'),
 	Level1 = require('./level/Level1'),
 
 	Action = require('./action/Action'),
