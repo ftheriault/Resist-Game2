@@ -1,24 +1,102 @@
-function SpriteUI(race, itemList) {
+function SpriteUI(race, itemList, attackType) {
 	this.items = [];
 
-	var imageSpriteUI = new TiledImage("images/items/" + race + "-walk.png", "WALK", 9, 4);
+	var imageSpriteUI = new TiledImage("images/items/" + race + "-walk.png", "walk", 9, 4);
 	imageSpriteUI.changeColumnInterval(0, 7);
 	this.items.push(imageSpriteUI);
+	var weaponType = attackType;
 
-	imageSpriteUI = new TiledImage("images/items/" + race + "-attack.png", "ATTACK", 6, 4);
-	imageSpriteUI.changeColumnInterval(0, 5);
-	this.items.push(imageSpriteUI);
+	// melee
+	if (attackType == "attack") {
+		imageSpriteUI = new TiledImage("images/items/" + race + "-" + attackType + ".png", "attack", 6, 4);
+		imageSpriteUI.changeColumnInterval(0, 5);
+		this.items.push(imageSpriteUI);
+	}
+	else if (attackType == "spell") {
+		imageSpriteUI = new TiledImage("images/items/" + race + "-" + attackType + ".png", "attack", 9, 4);
+		imageSpriteUI.changeColumnInterval(0, 7);
+		this.items.push(imageSpriteUI);
+	}
+	else if (attackType == "bow") {
+		imageSpriteUI = new TiledImage("images/items/" + race + "-" + attackType + ".png", "attack", 13, 4);
+		imageSpriteUI.changeColumnInterval(0, 13);
+		this.items.push(imageSpriteUI);
+	}
+	else if (attackType == "spear") {
+		attackType = "thrust";
+		imageSpriteUI = new TiledImage("images/items/" + race + "-thrust.png", "attack", 8, 4);
+		imageSpriteUI.changeColumnInterval(0, 6);
+		this.items.push(imageSpriteUI);
+		// add spear
+	}
+	else if (attackType == "staff") {
+		attackType = "thrust";
+		imageSpriteUI = new TiledImage("images/items/" + race + "-thrust.png", "attack", 8, 4);
+		imageSpriteUI.changeColumnInterval(0, 6);
+		this.items.push(imageSpriteUI);
+		// add spear
+	}
 
 	for (var i = 0; i < itemList.length; i++) {
 		var item = itemList[i];
 
-		imageSpriteUI = new TiledImage("images/items/" + item + "-walk.png", "WALK", 9, 4);
+		imageSpriteUI = new TiledImage("images/items/" + item + "-walk.png", "walk", 9, 4);
 		imageSpriteUI.changeColumnInterval(0, 7);
 		this.items.push(imageSpriteUI);
 
-		imageSpriteUI = new TiledImage("images/items/" + item + "-attack.png", "ATTACK", 6, 4);
+		if (attackType == "attack") {
+			imageSpriteUI = new TiledImage("images/items/" + item + "-attack.png", "attack", 6, 4);
+			imageSpriteUI.changeColumnInterval(0, 5);
+			this.items.push(imageSpriteUI);	
+		}
+		else if (attackType == "spell") {
+			imageSpriteUI = new TiledImage("images/items/" + item + "-spell.png", "attack", 9, 4);
+			imageSpriteUI.changeColumnInterval(0, 7);
+			this.items.push(imageSpriteUI);
+		}
+		else if (attackType == "bow") {
+			imageSpriteUI = new TiledImage("images/items/" + item + "-bow.png", "attack", 13, 4);
+			imageSpriteUI.changeColumnInterval(0, 13);
+			this.items.push(imageSpriteUI);
+		}
+		else if (attackType == "thrust") {
+			imageSpriteUI = new TiledImage("images/items/" + item + "-thrust.png", "attack", 8, 4);
+			imageSpriteUI.changeColumnInterval(0, 6);
+			this.items.push(imageSpriteUI);
+		}
+	}
+
+	// melee
+	if (weaponType == "attack") {
+		imageSpriteUI = new TiledImage("images/items/weapon-dagger.png", "attack", 6, 4);
 		imageSpriteUI.changeColumnInterval(0, 5);
 		this.items.push(imageSpriteUI);
+		
+		imageSpriteUI = new TiledImage("images/items/weapon-shield-walk.png", "walk", 9, 4);
+		imageSpriteUI.changeColumnInterval(0, 7);
+		this.items.push(imageSpriteUI);
+	}
+	else if (weaponType == "spell") {
+		imageSpriteUI = new TiledImage("images/items/weapon-staff.png", "attack", 9, 4);
+		imageSpriteUI.changeColumnInterval(0, 7);
+		this.items.push(imageSpriteUI);
+	}
+	else if (weaponType == "bow") {
+		imageSpriteUI = new TiledImage("images/items/weapon-bow.png", "attack", 13, 4);
+		imageSpriteUI.changeColumnInterval(0, 13);
+		this.items.push(imageSpriteUI);
+	}
+	else if (weaponType == "spear") {
+		imageSpriteUI = new TiledImage("images/items/weapon-spear.png", "attack", 8, 4);
+		imageSpriteUI.changeColumnInterval(0, 6);
+		this.items.push(imageSpriteUI);
+		// add spear
+	}
+	else if (weaponType == "staff") {
+		imageSpriteUI = new TiledImage("images/items/weapon-staff.png", "attack", 8, 4);
+		imageSpriteUI.changeColumnInterval(0, 6);
+		this.items.push(imageSpriteUI);
+		// add spear
 	}
 	
 	this.currentAnimationRow = 2;
@@ -26,7 +104,7 @@ function SpriteUI(race, itemList) {
 
 SpriteUI.prototype.draw = function (ctx, x, y, destX, destY) {
 	for (var i = 0; i < this.items.length; i++) {
-		if (this.pendingAnimation == null && this.items[i].type == "WALK") {
+		if (this.pendingAnimation == null && this.items[i].type == "walk") {
 			var walking = false;
 
 			if (y > destY) {

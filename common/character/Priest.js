@@ -11,7 +11,7 @@ Priest.prototype.initPlayer = function (id, name) {
 }
 
 Priest.prototype.loadUI = function() {	
-	this.spriteUI = new SpriteUI("human", ["cloth-head", "cloth-torso", "leather-feet"]);
+	this.spriteUI = new SpriteUI("human", ["cloth-head", "cloth-torso", "leather-pants", "leather-feet"], "staff");
 }
 
 Priest.prototype.digestMessage = function () {
