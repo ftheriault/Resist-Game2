@@ -3,14 +3,14 @@ module.exports = Action = function(type, cooldown) {
 	this.data = {};
 
 	this.data.cooldown = cooldown;
-	this.data.currentCooldown = 0;
+	this.data.triggeredTime = 0;
+}
+
+Action.prototype.isReady = function() {
+	return this.data.triggeredTime + this.data.cooldown < (new Date()).getTime();
 }
 
 Action.prototype.tick = function (delta) {
-	if (this.data.currentCooldown > 0) {
-		this.data.currentCooldown -= delta;
-	}
-
 	this.update(delta);
 }
 
@@ -24,8 +24,8 @@ Action.prototype.draw = function (ctx, x, y, size) {
 		ctx.drawImage(this.image, x, y, size, size);
 	}
 
-	if (this.data.currentCooldown > 0) {
-		var percent = (this.data.cooldown * 1.0 - this.data.currentCooldown)/this.data.cooldown;
+	if (!this.isReady()) {
+		var percent = ((new Date()).getTime() - this.data.triggeredTime * 1.0)/this.data.cooldown;
 		ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
 		ctx.fillRect(x, y + size * percent, size, size * (100 - percent));		
 	}
@@ -36,11 +36,12 @@ Action.prototype.draw = function (ctx, x, y, size) {
 }
 
 Action.prototype.trigger = function (fromSprite, mouseX, mouseY) {
-	if (this.data.currentCooldown <= 0) {
-		this.data.currentCooldown = this.data.cooldown;
+	if (this.isReady()) {
+		this.data.triggeredTime = (new Date()).getTime();
 		this.triggerEvent(fromSprite, mouseX, mouseY);
-
-		// send information to client (the action, which contains cooldown, animation ,etc.)
+		
+		fromSprite.broadcastState();
 	}
 }
+
 

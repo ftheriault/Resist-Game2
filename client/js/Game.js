@@ -138,7 +138,7 @@ Game.prototype.actionKey = function(code) {
 
 		if (key != null && this.playerSprite != null && this.playerSprite.data.actions.length >= key) {
 			
-			if (this.playerSprite.data.actions[key - 1].data.currentCooldown <= 0) {				
+			if (this.playerSprite.data.actions[key - 1].isReady()) {				
 				this.send({
 					type : "ACTION_CLICK",
 					key : key,

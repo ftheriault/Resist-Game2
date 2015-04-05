@@ -64,6 +64,10 @@ Sprite.prototype.copy = function (sprite) {
 	this.buildActions();
 }
 
+Sprite.prototype.broadcastState = function() {
+	global.wsServer.broadcastState(this);
+}
+
 Sprite.prototype.digest = function(msg){
 	this.digestMessage(msg);
 }
