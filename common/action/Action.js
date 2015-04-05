@@ -40,6 +40,7 @@ Action.prototype.trigger = function (fromSprite, mouseX, mouseY) {
 		this.data.triggeredTime = (new Date()).getTime();
 		this.triggerEvent(fromSprite, mouseX, mouseY);
 		
+		fromSprite.data.justAttacked = true;
 		fromSprite.broadcastState();
 	}
 }

@@ -3,7 +3,7 @@
 	this.imageList = new Array();
 	this.tickTime = 0;
 	this.tickDrawFrameInterval = 0;
-	this.tickRefreshInterval = 100;
+	this.tickRefreshInterval = 75;
 
 	var image = new Image();
 	image.src = imagePath;
@@ -47,6 +47,7 @@
 
 		for (var i = 0; i < this.imageList.length;i++) {
 			if (this.imageList[i].complete) {
+				
 				ctx.drawImage(this.imageList[i], 
 							  this.imageList[i].width/this.imageTileColCount * this.imageCurrentCol, 
 							  this.imageList[i].height/this.imageTileRowCount * this.imageCurrentRow,

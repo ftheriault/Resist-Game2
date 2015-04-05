@@ -12,7 +12,7 @@ Mage.prototype.initPlayer = function (id, name) {
 }
 
 Mage.prototype.loadUI = function() {	
-	this.spriteUI = new SpriteUI("human", ["cloth-head", "cloth-torso", "cloth-legs"], "staff");
+	this.spriteUI = new SpriteUI("human", ["hair-head", "cloth-torso", "cloth-legs"], "spell");
 }
 
 Mage.prototype.digestMessage = function () {

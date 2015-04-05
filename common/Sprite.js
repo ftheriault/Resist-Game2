@@ -77,6 +77,14 @@ Sprite.prototype.triggerActionAtIndex = function(idx, mouseX, mouseY){
 }
 
 Sprite.prototype.tick = function(delta){
+	if (this.data.justAttacked != null && this.data.justAttacked == true) {
+		this.data.justAttacked = false;
+
+		if (this.spriteUI != null) {
+			this.spriteUI.pendingAnimation = "attack";
+		}
+	}
+
 	if (Math.abs(this.data.x - this.data.destX) > 2) {
 		if (this.data.x < this.data.destX) {
 			this.data.x += this.data.speed * delta;

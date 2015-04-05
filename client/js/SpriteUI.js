@@ -13,8 +13,8 @@ function SpriteUI(race, itemList, attackType) {
 		this.items.push(imageSpriteUI);
 	}
 	else if (attackType == "spell") {
-		imageSpriteUI = new TiledImage("images/items/" + race + "-" + attackType + ".png", "attack", 9, 4);
-		imageSpriteUI.changeColumnInterval(0, 7);
+		imageSpriteUI = new TiledImage("images/items/" + race + "-" + attackType + ".png", "attack", 7, 4);
+		imageSpriteUI.changeColumnInterval(0, 6);
 		this.items.push(imageSpriteUI);
 	}
 	else if (attackType == "bow") {
@@ -50,8 +50,8 @@ function SpriteUI(race, itemList, attackType) {
 			this.items.push(imageSpriteUI);	
 		}
 		else if (attackType == "spell") {
-			imageSpriteUI = new TiledImage("images/items/" + item + "-spell.png", "attack", 9, 4);
-			imageSpriteUI.changeColumnInterval(0, 7);
+			imageSpriteUI = new TiledImage("images/items/" + item + "-spell.png", "attack", 7, 4);
+			imageSpriteUI.changeColumnInterval(0, 6);
 			this.items.push(imageSpriteUI);
 		}
 		else if (attackType == "bow") {
@@ -69,7 +69,7 @@ function SpriteUI(race, itemList, attackType) {
 	// melee
 	if (weaponType == "attack") {
 		imageSpriteUI = new TiledImage("images/items/weapon-dagger.png", "attack", 6, 4);
-		imageSpriteUI.changeColumnInterval(0, 5);
+		imageSpriteUI.changeColumnInterval(0, 8);
 		this.items.push(imageSpriteUI);
 		
 		imageSpriteUI = new TiledImage("images/items/weapon-shield-walk.png", "walk", 9, 4);
@@ -77,9 +77,6 @@ function SpriteUI(race, itemList, attackType) {
 		this.items.push(imageSpriteUI);
 	}
 	else if (weaponType == "spell") {
-		imageSpriteUI = new TiledImage("images/items/weapon-staff.png", "attack", 9, 4);
-		imageSpriteUI.changeColumnInterval(0, 7);
-		this.items.push(imageSpriteUI);
 	}
 	else if (weaponType == "bow") {
 		imageSpriteUI = new TiledImage("images/items/weapon-bow.png", "attack", 13, 4);
@@ -103,28 +100,40 @@ function SpriteUI(race, itemList, attackType) {
 }
 
 SpriteUI.prototype.draw = function (ctx, x, y, destX, destY) {
+	var animationDone = false;
+
+	if (y > destY) {
+		this.currentAnimationRow = 0;
+	}
+	else if (y < destY) {
+		this.currentAnimationRow = 2;	
+	}
+
+	if (x < destX) {
+		this.currentAnimationRow = 3;
+	}
+	else if (x > destX) {
+		this.currentAnimationRow = 1;
+	}
+
 	for (var i = 0; i < this.items.length; i++) {
 		if (this.pendingAnimation == null && this.items[i].type == "walk") {
 			var walking = false;
 
 			if (y > destY) {
-				this.currentAnimationRow = 0;
 				this.items[i].changeColumnInterval(1, 8);
 				walking = true;
 			}
 			else if (y < destY) {
-				this.currentAnimationRow = 2;	
 				this.items[i].changeColumnInterval(1, 8);	
 				walking = true;
 			}
 
 			if (x < destX) {
-				this.currentAnimationRow = 3;
 				this.items[i].changeColumnInterval(1, 8);
 				walking = true;
 			}
 			else if (x > destX) {
-				this.currentAnimationRow = 1;
 				this.items[i].changeColumnInterval(1, 8);
 				walking = true;
 			}
