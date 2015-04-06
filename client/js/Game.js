@@ -63,16 +63,15 @@ Game.prototype.connect = function(username, playerType) {
 			}, 1000);
 		}
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
-			game.spriteList = [];
-			
 			game.level = new (window[serverMessage.level.name])();
 			game.level.initLandscape();
+			game.level.spriteList = [];
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
 				sprite.copy(serverMessage.level.spriteList[i]);
 				sprite.loadUI();
-				game.spriteList.push(sprite);
+				game.level.spriteList.push(sprite);
 
 				if (sprite.data.id == game.playerId) {
 					game.playerSprite = sprite;
@@ -82,12 +81,12 @@ Game.prototype.connect = function(username, playerType) {
 		else if (serverMessage.type == "SPRITE_STATE_UPDATE") {
 			var found = false;
 
-			for (var i = 0; i < game.spriteList.length; i++) {
-				if (game.spriteList[i].data.id == serverMessage.sprite.data.id) {
-					var spriteUI = game.spriteList[i].spriteUI;
-					game.spriteList[i].copy(serverMessage.sprite);
-					game.spriteList[i].loadUI();
-					game.spriteList[i].spriteUI = spriteUI;
+			for (var i = 0; i < game.level.spriteList.length; i++) {
+				if (game.level.spriteList[i].data.id == serverMessage.sprite.data.id) {
+					var spriteUI = game.level.spriteList[i].spriteUI;
+					game.level.spriteList[i].copy(serverMessage.sprite);
+					game.level.spriteList[i].loadUI();
+					game.level.spriteList[i].spriteUI = spriteUI;
 					found = true;
 					break;
 				}
@@ -97,18 +96,18 @@ Game.prototype.connect = function(username, playerType) {
 				var sprite = new (window[serverMessage.sprite.type])();
 				sprite.copy(serverMessage.sprite);
 				sprite.loadUI();
-				game.spriteList.push(sprite);
+				game.level.spriteList.push(sprite);
 			}
 
 		}
 	}
 
 	this.ws.onclose = function(){
-		console.log("ws closed");
+		game.errorMessage = "SERVER WILL NOT ACCEPT NEW CONNECTIONS, SORRY!";
 	}
 
 	this.ws.onerror = function(error){
-		console.log('Error detected: ' + error);
+		game.errorMessage = 'Error detected: ' + error;
 	}
 }
 
@@ -172,10 +171,12 @@ Game.prototype.tick = function(delta) {
 		this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
 	}
 
-	for (var i = 0; i < this.spriteList.length; i++) {
-		this.spriteList[i].tick(delta);
+	if (this.level != null) {
+		for (var i = 0; i < this.level.spriteList.length; i++) {
+			this.level.spriteList[i].tick(delta);
 
-		this.spriteList[i].draw(this.ctx);
+			this.level.spriteList[i].draw(this.ctx);
+		}
 	}
 
 	if (this.gameActionBar != null) {
@@ -184,5 +185,10 @@ Game.prototype.tick = function(delta) {
 
 	if (this.gameDataBar != null) {
 		this.gameDataBar.tick(delta);
+	}
+
+	if (game.errorMessage != null) {
+		this.ctx.fillStyle = "white";
+		this.ctx.fillText(game.errorMessage, 210, 300);
 	}
 }

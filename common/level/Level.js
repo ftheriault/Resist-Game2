@@ -6,6 +6,7 @@ module.exports = Level = function(name, title, spawnX, spawnY) {
 
 	this.previousNow = new Date();
 
+	this.spriteList = [];
 	this.obstacles = [];
 }
 
@@ -19,6 +20,40 @@ Level.prototype.init = function () {
 
 	this.initLandscape();
 }
+
+Level.prototype.getSpawnPoint = function () {
+	var range = 100;
+	var point = {x : this.spawnX - range/2, y : this.spawnY - range/2};
+	var valid = false;
+
+	while (!valid) {
+		valid = true;
+
+		for (var i = 0; i < global.level.spriteList.length; i++) {
+			var distance = Math.sqrt(Math.pow(point.x - this.spriteList[i].data.x, 2) + Math.pow(point.y - this.spriteList[i].data.y, 2));
+
+			if (distance < 30) {
+				point.x += 32;
+
+				if (point.x > this.spawnX + range/2) {
+					point.y += 32;
+					point.x = this.spawnX - range/2;
+
+					if (point.y > this.spawnY + range/2) {
+						range *= 2;
+						point = {x : this.spawnX - range/2, y : this.spawnY - range/2};
+					}
+				}
+
+				valid = false;
+				break;
+			}
+		}
+	}
+
+	return point;
+}
+
 // Server only
 Level.prototype.tick = function () {
 	var now = new Date();
@@ -76,6 +111,10 @@ Level.prototype.draw = function (ctx) {
 	if (this.map.complete) {
 		ctx.drawImage(this.map, 0, 0, 700, 700);
 	}
+
+	for (var i = 0; i < this.obstacles.length; i++) {
+		this.obstacles[i].draw(ctx);
+	};	
 
 	this.drawLevel(ctx);
 }

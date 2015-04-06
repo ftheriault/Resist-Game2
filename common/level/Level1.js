@@ -25,7 +25,4 @@ Level1.prototype.tickLevel = function (delta) {
 
 // Client only
 Level1.prototype.drawLevel = function (ctx) {
-	for (var i = 0; i < this.obstacles.length; i++) {
-		this.obstacles[i].draw(ctx);
-	};	
 }

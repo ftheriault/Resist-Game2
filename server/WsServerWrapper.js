@@ -9,16 +9,21 @@ module.exports = WsServerWrapper = function (wsPort) {
 	this.wss.on('connection', function connection(ws) {
 		var wsClient = new WsClient(ws);
 
-		ws.on('message', function incoming(message) {
-			wsClient.messageRecieved(message);
-		});
+		if (wsServer.clients.length < 10) {
+			ws.on('message', function incoming(message) {
+				wsClient.messageRecieved(message);
+			});
 
-		ws.on('close', function() {
-			wsServer.clients.splice(wsServer.clients.indexOf(wsClient), 1);
-			wsClient.connectionClosed();
-		});		
+			ws.on('close', function() {
+				wsServer.clients.splice(wsServer.clients.indexOf(wsClient), 1);
+				wsClient.connectionClosed();
+			});		
 
-		wsServer.clients.push(wsClient);
+			wsServer.clients.push(wsClient);
+		}
+		else {
+			ws.close();
+		}
 	});
 
 }

@@ -100,29 +100,47 @@ Sprite.prototype.tick = function(delta){
 		}
 	}
 
-	if (Math.abs(this.data.x - this.data.destX) > 2) {
+	var newX = this.data.x;
+	var newY = this.data.y;
+
+	if (Math.abs(this.data.x - this.data.destX) > 1.5) {
 		if (this.data.x < this.data.destX) {
-			this.data.x += this.data.speed * delta;
+			newX += this.data.speed * delta;
 		}
 		else if (this.data.x > this.data.destX) {
-			this.data.x -= this.data.speed * delta;
+			newX -= this.data.speed * delta;
 		}
 	}
 	else {
-		this.data.x = this.data.destX;
+		newX = this.data.destX;
 	}
 	
-	if (Math.abs(this.data.y - this.data.destY) > 2) {
+	if (Math.abs(this.data.y - this.data.destY) > 1.5) {
 		if (this.data.y < this.data.destY) {
-			this.data.y += this.data.speed * delta;
+			newY += this.data.speed * delta;
 		}
 		else if (this.data.y > this.data.destY) {
-			this.data.y -= this.data.speed * delta;
+			newY -= this.data.speed * delta;
 		}
 	}
 	else {
-		this.data.y = this.data.destY;
+		newY = this.data.destY;
 	}
+
+	// server
+	if (global != undefined && global.level != undefined) {
+		if (global.level.getWalkableCost(newX, newY, this.data.id) == 0) {
+			this.data.x = newX;
+			this.data.y = newY;
+		}
+	}
+	else if (game != undefined && game.level != undefined) {
+		if (game.level.getWalkableCost(newX, newY, this.data.id) == 0) {
+			this.data.x = newX;
+			this.data.y = newY;
+		}
+	}
+	else 
 
 	for (var i = 0; i < this.data.actions.length; i++) {
 		this.data.actions[i].tick(delta);
