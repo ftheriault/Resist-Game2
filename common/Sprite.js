@@ -85,6 +85,21 @@ Sprite.prototype.tick = function(delta){
 		}
 	}
 
+	// deal with path (one at a time, using x, y)
+	if (this.data.destX != null && this.data.destY != null &&
+		Math.abs(this.data.x - this.data.destX) <= 2 &&
+		Math.abs(this.data.y - this.data.destY) <= 2) {
+		
+		this.data.x = this.data.destX;
+		this.data.y = this.data.destY;
+
+		if (this.data.path != null && this.data.path.length > 0) {
+			var point = this.data.path.shift();
+			this.data.destX = point.x;
+			this.data.destY = point.y;
+		}
+	}
+
 	if (Math.abs(this.data.x - this.data.destX) > 2) {
 		if (this.data.x < this.data.destX) {
 			this.data.x += this.data.speed * delta;

@@ -66,6 +66,7 @@ Game.prototype.connect = function(username, playerType) {
 			game.spriteList = [];
 			
 			game.level = new (window[serverMessage.level.name])();
+			game.level.initLandscape();
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
@@ -164,7 +165,7 @@ Game.prototype.click = function(x, y) {
 
 Game.prototype.tick = function(delta) {
 	if (this.level != null) {
-		this.level.draw();
+		this.level.draw(this.ctx);
 	}
 	else {
 		this.ctx.fillStyle = "black";

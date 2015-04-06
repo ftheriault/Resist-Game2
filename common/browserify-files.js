@@ -7,6 +7,9 @@ var Sprite = require('./Sprite'),
 	Level = require('./level/Level'),
 	Level1 = require('./level/Level1'),
 
+	Obstacle = require('./level/obstacle/Obstacle'),
+	Tree = require('./level/obstacle/Tree'),
+
 	Action = require('./action/Action'),
 	Slash = require('./action/Slash'),
 	Shoot = require('./action/Shoot'),

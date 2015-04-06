@@ -43,9 +43,14 @@ module.exports = WsClient = function(ws) {
 		}
 		else {
 			if (message.type == "MOVE_TO") {
-				this.sprite.data.destX = message.destX;
-				this.sprite.data.destY = message.destY;
-				global.wsServer.broadcastState(this.sprite);
+				var path = global.aStar.calculatePath(this.sprite.data.x, this.sprite.data.y, message.destX, message.destY, this.sprite.data.id);
+				if (path != null) {
+					var firstPoint = path.shift();
+					this.sprite.data.path = path;
+					this.sprite.data.destX = firstPoint.x;
+					this.sprite.data.destY = firstPoint.y;
+					global.wsServer.broadcastState(this.sprite);
+				}
 			}
 			else if (message.type == "ACTION_CLICK") {
 				if (message.key != null && !isNaN(message.key) && message.key - 1 < this.sprite.data.actions.length) {

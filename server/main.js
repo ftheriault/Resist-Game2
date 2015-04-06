@@ -17,6 +17,9 @@ console.log("---------------------------------");
 
 global.spriteId = 0;
 
+var AStar = require('./../common/AStar');
+global.aStar = new AStar();
+
 var Level1 = require('./../common/level/Level1');
 global.level = new Level1();
 global.level.init();
