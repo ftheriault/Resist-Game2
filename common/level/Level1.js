@@ -46,5 +46,4 @@ Level1.prototype.drawLevel = function (ctx) {
 Level1.prototype.gotoNextLevel = function() {
 	global.level = new Level2();
 	global.level.init();
-	global.wsServer.broadcastState();
 };

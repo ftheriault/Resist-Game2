@@ -42,13 +42,28 @@ module.exports = WsClient = function(ws) {
 				global.wsServer.broadcastState(this.sprite);
 			}
 		}
-		else {
+		else if (this.sprite.isAlive()) {
 			if (message.type == "MOVE_TO") {
 				global.level.moveTo(this.sprite, message.destX, message.destY);
 			}
 			else if (message.type == "ACTION_CLICK") {
 				if (message.key != null && !isNaN(message.key) && message.key - 1 < this.sprite.data.actions.length) {
-					this.sprite.triggerActionAtIndex(message.key - 1, message.mouseX, message.mouseY);
+					var toSprite = null;;
+
+					if (message.toSpriteId != null) {
+						for (var i = 0; i < global.level.spriteList.length; i++) {
+							if (global.level.spriteList[i].data.id == message.toSpriteId) {
+								toSprite = global.level.spriteList[i];
+								break;
+							}
+						};
+					}
+
+					var success = this.sprite.triggerActionAtIndex(message.key - 1, message.mouseX, message.mouseY, toSprite);
+
+					if (success) {
+						this.sprite.stop();
+					}
 				}
 			}
 			else if (message.type == "TARGET_ID") {

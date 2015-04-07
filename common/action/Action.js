@@ -37,13 +37,27 @@ Action.prototype.draw = function (ctx, x, y, size) {
 }
 
 Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
+	var success = false;
+
 	if (this.isReady()) {
-		this.data.triggeredTime = (new Date()).getTime();
-		this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
-		
-		fromSprite.data.justAttacked = true;
-		fromSprite.broadcastState();
+		var distanceToTarget = 0;
+		var attackRange = 1;
+
+		if (toSprite != null) {
+			distanceToTarget = fromSprite.distanceWith(toSprite);
+			attackRange = toSprite.data.minDistance + this.maxDistance;
+		}
+
+		if (distanceToTarget < attackRange) {
+			this.data.triggeredTime = (new Date()).getTime();
+			this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
+			
+			fromSprite.data.justAttacked = true;
+			fromSprite.broadcastState();
+		}
 	}
+
+	return success;
 }
 
 

@@ -22,5 +22,7 @@ Slash.prototype.update = function () {
 }
 
 Slash.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	// trigger action and send animation
+	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
+		toSprite.hit(this.data.level * 5);
+	}
 }

@@ -14,24 +14,28 @@ MeleeAI.prototype.tick = function (sprite) {
 		this.lastActionTime = now;
 		this.cooldown = this.defaultCooldown;
 
-		if (this.target != null) {
-			var distanceToTarget = global.level.distanceBetween(sprite, this.target);
-			var attackRange = this.target.data.minDistance + sprite.data.actions[0].maxDistance;
+		if (this.target != null && this.target.isAlive()) {
+			var success = sprite.data.actions[0].trigger(sprite, this.target.data.x, this.target.data.y, this.target);
+			
+			if (!success) {
+				if (sprite.isStuck && sprite.data.path == null) {
+					this.findTarget(sprite, this.target.data.id);
 
-			if (distanceToTarget < attackRange) {
-				sprite.data.actions[0].trigger(sprite, this.target.data.x, this.target.data.y, this.target);
-			}
-			else if (sprite.isStuck && sprite.data.path == null) {
-				this.findTarget(sprite, this.target.data.id);
-				global.level.moveTo(sprite, this.target.data.x, this.target.data.y, true, [this.target.data.id]);
-			}
-			else {
-				global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
+					if (this.target != null) {
+						global.level.moveTo(sprite, this.target.data.x, this.target.data.y, true, [this.target.data.id]);
+					}
+				}
+				else {
+					global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
+				}
 			}
 		} 
 		else {
 			this.findTarget(sprite, null);
-			global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
+
+			if (this.target != null) {
+				global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
+			}
 		}
 	}
 
@@ -40,14 +44,22 @@ MeleeAI.prototype.tick = function (sprite) {
 MeleeAI.prototype.findTarget = function(sprite, exceptTargetId) {
 	var minPlayerDistance = 100000;
 
+	if (this.target != null && !this.target.isAlive()) {
+		this.target = null;
+	}
+
 	var players = global.level.getPlayers();
 	for (var i = 0; i < players.length; i++) {
-		if (exceptTargetId == null || players[i].sprite.data.id != exceptTargetId) {
-			var distance = global.level.distanceBetween(sprite, players[i].sprite);
+		if (players[i].sprite != null) {
+			if (exceptTargetId == null || players[i].sprite.data.id != exceptTargetId) {
+				if (players[i].sprite.isAlive()) {
+					var distance = sprite.distanceWith(sprite, players[i].sprite);
 
-			if (distance <= minPlayerDistance) {
-				this.target = players[i].sprite;
-				minPlayerDistance = distance;
+					if (distance <= minPlayerDistance) {
+						this.target = players[i].sprite;
+						minPlayerDistance = distance;
+					}
+				}
 			}
 		}
 	}

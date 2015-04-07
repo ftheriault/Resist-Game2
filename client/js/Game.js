@@ -98,7 +98,19 @@ Game.prototype.connect = function(username, playerType) {
 				sprite.loadUI();
 				game.level.spriteList.push(sprite);
 			}
+		}
+		else if (serverMessage.type == "HIT") {
+			for (var i = 0; i < game.level.spriteList.length; i++) {
+				if (game.level.spriteList[i].data.id == serverMessage.fromSpriteId) {
+					game.level.spriteList[i].data.life = serverMessage.data;
+					
+					if (serverMessage.data <= 0) {
+						game.level.spriteList.splice(i, 1);
+					}
 
+					break;
+				}
+			}
 		}
 	}
 
@@ -112,7 +124,9 @@ Game.prototype.connect = function(username, playerType) {
 }
 
 Game.prototype.send = function(data) {
-	this.ws.send(JSON.stringify(data));
+	if (this.level == null || this.playerSprite.isAlive()) {
+		this.ws.send(JSON.stringify(data));
+	}
 }
 
 Game.prototype.rightClick = function() {
@@ -136,8 +150,6 @@ Game.prototype.actionKey = function(code) {
 		else if (code == 56) key = 8;
 		else if (code == 57) key = 9;
 
-		// find target if possible
-
 		if (key != null && this.playerSprite != null && this.playerSprite.data.actions.length >= key) {
 			
 			if (this.playerSprite.data.actions[key - 1].isReady()) {				
@@ -145,7 +157,8 @@ Game.prototype.actionKey = function(code) {
 					type : "ACTION_CLICK",
 					key : key,
 					mouseX : game.mouseX,
-					mouseY : game.mouseY
+					mouseY : game.mouseY,
+					toSpriteId : this.target == null ? null : this.target.data.id
 				});
 			}
 		}
@@ -154,6 +167,16 @@ Game.prototype.actionKey = function(code) {
 
 Game.prototype.click = function(x, y) {	
 	if (this.playerId != null) {
+
+		for (var i = 0; i < this.level.spriteList.length; i++) {
+			var distance = Math.sqrt(Math.pow(x - this.level.spriteList[i].data.x, 2) + Math.pow(y - this.level.spriteList[i].data.y, 2));
+
+			if (distance < this.level.spriteList[i].data.minDistance) {
+				this.target = this.level.spriteList[i];
+				break;
+			}
+		};
+
 		this.send({
 			type : "MOVE_TO",
 			destX : x,

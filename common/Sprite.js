@@ -26,6 +26,12 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.minDistance = 45; 
 	this.data.actions = actions; 
 
+	if (isPlayer) {
+		this.data.level = 1; 
+		this.data.experience = 0; 
+		this.data.maxExperience = 50; 
+	}
+
 	this.buildActions();
 }
 
@@ -64,6 +70,25 @@ Sprite.prototype.copy = function (sprite) {
 	this.buildActions();
 }
 
+Sprite.prototype.restore = function() {
+	this.data.life = this.data.maxLife;
+	this.data.mana = this.data.maxMana;
+};
+
+Sprite.prototype.isAlive = function () {
+	return this.data.life > 0;
+}
+
+Sprite.prototype.hit = function (amount) {
+	this.data.life -= amount;
+
+	if (this.data.life < 0) {
+		this.data.life = 0;
+	}
+
+	global.wsServer.broadcastEvent("HIT", this.data.id, this.data.life);
+}
+
 Sprite.prototype.broadcastState = function() {
 	global.wsServer.broadcastState(this);
 }
@@ -72,8 +97,19 @@ Sprite.prototype.digest = function(msg){
 	this.digestMessage(msg);
 }
 
-Sprite.prototype.triggerActionAtIndex = function(idx, mouseX, mouseY){
-	this.data.actions[idx].trigger(this, mouseX, mouseY);
+Sprite.prototype.stop = function() {
+	this.data.destX = this.data.x;
+	this.data.destY = this.data.y;
+	this.data.path = null;
+	this.broadcastState();
+};
+
+Sprite.prototype.distanceWith = function(sprite) {
+	return Math.sqrt(Math.pow(this.data.x - sprite.data.x, 2) + Math.pow(this.data.y - sprite.data.y, 2));
+};
+
+Sprite.prototype.triggerActionAtIndex = function(idx, mouseX, mouseY, toSprite){
+	return this.data.actions[idx].trigger(this, mouseX, mouseY, toSprite);
 }
 
 Sprite.prototype.tick = function(delta){
@@ -186,6 +222,14 @@ Sprite.prototype.tick = function(delta){
 }
 
 Sprite.prototype.draw = function (ctx) {
+	if (game.target != null && game.target == this) {
+		ctx.beginPath();
+	    ctx.arc(this.data.x, this.data.y + game.target.data.minDistance/2, game.target.data.minDistance/3, 0, 2 * Math.PI, false);
+		ctx.fillStyle = "rgba(100, 250, 250, 0.3)";
+	    ctx.fill();
+	    ctx.closePath();
+	}
+
 	this.spriteUI.draw(ctx, this.data.x, this.data.y, this.data.destX, this.data.destY);
 
 	if (this.data.life > 0) {

@@ -35,6 +35,16 @@ WsServerWrapper.prototype.sendStateTo = function (to) {
 	});
 }
 
+WsServerWrapper.prototype.broadcastEvent = function (eventType, fromSpriteId, data) {
+	for (var i = 0; i < this.clients.length; i++) {
+		this.clients[i].send({
+			type : eventType,
+			fromSpriteId : fromSpriteId,
+			data : data
+		});
+	};
+}
+
 WsServerWrapper.prototype.broadcastState = function (sprite) {
 	
 	if (sprite == null) {

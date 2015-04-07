@@ -21,10 +21,6 @@ Level.prototype.getPlayers = function () {
 	return global.wsServer.clients;
 }
 
-Level.prototype.distanceBetween = function(sprite1, sprite2) {
-	return Math.sqrt(Math.pow(sprite1.data.x - sprite2.data.x, 2) + Math.pow(sprite1.data.y - sprite2.data.y, 2));
-};
-
 // Server only
 Level.prototype.init = function () {
 	this.spriteList = [];
@@ -38,8 +34,11 @@ Level.prototype.init = function () {
 		global.wsServer.clients[i].sprite.data.y = point.y;
 		global.wsServer.clients[i].sprite.data.destX = point.x;
 		global.wsServer.clients[i].sprite.data.destY = point.y;
+		global.wsServer.clients[i].sprite.restore();
 		this.spriteList.push(global.wsServer.clients[i].sprite);
 	}
+
+	global.wsServer.broadcastState();
 }
 
 Level.prototype.getSpawnPoint = function (isPlayer) {
@@ -110,11 +109,23 @@ Level.prototype.tick = function () {
 		elem.logic();
 	}
 
-	for (var i = 0; i < global.level.spriteList.length; i++) {
-		global.level.spriteList[i].tick(delta);
+	var allPlayersDead = true;
+
+	for (var i = 0; i < this.spriteList.length; i++) {
+		if (!this.spriteList[i].isAlive()) {
+			this.spriteList.splice(i, 1);
+			i--;
+		}
+		else {
+			this.spriteList[i].tick(delta);
+
+			if (this.spriteList[i].data.isPlayer) {
+				allPlayersDead = false;
+			}
+		}
 	}
 
-	if (global.wsServer.clients.length > 0) {
+	if (global.wsServer.clients.length > 0 && !allPlayersDead) {
 		if (this.startAt == null) {
 			this.startAt = now.getTime() + 5000;
 		}
