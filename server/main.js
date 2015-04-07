@@ -10,7 +10,6 @@ var WsServerWrapper = require('./WsServerWrapper');
 global.wsServer = new WsServerWrapper(8081);
 console.log("- WebSocket Server ready");
 
-
 console.log("---------------------------------");
 console.log("        Server loaded");
 console.log("---------------------------------");
@@ -25,9 +24,19 @@ global.level = new Level1();
 global.level.init();
 
 function tick() {
-	global.level.tick();
-	
-	setTimeout(tick, 30);
+	var delta = global.level.tick();
+	delta -= 20;
+	var next = 20 - delta;
+
+	if (delta > 200) {
+		console.log("- Long cycle to process : " + delta + "msec");
+	}
+
+	if (next <= 0) {
+		next = 10;
+	}
+
+	setTimeout(tick, next);
 }
 
 tick();

@@ -29,7 +29,7 @@ module.exports = WsClient = function(ws) {
 				}
 
 				this.sprite.initPlayer(this.id, message.username);
-				var spawnPoint = global.level.getSpawnPoint();
+				var spawnPoint = global.level.getSpawnPoint(true);
 				this.sprite.setLocation(spawnPoint.x, spawnPoint.y);
 				global.level.spriteList.push(this.sprite);
 
@@ -44,15 +44,7 @@ module.exports = WsClient = function(ws) {
 		}
 		else {
 			if (message.type == "MOVE_TO") {
-				var path = global.aStar.calculatePath(this.sprite.data.x, this.sprite.data.y, message.destX, message.destY, this.sprite.data.id);
-
-				if (path != null && path.length > 0) {
-					var firstPoint = path.shift();
-					this.sprite.data.path = path;
-					this.sprite.data.destX = firstPoint.x;
-					this.sprite.data.destY = firstPoint.y;
-					global.wsServer.broadcastState(this.sprite);
-				}
+				global.level.moveTo(this.sprite, message.destX, message.destY);
 			}
 			else if (message.type == "ACTION_CLICK") {
 				if (message.key != null && !isNaN(message.key) && message.key - 1 < this.sprite.data.actions.length) {

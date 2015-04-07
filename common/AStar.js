@@ -1,23 +1,9 @@
 module.exports = AStar = function() {
-	this.minObstacleSize = 10;
+	this.minObstacleSize = 15;
 }
 
-// =========================================
-// Author : Frederic Theriault
-// URL    : http://www.frederictheriault.com
-// -----------------------------------------
 
-/**
- * Calculates a path array using the A* algorithm
- *
- * currentX/Y : current position of sprite
- * destinationYX : destination point
- * this.minObstacleSize : in order to jump to next node, how many pixels can we jump over? 1 is ideal, but requires a lot more processing/memory
- * 
- * returns the path of points to follow
- */ 
-
-AStar.prototype.calculatePath = function(currentX, currentY, destinationX, destinationY, exceptId) {
+AStar.prototype.calculatePath = function(currentX, currentY, destinationX, destinationY, exceptIds, withSprites) {
 	var Node = function (x, y, cost, parent) {
 		this.x = x;
 		this.y = y;
@@ -69,15 +55,15 @@ AStar.prototype.calculatePath = function(currentX, currentY, destinationX, desti
 			else if (i == 6) {x = -1 * this.minObstacleSize; y =  1 * this.minObstacleSize;}
 			else if (i == 7) {x = 1 * this.minObstacleSize; y =  1 * this.minObstacleSize;}
 
-			if ((i == 4 && (global.level.getWalkableCost(currentNode.x - 1 * this.minObstacleSize, currentNode.y, exceptId) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y - 1 * this.minObstacleSize, exceptId) == -1))) ||
-				(i == 5 && (global.level.getWalkableCost(currentNode.x + 1 * this.minObstacleSize, currentNode.y, exceptId) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y - 1 * this.minObstacleSize, exceptId) == -1))) ||
-				(i == 6 && (global.level.getWalkableCost(currentNode.x - 1 * this.minObstacleSize, currentNode.y, exceptId) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y + 1 * this.minObstacleSize, exceptId) == -1))) ||
-				(i == 7 && (global.level.getWalkableCost(currentNode.x + 1 * this.minObstacleSize, currentNode.y, exceptId) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y + 1 * this.minObstacleSize, exceptId) == -1)))) {
+			if ((i == 4 && (global.level.getWalkableCost(currentNode.x - 1 * this.minObstacleSize, currentNode.y, exceptIds, withSprites) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y - 1 * this.minObstacleSize, exceptIds, withSprites) == -1))) ||
+				(i == 5 && (global.level.getWalkableCost(currentNode.x + 1 * this.minObstacleSize, currentNode.y, exceptIds, withSprites) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y - 1 * this.minObstacleSize, exceptIds, withSprites) == -1))) ||
+				(i == 6 && (global.level.getWalkableCost(currentNode.x - 1 * this.minObstacleSize, currentNode.y, exceptIds, withSprites) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y + 1 * this.minObstacleSize, exceptIds, withSprites) == -1))) ||
+				(i == 7 && (global.level.getWalkableCost(currentNode.x + 1 * this.minObstacleSize, currentNode.y, exceptIds, withSprites) == -1 || (global.level.getWalkableCost(currentNode.x, currentNode.y + 1 * this.minObstacleSize, exceptIds, withSprites) == -1)))) {
 				diagAccepted = false;
 			} 
 
 			// if the node isn't an objstacle or part of closed list
-			cost = global.level.getWalkableCost(currentNode.x + x, currentNode.y + y, exceptId);
+			cost = global.level.getWalkableCost(currentNode.x + x, currentNode.y + y, exceptIds, withSprites);
 			if (cost != -1 && diagAccepted &&
 				closedList[(currentNode.x + x) + "-" + (currentNode.y + y)] == null) {
 				node = new Node(currentNode.x + x, currentNode.y + y, cost + (i > 3 ? 4 : 0), currentNode);	

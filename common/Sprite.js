@@ -23,6 +23,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxLife = maxLife;
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
+	this.data.minDistance = 45; 
 	this.data.actions = actions; 
 
 	this.buildActions();
@@ -45,7 +46,6 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "fire-bolt") {
 			this.data.actions.push(new FireBolt(actions[i].data));
 		}
-
 	}	
 };
 
@@ -85,62 +85,98 @@ Sprite.prototype.tick = function(delta){
 		}
 	}
 
-	// deal with path (one at a time, using x, y)
-	if (this.data.destX != null && this.data.destY != null &&
-		Math.abs(this.data.x - this.data.destX) <= 2 &&
-		Math.abs(this.data.y - this.data.destY) <= 2) {
+	var deltaStep = delta > 50 ? 20 : delta;
+	for (var i = deltaStep; i <= delta; i += deltaStep) {
+		// deal with path (one at a time, using x, y)
+		if (this.data.destX != null && this.data.destY != null &&
+			Math.abs(this.data.x - this.data.destX) <= 1.5 &&
+			Math.abs(this.data.y - this.data.destY) <= 1.5) {
+			
+			this.data.x = this.data.destX;
+			this.data.y = this.data.destY;
+
+			if (this.data.path != null && this.data.path.length > 0) {
+				var point = this.data.path.shift();
+				this.data.destX = point.x;
+				this.data.destY = point.y;
+				this.isStuck = false;
+			}
+		}
+
+		var newX = this.data.x;
+		var newY = this.data.y;
+
+		if (Math.abs(this.data.x - this.data.destX) >= 1.5) {
+			if (this.data.x < this.data.destX) {
+				newX += this.data.speed * deltaStep;
+			}
+			else if (this.data.x > this.data.destX) {
+				newX -= this.data.speed * deltaStep;
+			}
+		}
+		else {
+			newX = this.data.destX;
+		}
 		
-		this.data.x = this.data.destX;
-		this.data.y = this.data.destY;
+		if (Math.abs(this.data.y - this.data.destY) >= 1.5) {
+			if (this.data.y < this.data.destY) {
+				newY += this.data.speed * deltaStep;
+			}
+			else if (this.data.y > this.data.destY) {
+				newY -= this.data.speed * deltaStep;
+			}
+		}
+		else {
+			newY = this.data.destY;
+		}
 
-		if (this.data.path != null && this.data.path.length > 0) {
-			var point = this.data.path.shift();
-			this.data.destX = point.x;
-			this.data.destY = point.y;
+		
+		if (this.data.x != newX || this.data.y != newY) {
+			// server
+			if (global != undefined && global.level != undefined) {
+				if (global.level.getWalkableCost(newX, newY, [this.data.id]) == 0 &&
+					!global.level.checkSpriteCollision(newX, newY, [this.data.id])) {
+					this.data.x = newX;
+					this.data.y = newY;
+				}
+				else {					
+					this.isStuck = true;	
+					this.data.path = null;
+					this.data.destX = this.data.x;
+					this.data.destY = this.data.y;
+					this.broadcastState();
+					break;
+				}
+			}
+			else if (game != undefined && game.level != undefined) {
+				if (game.level.getWalkableCost(newX, newY, [this.data.id]) == 0 &&
+					!game.level.checkSpriteCollision(newX, newY, [this.data.id])) {
+					this.data.x = newX;
+					this.data.y = newY;
+				}
+				else {
+					this.data.path = null;
+					this.data.destX = this.data.x;
+					this.data.destY = this.data.y;
+					break;
+				}
+			}
+		}
+
+		if (i + deltaStep > delta) {
+			deltaStep = delta - deltaStep;
+
+			if (deltaStep < 1) {
+				break;
+			}
 		}
 	}
 
-	var newX = this.data.x;
-	var newY = this.data.y;
-
-	if (Math.abs(this.data.x - this.data.destX) > 1.5) {
-		if (this.data.x < this.data.destX) {
-			newX += this.data.speed * delta;
-		}
-		else if (this.data.x > this.data.destX) {
-			newX -= this.data.speed * delta;
-		}
-	}
-	else {
-		newX = this.data.destX;
-	}
-	
-	if (Math.abs(this.data.y - this.data.destY) > 1.5) {
-		if (this.data.y < this.data.destY) {
-			newY += this.data.speed * delta;
-		}
-		else if (this.data.y > this.data.destY) {
-			newY -= this.data.speed * delta;
-		}
-	}
-	else {
-		newY = this.data.destY;
-	}
-
-	// server
 	if (global != undefined && global.level != undefined) {
-		if (global.level.getWalkableCost(newX, newY, this.data.id) == 0) {
-			this.data.x = newX;
-			this.data.y = newY;
+		if (this.ai != null) {
+			this.ai.tick(this);
 		}
 	}
-	else if (game != undefined && game.level != undefined) {
-		if (game.level.getWalkableCost(newX, newY, this.data.id) == 0) {
-			this.data.x = newX;
-			this.data.y = newY;
-		}
-	}
-	else 
 
 	for (var i = 0; i < this.data.actions.length; i++) {
 		this.data.actions[i].tick(delta);

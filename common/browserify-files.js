@@ -4,6 +4,8 @@ var Sprite = require('./Sprite'),
 	Priest = require('./character/Priest'),
 	Mage = require('./character/Mage'),
 
+	Mage = require('./npc/Skeleton'),
+
 	Level = require('./level/Level'),
 	Level1 = require('./level/Level1'),
 	Level2 = require('./level/Level2'),
