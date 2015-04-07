@@ -28,6 +28,7 @@ HealingPotion.prototype.update = function (fromSprite, delta) {
 }
 
 HealingPotion.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
-	fromSprite.heal(30 + this.data.level * 4, fromSprite);
+	fromSprite.heal(25 + this.data.level * 4, fromSprite);
+	
 	return true;
 }

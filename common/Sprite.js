@@ -25,7 +25,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxLife = maxLife;
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
-	this.data.minDistance = 40; 
+	this.data.minDistance = 35; 
 	this.data.freeActionPoints = 0;
 	this.data.actions = actions; 
 
