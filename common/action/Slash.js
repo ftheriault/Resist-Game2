@@ -23,6 +23,6 @@ Slash.prototype.update = function () {
 
 Slash.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
-		toSprite.hit(this.data.level * 5);
+		toSprite.hit(this.data.level * 5, fromSprite);
 	}
 }

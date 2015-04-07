@@ -66,9 +66,6 @@ module.exports = WsClient = function(ws) {
 					}
 				}
 			}
-			else if (message.type == "TARGET_ID") {
-				// message.spriteId
-			}
 		}
 	}
 

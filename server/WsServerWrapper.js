@@ -35,6 +35,19 @@ WsServerWrapper.prototype.sendStateTo = function (to) {
 	});
 }
 
+WsServerWrapper.prototype.broadcastStateToOwner = function (sprite) {
+	for (var i = 0; i < this.clients.length; i++) {
+		if (this.clients[i].sprite == sprite) {
+			this.clients[i].send({
+				type : "SPRITE_STATE_UPDATE",
+				sprite : sprite
+			});
+			
+			break;
+		}
+	}
+}
+
 WsServerWrapper.prototype.broadcastEvent = function (eventType, fromSpriteId, data) {
 	for (var i = 0; i < this.clients.length; i++) {
 		this.clients[i].send({

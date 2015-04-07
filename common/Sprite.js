@@ -11,7 +11,7 @@ module.exports = Sprite = function() {
 	};
 }
 
-Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana, maxMana, speed, actions){
+Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana, maxMana, speed, actions, experienceToGive){
 	this.type = type;
 
 	this.data = {};
@@ -24,12 +24,16 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
 	this.data.minDistance = 45; 
+	this.data.freeActionPoints = 0;
 	this.data.actions = actions; 
 
 	if (isPlayer) {
 		this.data.level = 1; 
 		this.data.experience = 0; 
 		this.data.maxExperience = 50; 
+	}
+	else {
+		this.data.experienceToGive = experienceToGive;
 	}
 
 	this.buildActions();
@@ -79,11 +83,52 @@ Sprite.prototype.isAlive = function () {
 	return this.data.life > 0;
 }
 
-Sprite.prototype.hit = function (amount) {
+Sprite.prototype.giveExperience = function(amount) {
+	this.data.experience += amount;
+
+	if (this.data.experience >= this.data.maxExperience) {
+		this.data.maxExperience = parseInt(this.data.maxExperience * 2.5);
+		this.data.level += 1;
+		this.data.freeActionPoints += 1;
+		this.data.maxLife = parseInt(this.data.maxLife * 1.2);
+		this.data.maxMana = parseInt(this.data.maxLife * 1.2);
+		this.data.life = this.data.maxLife;
+		this.data.mana = this.data.maxMana;
+		
+		this.broadcastState();
+	}
+	else {
+		global.wsServer.broadcastStateToOwner(this);
+	}
+};
+
+Sprite.prototype.heal = function (amount, fromSprite) {
+	if (this.isAlive()) {
+		this.data.life += amount;
+
+		if (this.data.life > this.data.maxLife) {
+			this.data.life = this.data.maxLife;
+		}
+
+		this.broadcastState();
+	}
+}
+
+Sprite.prototype.hit = function (amount, fromSprite) {
 	this.data.life -= amount;
 
-	if (this.data.life < 0) {
+	if (this.data.life <= 0) {
 		this.data.life = 0;
+
+		if (fromSprite.data.isPlayer) {
+			for (var i = 0; i < global.wsServer.clients.length; i++) {
+				if (global.wsServer.clients[i].sprite.isAlive()) {
+					global.wsServer.clients[i].sprite.giveExperience(this.data.experienceToGive);
+				}
+
+				fromSprite.giveExperience(this.data.experienceToGive * 0.2);
+			}
+		}
 	}
 
 	global.wsServer.broadcastEvent("HIT", this.data.id, this.data.life);

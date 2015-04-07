@@ -29,7 +29,7 @@ Level1.prototype.tickLevel = function (now, delta) {
 			this.lastEnemySpawnTime = now;
 
 			var npc = new Skeleton();
-			npc.build(false, global.spriteId++, "Skeleton", "Skeleton", 20, 20, 20, 20, 0.04, [ new Slash(null, 1) ]);		
+			npc.build(false, global.spriteId++, "Skeleton", "Skeleton", 20, 20, 20, 20, 0.04, [ new Slash(null, 1) ], 10);		
 			npc.ai = new MeleeAI();
 			this.addNPC(npc);
 		}
