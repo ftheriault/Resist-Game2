@@ -21,13 +21,18 @@ Sacrifice.prototype.getName = function () {
 	return "Sacrifice";
 }
 
-Sacrifice.prototype.update = function (delta) {
+Sacrifice.prototype.update = function (fromSprite, delta) {
 
 }
 
 Sacrifice.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
+	var success = false;
+
 	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
 		toSprite.hit(6 + this.data.level * 4, fromSprite);
-		fromSprite.hit(this.data.level + parseInt(fromSprite.data.life * 0.1));
+		fromSprite.hit(this.data.level * 2 + parseInt(fromSprite.data.life * 0.1));
+		success = true;
 	}
+
+	return success;
 }

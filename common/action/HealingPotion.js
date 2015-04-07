@@ -23,10 +23,11 @@ HealingPotion.prototype.getName = function () {
 	return "Healing Potion";
 }
 
-HealingPotion.prototype.update = function (delta) {
+HealingPotion.prototype.update = function (fromSprite, delta) {
 
 }
 
 HealingPotion.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	fromSprite.heal(30 + this.data.level * 4, fromSprite);
+	return true;
 }

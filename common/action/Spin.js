@@ -23,7 +23,7 @@ Spin.prototype.getName = function () {
 	return "Spin";
 }
 
-Spin.prototype.update = function (delta) {
+Spin.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 2 + 1 * this.data.level;
 }
 
@@ -37,4 +37,6 @@ Spin.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 			}
 		}
 	}
+
+	return true;
 }

@@ -22,11 +22,12 @@ function Game() {
 		game.mouseY = e.pageY - document.getElementById("canvas").offsetTop;
 	}
 
-	document.getElementById("canvas").oncontextmenu = function (event) {
-		event.preventDefault();
+	document.getElementById("canvas").oncontextmenu = function (e) {
+		e.preventDefault();
 
 		if (game.ws != null) {
-			game.rightClick();
+			game.rightClick(e.pageX - document.getElementById("canvas").offsetLeft, 
+				   		  	e.pageY - document.getElementById("canvas").offsetTop);
 		}
 	}
 
@@ -129,11 +130,16 @@ Game.prototype.send = function(data) {
 	}
 }
 
-Game.prototype.rightClick = function() {
+Game.prototype.rightClick = function(x, y) {
 	if (this.playerId != null) {
-		this.send({
-			type : "RIGHT_CLICK"
-		});
+		for (var i = 0; i < this.level.spriteList.length; i++) {
+			var distance = Math.sqrt(Math.pow(x - this.level.spriteList[i].data.x, 2) + Math.pow(y - this.level.spriteList[i].data.y, 2));
+
+			if (distance < this.level.spriteList[i].data.minDistance/1.5) {
+				this.target = this.level.spriteList[i];
+				break;
+			}
+		};
 	}
 }
 

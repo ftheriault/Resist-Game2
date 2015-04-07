@@ -17,10 +17,11 @@ MagicBolt.prototype.getName = function () {
 	return "Magic Bolt";
 }
 
-MagicBolt.prototype.update = function (delta) {
+MagicBolt.prototype.update = function (fromSprite, delta) {
 
 }
 
 MagicBolt.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	// trigger action and send animation
+	return true;
 }

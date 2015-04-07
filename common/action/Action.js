@@ -18,8 +18,49 @@ Action.prototype.isReady = function() {
 	return this.data.triggeredTime + this.data.cooldown < (new Date()).getTime();
 }
 
-Action.prototype.tick = function (delta) {
-	this.update(delta);
+Action.prototype.moveProjectile = function(delta) {
+	if (this.data.angle < Math.PI/2) {
+		this.data.x += Math.sin(this.data.angle) * (this.data.speed * delta);
+		this.data.y -= Math.cos(this.data.angle) * (this.data.speed * delta);
+	}
+	else if (this.data.angle < Math.PI) {
+		this.data.x += Math.sin(this.data.angle) * (this.data.speed * delta);
+		this.data.y -= Math.cos(this.data.angle) * (this.data.speed * delta);
+	}
+	else if (this.data.angle < Math.PI + Math.PI/2) {
+		this.data.x += Math.sin(this.data.angle) * (this.data.speed * delta);
+		this.data.y -= Math.cos(this.data.angle) * (this.data.speed * delta);
+	}
+	else {
+		this.data.x += Math.sin(this.data.angle) * (this.data.speed * delta);
+		this.data.y -= Math.cos(this.data.angle) * (this.data.speed * delta);
+	}
+};
+
+Action.prototype.getAngle = function(x1, y1, x2, y2) {
+	var adj = x2 - x1;
+	var opp = y2 - y1;
+	
+	var angle = Math.abs(Math.atan(opp/adj) * 180/Math.PI);
+	
+	if (adj > 0 && opp < 0 ) {
+		angle = 90 - angle;
+	}
+	else if (adj >= 0 && opp >= 0) {
+		angle += 90;
+	}
+	else if (adj < 0 && opp >= 0) {
+		angle = 180 + (90 - angle);
+	}
+	else {
+		angle += 270;
+	}
+	
+	return angle;
+}
+
+Action.prototype.tick = function (fromSprite, delta) {
+	this.update(fromSprite, delta);
 }
 
 Action.prototype.draw = function (ctx, x, y, size) {
@@ -75,14 +116,15 @@ Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 
 		if (!this.needTarget || distanceToTarget < attackRange) {
 			if (this.data.manaCost == 0 || fromSprite.data.mana - this.data.manaCost >= 0) {
-				success = true;
+				success = this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
 
-				this.data.triggeredTime = (new Date()).getTime();
-				this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
-				fromSprite.data.mana -= this.data.manaCost;
-				fromSprite.data.justAttacked = true;
+				if (success) {
+					this.data.triggeredTime = (new Date()).getTime();
+					fromSprite.data.mana -= this.data.manaCost;
+					fromSprite.data.justAttacked = true;
 
-				fromSprite.broadcastState();
+					fromSprite.broadcastState();
+				}
 			}
 		}
 	}

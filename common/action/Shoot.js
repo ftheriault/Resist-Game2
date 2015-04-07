@@ -17,10 +17,12 @@ Shoot.prototype.getName = function () {
 	return "Shoot";
 }
 
-Shoot.prototype.update = function (delta) {
+Shoot.prototype.update = function (fromSprite, delta) {
 
 }
 
 Shoot.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
 	// trigger action and send animation
+
+	return true;
 }

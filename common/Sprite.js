@@ -270,8 +270,10 @@ Sprite.prototype.tick = function(delta){
 		}
 	}
 
-	for (var i = 0; i < this.data.actions.length; i++) {
-		this.data.actions[i].tick(delta);
+	if (delta > 0) {
+		for (var i = 0; i < this.data.actions.length; i++) {
+			this.data.actions[i].tick(this, delta);
+		}
 	}
 	
 	this.update();
