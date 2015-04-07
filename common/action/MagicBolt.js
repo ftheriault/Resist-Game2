@@ -13,6 +13,10 @@ module.exports = MagicBolt = function (data) {
 MagicBolt.prototype = new Action();
 MagicBolt.prototype.constructor = MagicBolt;
 
+MagicBolt.prototype.getName = function () {
+	return "Magic Bolt";
+}
+
 MagicBolt.prototype.update = function (delta) {
 
 }

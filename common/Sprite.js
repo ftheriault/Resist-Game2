@@ -4,6 +4,7 @@ var MagicBolt = require('./action/MagicBolt');
 var FireBolt = require('./action/FireBolt');
 var HealingPotion = require('./action/HealingPotion');
 var Spin = require('./action/Spin');
+var Sacrifice = require('./action/Sacrifice');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -62,6 +63,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "spin") {
 			this.data.actions.push(new Spin(actions[i].data));
+		}
+		else if (actions[i].type == "sacrifice") {
+			this.data.actions.push(new Sacrifice(actions[i].data));
 		}
 	}	
 };
@@ -127,7 +131,7 @@ Sprite.prototype.hit = function (amount, fromSprite) {
 	if (this.data.life <= 0) {
 		this.data.life = 0;
 
-		if (fromSprite.data.isPlayer) {
+		if (fromSprite != null && fromSprite.data.isPlayer) {
 			for (var i = 0; i < global.wsServer.clients.length; i++) {
 				if (global.wsServer.clients[i].sprite.isAlive()) {
 					global.wsServer.clients[i].sprite.giveExperience(this.data.experienceToGive);

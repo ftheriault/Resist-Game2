@@ -13,6 +13,10 @@ module.exports = Shoot = function (data) {
 Shoot.prototype = new Action();
 Shoot.prototype.constructor = Shoot;
 
+Shoot.prototype.getName = function () {
+	return "Shoot";
+}
+
 Shoot.prototype.update = function (delta) {
 
 }

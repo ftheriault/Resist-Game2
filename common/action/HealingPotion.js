@@ -19,6 +19,10 @@ module.exports = HealingPotion = function (data, level) {
 HealingPotion.prototype = new Action();
 HealingPotion.prototype.constructor = HealingPotion;
 
+HealingPotion.prototype.getName = function () {
+	return "Healing Potion";
+}
+
 HealingPotion.prototype.update = function (delta) {
 
 }

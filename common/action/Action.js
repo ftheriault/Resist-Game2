@@ -32,9 +32,12 @@ Action.prototype.draw = function (ctx, x, y, size) {
 		ctx.drawImage(this.image, x, y, size, size);
 
 		ctx.fillStyle = "white";
-		ctx.font = "12px Arial";
 
-		ctx.fillText("Level : " + this.data.level, x + 5, y + 10);
+		ctx.font = "13px Arial";
+		ctx.fillText(this.getName(), x + 5, y + 15);
+
+		ctx.font = "12px Arial";
+		ctx.fillText("Level : " + this.data.level, x + 5, y + 30);
 
 		if (this.data.manaCost > 0) {
 			ctx.fillText("Mana cost : " + this.data.manaCost, x + 5, y + size - 5);			

@@ -2,7 +2,7 @@ var Action = require('./Action');
 
 module.exports = Spin = function (data, level) {
 	if (data == null) {
-		Action.call(this, "spin", 1000, 10);
+		Action.call(this, "spin", 3000, 10);
 	}
 	else {
 		Action.call(this, "spin", data.cooldown, 10);
@@ -18,6 +18,10 @@ module.exports = Spin = function (data, level) {
 
 Spin.prototype = new Action();
 Spin.prototype.constructor = Spin;
+
+Spin.prototype.getName = function () {
+	return "Spin";
+}
 
 Spin.prototype.update = function (delta) {
 	this.data.manaCost = 2 + 1 * this.data.level;

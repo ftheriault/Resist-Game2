@@ -17,6 +17,10 @@ module.exports = Slash = function (data, level) {
 Slash.prototype = new Action();
 Slash.prototype.constructor = Slash;
 
+Slash.prototype.getName = function () {
+	return "Slash";
+}
+
 Slash.prototype.update = function (delta) {
 
 }
