@@ -3,7 +3,6 @@ var Level = require('./../Sprite');
 module.exports = MeleeAI = function() {
 	this.lastActionTime = 0;
 	this.defaultCooldown = 3000;
-	this.idleCooldown = 5000;
 	this.cooldown = this.defaultCooldown;
 	this.target = null;
 }
@@ -24,11 +23,7 @@ MeleeAI.prototype.tick = function (sprite) {
 			}
 			else if (sprite.isStuck && sprite.data.path == null) {
 				this.findTarget(sprite, this.target.data.id);
-				var success = global.level.moveTo(sprite, this.target.data.x, this.target.data.y, true, [this.target.data.id]);
-
-				if (!success) {
-					this.cooldown = this.idleCooldown;
-				}
+				global.level.moveTo(sprite, this.target.data.x, this.target.data.y, true, [this.target.data.id]);
 			}
 			else {
 				global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);

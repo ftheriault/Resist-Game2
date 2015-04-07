@@ -12,6 +12,8 @@ module.exports = Level = function(name, title, spawnX, spawnY, enemySpawnX, enem
 	this.spriteList = [];
 	this.obstacles = [];
 
+	this.aStarQueue = [];
+
 	this.startAt = null;
 }
 
@@ -103,7 +105,10 @@ Level.prototype.tick = function () {
 	var delta = now - this.previousNow;
 	this.previousNow = now;
 
-	this.aStarAvailable = 1;
+	if (this.aStarQueue.length > 0) {
+		var elem = this.aStarQueue.shift();
+		elem.logic();
+	}
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		global.level.spriteList[i].tick(delta);
@@ -136,39 +141,40 @@ Level.prototype.addNPC = function (npc) {
 }
 
 Level.prototype.moveTo = function (sprite, destX, destY, withSprites, exceptSprites) {
-	var allowed = true;
-	var success = true;
-
-	if (sprite.data.isPlayer == false) {
-		if (this.aStarAvailable == 0) {
-			allowed = false;
-		}
-		else {
-			this.aStarAvailable--;
+	for (var i = 0; i < this.aStarQueue.length; i++) {
+		if (this.aStarQueue[i].spriteId == sprite.data.id) {
+			this.aStarQueue.splice(i, 1);
+			i--;
 		}
 	}
 
-	if (allowed) {
-		if (exceptSprites == null) {
-			exceptSprites = [ sprite.data.id ];
-		}
-		exceptSprites.push(sprite.data.id);
+	var moveData = {
+		spriteId : sprite.data.id,
+		logic : function () {
+			if (exceptSprites == null) {
+				exceptSprites = [ sprite.data.id ];
+			}
 
-		var path = global.aStar.calculatePath(sprite.data.x, sprite.data.y, destX, destY, exceptSprites, withSprites);
+			exceptSprites.push(sprite.data.id);
 
-		if (path != null && path.length > 0) {
-			var firstPoint = path.shift();
-			sprite.data.path = path;
-			sprite.data.destX = firstPoint.x;
-			sprite.data.destY = firstPoint.y;
-			global.wsServer.broadcastState(sprite);
-		}
-		else {
-			success = false;
+			var path = global.aStar.calculatePath(sprite.data.x, sprite.data.y, destX, destY, exceptSprites, withSprites);
+
+			if (path != null && path.length > 0) {
+				var firstPoint = path.shift();
+				sprite.data.path = path;
+				sprite.data.destX = firstPoint.x;
+				sprite.data.destY = firstPoint.y;
+				global.wsServer.broadcastState(sprite);
+			}
 		}
 	}
-
-	return success;
+	
+	if (sprite.data.isPlayer === true) {
+		this.aStarQueue.unshift(moveData);
+	}
+	else {
+		this.aStarQueue.push(moveData);	
+	}
 }
 
 Level.prototype.checkSpriteCollision = function (x, y, exceptIds) {

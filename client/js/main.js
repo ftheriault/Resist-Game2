@@ -51,17 +51,23 @@ function capitaliseFirstLetter(string) {
 }
 
 function start(button) {
-	clearInterval(intervalId);
-	tick();
-
-	button.onclick = function(){};
-
 	playerName = $("#player-name").val();
-	playerClass = currentClassSelection.replace("-class", "");
-	playerClass = playerClass.charAt(0).toUpperCase() + playerClass.slice(1);
-	$(".login-section").fadeOut(1000);
+	
+	if (playerName.trim().length > 0) {
+		clearInterval(intervalId);
+		tick();
 
-	game.connect(playerName, playerClass);
+		button.onclick = function(){};
+
+		playerClass = currentClassSelection.replace("-class", "");
+		playerClass = playerClass.charAt(0).toUpperCase() + playerClass.slice(1);
+		$(".login-section").fadeOut(1000);
+
+		game.connect(playerName, playerClass);
+	}
+	else {
+		$("#player-name").css("color", "red");
+	}
 }
 
 function tick(now) {
