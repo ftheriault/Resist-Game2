@@ -66,6 +66,13 @@ module.exports = WsClient = function(ws) {
 					}
 				}
 			}
+			else if (message.type == "ACTION_ICON_CLICKED") {
+				if (this.sprite.data.freeActionPoints > 0 && message.idx < this.sprite.data.actions.length) {
+					this.sprite.data.freeActionPoints--;
+					this.sprite.data.actions[message.idx].data.level++;
+					this.sprite.broadcastState();
+				}
+			}
 		}
 	}
 

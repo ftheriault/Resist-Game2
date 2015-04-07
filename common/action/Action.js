@@ -23,6 +23,10 @@ Action.prototype.draw = function (ctx, x, y, size) {
 
 	if (this.image.complete) {
 		ctx.drawImage(this.image, x, y, size, size);
+
+		ctx.fillStyle = "white";
+		ctx.font = "12px Arial";
+		ctx.fillText("Level : " + this.data.level, x + 5, y + size - 10);
 	}
 
 	if (!this.isReady()) {
@@ -31,7 +35,13 @@ Action.prototype.draw = function (ctx, x, y, size) {
 		ctx.fillRect(x, y + size * percent, size, size * (100 - percent));		
 	}
 
-	ctx.strokeStyle = "white";
+	if (game.playerSprite.data.freeActionPoints > 0) {
+		ctx.strokeStyle = "green";
+	}
+	else {
+		ctx.strokeStyle = "white";
+	}
+
 	ctx.strokeRect(x, y, size, size);
 
 }

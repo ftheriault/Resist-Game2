@@ -165,6 +165,13 @@ Game.prototype.actionKey = function(code) {
 	}
 }
 
+Game.prototype.actionIconClick = function(idx) {	
+	this.send({
+		type : "ACTION_ICON_CLICKED",
+		idx : idx
+	});
+}
+
 Game.prototype.click = function(x, y) {	
 	if (this.playerId != null) {
 
