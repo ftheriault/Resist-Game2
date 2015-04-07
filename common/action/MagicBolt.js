@@ -13,7 +13,7 @@ module.exports = MagicBolt = function (data) {
 MagicBolt.prototype = new Action();
 MagicBolt.prototype.constructor = MagicBolt;
 
-MagicBolt.prototype.update = function () {
+MagicBolt.prototype.update = function (delta) {
 
 }
 

@@ -13,7 +13,7 @@ module.exports = FireBolt = function (data) {
 FireBolt.prototype = new Action();
 FireBolt.prototype.constructor = FireBolt;
 
-FireBolt.prototype.update = function () {
+FireBolt.prototype.update = function (delta) {
 
 }
 

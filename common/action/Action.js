@@ -1,4 +1,4 @@
-module.exports = Action = function(type, cooldown, maxDistance) {
+module.exports = Action = function(type, cooldown, maxDistance, manaCost) {
 	this.type = type;
 	this.maxDistance = maxDistance;
 
@@ -6,6 +6,12 @@ module.exports = Action = function(type, cooldown, maxDistance) {
 	this.data.cooldown = cooldown;
 	this.data.triggeredTime = 0;
 	this.needTarget = true;
+
+	if (manaCost == null) {
+		manaCost = 0;
+	}
+
+	this.data.manaCost = manaCost;
 }
 
 Action.prototype.isReady = function() {
@@ -27,7 +33,12 @@ Action.prototype.draw = function (ctx, x, y, size) {
 
 		ctx.fillStyle = "white";
 		ctx.font = "12px Arial";
-		ctx.fillText("Level : " + this.data.level, x + 5, y + size - 10);
+
+		ctx.fillText("Level : " + this.data.level, x + 5, y + 10);
+
+		if (this.data.manaCost > 0) {
+			ctx.fillText("Mana cost : " + this.data.manaCost, x + 5, y + size - 5);			
+		}
 	}
 
 	if (!this.isReady()) {
@@ -59,12 +70,17 @@ Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 			attackRange = toSprite.data.minDistance + this.maxDistance;
 		}
 
-		if ((!this.needTarget) || distanceToTarget < attackRange) {
-			this.data.triggeredTime = (new Date()).getTime();
-			this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
-			
-			fromSprite.data.justAttacked = true;
-			fromSprite.broadcastState();
+		if (!this.needTarget || distanceToTarget < attackRange) {
+			if (this.data.manaCost == 0 || fromSprite.data.mana - this.data.manaCost >= 0) {
+				success = true;
+
+				this.data.triggeredTime = (new Date()).getTime();
+				this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
+				fromSprite.data.mana -= this.data.manaCost;
+				fromSprite.data.justAttacked = true;
+
+				fromSprite.broadcastState();
+			}
 		}
 	}
 

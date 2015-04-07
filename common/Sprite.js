@@ -3,6 +3,7 @@ var Slash = require('./action/Slash');
 var MagicBolt = require('./action/MagicBolt');
 var FireBolt = require('./action/FireBolt');
 var HealingPotion = require('./action/HealingPotion');
+var Spin = require('./action/Spin');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -23,7 +24,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxLife = maxLife;
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
-	this.data.minDistance = 45; 
+	this.data.minDistance = 40; 
 	this.data.freeActionPoints = 0;
 	this.data.actions = actions; 
 
@@ -58,6 +59,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "healing-potion") {
 			this.data.actions.push(new HealingPotion(actions[i].data));
+		}
+		else if (actions[i].type == "spin") {
+			this.data.actions.push(new Spin(actions[i].data));
 		}
 	}	
 };
@@ -94,7 +98,7 @@ Sprite.prototype.giveExperience = function(amount) {
 		this.data.level += 1;
 		this.data.freeActionPoints += 1;
 		this.data.maxLife = parseInt(this.data.maxLife * 1.2);
-		this.data.maxMana = parseInt(this.data.maxLife * 1.2);
+		this.data.maxMana = parseInt(this.data.maxMana * 1.2);
 		this.data.life = this.data.maxLife;
 		this.data.mana = this.data.maxMana;
 		
