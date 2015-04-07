@@ -103,6 +103,8 @@ Level.prototype.tick = function () {
 	var delta = now - this.previousNow;
 	this.previousNow = now;
 
+	this.aStarAvailable = 1;
+
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		global.level.spriteList[i].tick(delta);
 	}
@@ -134,20 +136,39 @@ Level.prototype.addNPC = function (npc) {
 }
 
 Level.prototype.moveTo = function (sprite, destX, destY, withSprites, exceptSprites) {
-	if (exceptSprites == null) {
-		exceptSprites = [ sprite.data.id ];
-	}
-	exceptSprites.push(sprite.data.id);
+	var allowed = true;
+	var success = true;
 
-	var path = global.aStar.calculatePath(sprite.data.x, sprite.data.y, destX, destY, exceptSprites, withSprites);
-
-	if (path != null && path.length > 0) {
-		var firstPoint = path.shift();
-		sprite.data.path = path;
-		sprite.data.destX = firstPoint.x;
-		sprite.data.destY = firstPoint.y;
-		global.wsServer.broadcastState(sprite);
+	if (sprite.data.isPlayer == false) {
+		if (this.aStarAvailable == 0) {
+			allowed = false;
+		}
+		else {
+			this.aStarAvailable--;
+		}
 	}
+
+	if (allowed) {
+		if (exceptSprites == null) {
+			exceptSprites = [ sprite.data.id ];
+		}
+		exceptSprites.push(sprite.data.id);
+
+		var path = global.aStar.calculatePath(sprite.data.x, sprite.data.y, destX, destY, exceptSprites, withSprites);
+
+		if (path != null && path.length > 0) {
+			var firstPoint = path.shift();
+			sprite.data.path = path;
+			sprite.data.destX = firstPoint.x;
+			sprite.data.destY = firstPoint.y;
+			global.wsServer.broadcastState(sprite);
+		}
+		else {
+			success = false;
+		}
+	}
+
+	return success;
 }
 
 Level.prototype.checkSpriteCollision = function (x, y, exceptIds) {

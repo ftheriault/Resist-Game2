@@ -1,7 +1,8 @@
-module.exports = Action = function(type, cooldown) {
+module.exports = Action = function(type, cooldown, maxDistance) {
 	this.type = type;
-	this.data = {};
+	this.maxDistance = maxDistance;
 
+	this.data = {};
 	this.data.cooldown = cooldown;
 	this.data.triggeredTime = 0;
 }
@@ -35,10 +36,10 @@ Action.prototype.draw = function (ctx, x, y, size) {
 
 }
 
-Action.prototype.trigger = function (fromSprite, mouseX, mouseY) {
+Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 	if (this.isReady()) {
 		this.data.triggeredTime = (new Date()).getTime();
-		this.triggerEvent(fromSprite, mouseX, mouseY);
+		this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
 		
 		fromSprite.data.justAttacked = true;
 		fromSprite.broadcastState();

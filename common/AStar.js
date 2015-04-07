@@ -26,9 +26,14 @@ AStar.prototype.calculatePath = function(currentX, currentY, destinationX, desti
 	var node = null;
 
 	openList.push(new Node(currentX, currentY, 0, null));
+	var started = (new Date()).getTime();
 
 	// while exist not found or there are nodes to visit
 	while (openList.length > 0) {
+		if (started + 50 < (new Date()).getTime()) {
+			break;
+		}
+		
 		currentNodeIdx = 0;
 		currentNode = openList[currentNodeIdx];
 		
