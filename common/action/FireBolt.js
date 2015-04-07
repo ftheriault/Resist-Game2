@@ -5,7 +5,7 @@ module.exports = FireBolt = function (data, level) {
 		Action.call(this, "fire-bolt", 3000, 700);
 
 		this.data.angle = 0;
-		this.data.speed = 1;
+		this.data.speed = 0.8;
 		this.data.triggered = false;
 	}
 	else {
@@ -45,8 +45,14 @@ FireBolt.prototype.update = function (fromSprite, delta) {
 			}
 		}
 		else {
-			game.ctx.fillStyle = "red";
-			game.ctx.fillRect(this.data.x, this.data.y, 15, 15)
+			if (this.image == null) {
+				this.image = new Image();
+				this.image.src = "images/map-assets/fire.png";
+			}
+
+			if (this.image.complete) {
+				game.ctx.drawImage(this.image, this.data.x, this.data.y, 30, 30);
+			}
 		}
 
 		if (this.data.triggeredTime + 500 < (new Date()).getTime()) {

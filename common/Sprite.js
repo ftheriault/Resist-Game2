@@ -5,6 +5,7 @@ var FireBolt = require('./action/FireBolt');
 var HealingPotion = require('./action/HealingPotion');
 var Spin = require('./action/Spin');
 var Sacrifice = require('./action/Sacrifice');
+var Teleport = require('./action/Teleport');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -66,6 +67,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "sacrifice") {
 			this.data.actions.push(new Sacrifice(actions[i].data));
+		}
+		else if (actions[i].type == "teleport") {
+			this.data.actions.push(new Teleport(actions[i].data));
 		}
 	}	
 };
