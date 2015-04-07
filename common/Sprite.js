@@ -56,6 +56,9 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "fire-bolt") {
 			this.data.actions.push(new FireBolt(actions[i].data));
 		}
+		else if (actions[i].type == "healing-potion") {
+			this.data.actions.push(new HealingPotion(actions[i].data));
+		}
 	}	
 };
 

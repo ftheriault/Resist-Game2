@@ -5,6 +5,7 @@ module.exports = Action = function(type, cooldown, maxDistance) {
 	this.data = {};
 	this.data.cooldown = cooldown;
 	this.data.triggeredTime = 0;
+	this.needTarget = true;
 }
 
 Action.prototype.isReady = function() {
@@ -51,14 +52,14 @@ Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 
 	if (this.isReady()) {
 		var distanceToTarget = 0;
-		var attackRange = 1;
+		var attackRange = 0;
 
 		if (toSprite != null) {
 			distanceToTarget = fromSprite.distanceWith(toSprite);
 			attackRange = toSprite.data.minDistance + this.maxDistance;
 		}
 
-		if (distanceToTarget < attackRange) {
+		if ((!this.needTarget) || distanceToTarget < attackRange) {
 			this.data.triggeredTime = (new Date()).getTime();
 			this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
 			

@@ -82,6 +82,11 @@ module.exports = WsClient = function(ws) {
 	}
 
 	this.send = function (message) {
-		this.ws.send(JSON.stringify(message));
+		try {
+			this.ws.send(JSON.stringify(message));
+		}
+		catch (e) {
+			console.log(e);
+		}
 	}
 }

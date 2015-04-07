@@ -178,7 +178,7 @@ Game.prototype.click = function(x, y) {
 		for (var i = 0; i < this.level.spriteList.length; i++) {
 			var distance = Math.sqrt(Math.pow(x - this.level.spriteList[i].data.x, 2) + Math.pow(y - this.level.spriteList[i].data.y, 2));
 
-			if (distance < this.level.spriteList[i].data.minDistance) {
+			if (distance < this.level.spriteList[i].data.minDistance/1.5) {
 				this.target = this.level.spriteList[i];
 				break;
 			}
