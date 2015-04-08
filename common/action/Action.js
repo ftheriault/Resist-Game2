@@ -18,6 +18,10 @@ Action.prototype.isReady = function() {
 	return this.data.triggeredTime + this.data.cooldown < (new Date()).getTime();
 }
 
+Action.prototype.getDistance = function (x, y, x2, y2) {
+	return  Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
+}
+
 Action.prototype.moveProjectile = function(delta) {
 	if (this.data.angle < Math.PI/2) {
 		this.data.x += Math.sin(this.data.angle) * (this.data.speed * delta);

@@ -7,6 +7,7 @@ var Spin = require('./action/Spin');
 var Sacrifice = require('./action/Sacrifice');
 var Teleport = require('./action/Teleport');
 var FrostNova = require('./action/FrostNova');
+var FireWell = require('./action/FireWell');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -27,7 +28,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxLife = maxLife;
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
-	this.data.minDistance = 35; 
+	this.data.minDistance = 30; 
 	this.data.freeActionPoints = 0;
 	this.data.modifiers = [];
 	this.data.actions = actions; 
@@ -75,6 +76,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "frost-nova") {
 			this.data.actions.push(new FrostNova(actions[i].data));
+		}
+		else if (actions[i].type == "fire-well") {
+			this.data.actions.push(new FireWell(actions[i].data));
 		}
 	}	
 };
@@ -340,7 +344,7 @@ Sprite.prototype.draw = function (ctx) {
 
 	if (game.target != null && game.target == this) {
 		ctx.beginPath();
-	    ctx.arc(this.data.x, this.data.y + game.target.data.minDistance/2, game.target.data.minDistance/3, 0, 2 * Math.PI, false);
+	    ctx.arc(this.data.x, this.data.y + game.target.data.minDistance/2, game.target.data.minDistance/1.5, 0, 2 * Math.PI, false);
 		ctx.fillStyle = "rgba(100, 250, 250, 0.3)";
 	    ctx.fill();
 	    ctx.closePath();
