@@ -33,7 +33,7 @@ Spin.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < distance) {
-				global.level.spriteList[i].hit(2 + this.data.level * 1, fromSprite);
+				global.level.spriteList[i].hit(4 + this.data.level * 1, fromSprite);
 			}
 		}
 	}

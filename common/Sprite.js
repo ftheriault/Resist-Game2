@@ -13,6 +13,8 @@ var MagicPit = require('./action/MagicPit');
 var MultipleShots = require('./action/MultipleShots');
 var ExplosiveArrow = require('./action/ExplosiveArrow');
 var FireTrap = require('./action/FireTrap');
+var ProtectionShield = require('./action/ProtectionShield');
+
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -103,6 +105,9 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "fire-trap") {
 			this.data.actions.push(new FireTrap(actions[i].data));
 		}
+		else if (actions[i].type == "protection-shield") {
+			this.data.actions.push(new ProtectionShield(actions[i].data));
+		}
 	}	
 };
 
@@ -185,7 +190,18 @@ Sprite.prototype.heal = function (amount, fromSprite) {
 }
 
 Sprite.prototype.hit = function (amount, fromSprite) {
-	this.data.life -= amount;
+	var vulnerable = true;
+
+	for (var i = 0; i < this.data.modifiers.length; i++) {
+		if (this.data.modifiers[i].type == "INVULNERABLE") {
+			vulnerable = false;
+			break;
+		}
+	};
+
+	if (vulnerable) {
+		this.data.life -= amount;
+	}
 
 	if (this.data.life <= 0) {
 		this.data.life = 0;
@@ -201,7 +217,9 @@ Sprite.prototype.hit = function (amount, fromSprite) {
 		}
 	}
 
-	global.wsServer.broadcastEvent("HIT", this.data.id, this.data.life);
+	if (vulnerable) {
+		global.wsServer.broadcastEvent("HIT", this.data.id, this.data.life);
+	}
 }
 
 Sprite.prototype.broadcastState = function() {
@@ -383,6 +401,8 @@ Sprite.prototype.draw = function (ctx) {
 	if (this.data.isPlayer) {
 		ctx.fillStyle = "white";
 		ctx.font = "10px Arial";
-		ctx.fillText(this.data.name, this.data.x - 20, this.data.y + 50);
+		ctx.textAlign = 'center';
+		ctx.fillText(this.data.name, this.data.x, this.data.y + 50);
+		ctx.textAlign = 'left';
 	}
 }

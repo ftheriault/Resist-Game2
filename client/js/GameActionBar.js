@@ -22,7 +22,6 @@ GameActionBar.prototype.tick = function (delta) {
 
 	if (game.playerSprite != null && game.playerSprite.data.actions != null) {
 		for (var i = 0; i < game.playerSprite.data.actions.length; i++) {
-			game.playerSprite.data.actions[i].tick(delta);
 			game.playerSprite.data.actions[i].draw(this.ctx, x, y + size * i + yOffset * i, size);
 
 			if (this.mouseX != null && this.mouseX > x && this.mouseX < x + size &&

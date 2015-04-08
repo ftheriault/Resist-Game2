@@ -67,6 +67,7 @@ Game.prototype.connect = function(username, playerType) {
 			game.level = new (window[serverMessage.level.name])();
 			game.level.initLandscape();
 			game.level.spriteList = [];
+			game.levelInitiatedTime = (new Date()).getTime();
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
@@ -213,6 +214,17 @@ Game.prototype.tick = function(delta) {
 
 			this.level.spriteList[i].draw(this.ctx);
 		}
+
+		var sinceTime = (new Date()).getTime() - this.levelInitiatedTime;
+
+		if (sinceTime < 5000) {
+			var percent = 1.0 - sinceTime/5000.0;
+			this.ctx.fillStyle = "rgba(255, 255, 255, " + percent + ")";
+      		this.ctx.textAlign = 'center';
+			this.ctx.font = "50px Arial";
+			this.ctx.fillText(game.level.title, 350, 100);	
+			this.ctx.textAlign = 'left';
+		}
 	}
 
 	if (this.gameActionBar != null) {
@@ -224,7 +236,10 @@ Game.prototype.tick = function(delta) {
 	}
 
 	if (game.errorMessage != null) {
+		this.ctx.textAlign = 'center';
 		this.ctx.fillStyle = "white";
-		this.ctx.fillText(game.errorMessage, 210, 300);
+		this.ctx.font = "12px Arial";
+		this.ctx.fillText(game.errorMessage, 350, 300);
+		this.ctx.textAlign = 'left';
 	}
 }

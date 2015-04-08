@@ -2,10 +2,10 @@ var Action = require('./Action');
 
 module.exports = Slash = function (data, level) {
 	if (data == null) {
-		Action.call(this, "slash", 1000, 10);
+		Action.call(this, "slash", 1000, 20);
 	}
 	else {
-		Action.call(this, "slash", data.cooldown, 10);
+		Action.call(this, "slash", data.cooldown, 20);
 		this.data = data;
 	}
 
