@@ -88,6 +88,9 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "magic-pit") {
 			this.data.actions.push(new MagicPit(actions[i].data));
 		}
+		else if (actions[i].type == "magic-rain") {
+			this.data.actions.push(new MagicRain(actions[i].data));
+		}
 	}	
 };
 
