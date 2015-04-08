@@ -1,0 +1,117 @@
+var Action = require('./Action');
+
+module.exports = FireTrap = function (data, level) {
+	if (data == null) {
+		Action.call(this, "fire-trap", 8000, 100);
+
+		this.data.speed = 1;
+		this.data.triggered = false;
+	}
+	else {
+		Action.call(this, "fire-trap", data.cooldown, 100);
+		this.data = data;
+	}
+
+	if (level != null) {
+		this.data.level = level;
+	}
+
+	this.needTarget = false;
+	this.data.animationTime = 10000;
+}
+
+FireTrap.prototype = new Action();
+FireTrap.prototype.constructor = FireTrap;
+
+FireTrap.prototype.getName = function () {
+	return "Fire Trap";
+}
+
+FireTrap.prototype.update = function (fromSprite, delta) {
+	this.data.manaCost = 15 + 3 * this.data.level;
+
+	if (this.data.triggered && delta != null) {
+		if (global != null && global.level != null) {
+			if (this.data.triggeredState == 1) {
+				for (var i = 0; i < global.level.spriteList.length; i++) {
+					if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
+						if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < 30) {
+							this.data.triggeredState = 2;
+							this.data.triggeredTime = (new Date()).getTime();
+							this.data.animationTime = 2000;
+							fromSprite.broadcastState();
+							break;
+						}
+					}
+				}
+			}
+			else {
+				for (var i = 0; i < global.level.spriteList.length; i++) {
+					if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
+						var distance = Math.sqrt(Math.pow(this.data.x - global.level.spriteList[i].data.x, 2) + Math.pow(this.data.y - global.level.spriteList[i].data.y, 2));
+
+						if (distance < this.data.distance &&
+							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
+							global.level.spriteList[i].hit(6 + this.data.level * 3, fromSprite);
+							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
+						}
+					}
+				}
+			}
+		}
+		else {
+			if (this.data.triggeredState == 1) {
+				game.ctx.save();	
+				game.ctx.beginPath();
+				game.ctx.arc(this.data.x, this.data.y, 10, 0, 2 * Math.PI, false);
+				game.ctx.globalAlpha = 0.5; 
+				game.ctx.fillStyle = "black";
+				game.ctx.fill();
+				game.ctx.closePath();
+				game.ctx.restore();
+			}
+			else {
+				if (this.data.animationTime > 2000) {
+					this.data.triggeredTime = (new Date()).getTime();
+					this.data.animationTime = 2000;
+				}
+				
+				if (this.texImage == null) {
+					this.texImage = new Image();
+					var tmp = this;
+					this.texImage.onload = function () {
+						tmp.pattern = game.ctx.createPattern(this, 'repeat');
+					}
+					this.texImage.src = "images/map-assets/lava.png";
+				}
+
+				if (this.texImage.complete) {			
+					game.ctx.save();	
+					game.ctx.beginPath();
+					game.ctx.arc(this.data.x, this.data.y, this.data.distance, 0, 2 * Math.PI, false);
+					game.ctx.globalAlpha = 0.5; 
+					game.ctx.fillStyle = this.pattern;
+					game.ctx.fill();
+					game.ctx.closePath();
+					game.ctx.restore();
+				}
+			}
+		}
+
+		if (this.data.triggeredTime + this.data.animationTime < (new Date()).getTime()) {
+			this.data.triggered = false;
+		}
+	}
+}
+
+FireTrap.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
+	this.data.distance = 40 + 15 * this.data.level;
+	this.data.x = fromSprite.data.x;
+	this.data.y = fromSprite.data.y + 20;
+	this.data.triggered = true;
+	this.data.triggeredState = 1;
+	this.data.tmpAlreadyHit = [];
+	this.data.animationTime = 10000 + 1000 * this.data.level;
+
+	return true;
+}
