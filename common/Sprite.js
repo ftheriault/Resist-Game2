@@ -9,6 +9,7 @@ var Teleport = require('./action/Teleport');
 var FrostNova = require('./action/FrostNova');
 var FireWell = require('./action/FireWell');
 var Heal = require('./action/Heal');
+var MagicPit = require('./action/MagicPit');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -83,6 +84,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "heal") {
 			this.data.actions.push(new Heal(actions[i].data));
+		}
+		else if (actions[i].type == "magic-pit") {
+			this.data.actions.push(new MagicPit(actions[i].data));
 		}
 	}	
 };
