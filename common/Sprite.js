@@ -6,6 +6,7 @@ var HealingPotion = require('./action/HealingPotion');
 var Spin = require('./action/Spin');
 var Sacrifice = require('./action/Sacrifice');
 var Teleport = require('./action/Teleport');
+var FrostNova = require('./action/FrostNova');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -28,6 +29,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.speed = speed;
 	this.data.minDistance = 35; 
 	this.data.freeActionPoints = 0;
+	this.data.modifiers = [];
 	this.data.actions = actions; 
 
 	if (isPlayer) {
@@ -71,8 +73,34 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "teleport") {
 			this.data.actions.push(new Teleport(actions[i].data));
 		}
+		else if (actions[i].type == "frost-nova") {
+			this.data.actions.push(new FrostNova(actions[i].data));
+		}
 	}	
 };
+
+Sprite.prototype.addModifier = function(type, mod, fromAction, time) {
+	var modifier = {type : type, mod : mod, fromAction : fromAction, time : time};
+
+	this.data.modifiers.push(modifier);
+	this.broadcastState();
+}
+
+Sprite.prototype.getSpeed = function() {
+	var speed = this.data.speed;
+
+	for (var i = 0; i < this.data.modifiers.length; i++) {
+		if (this.data.modifiers[i].type == "SPEED") {
+			speed += this.data.modifiers[i].mod;
+		}
+	};
+
+	if (speed < 0) {
+		speed = 0;
+	}
+
+	return speed;
+}
 
 Sprite.prototype.setLocation = function (x, y) {
 	this.data.x = x;
@@ -201,25 +229,33 @@ Sprite.prototype.tick = function(delta){
 
 		var newX = this.data.x;
 		var newY = this.data.y;
+		var speed = this.getSpeed();
+		var wantedX = this.data.destX;
+		var wantedY = this.data.destY;
+
+		if (speed == 0) {
+			wantedX = this.data.x;
+			wantedY = this.data.y;
+		}
 
 		if (Math.abs(this.data.x - this.data.destX) >= 1.5) {
 			if (this.data.x < this.data.destX) {
-				newX += this.data.speed * deltaStep;
+				newX += speed * deltaStep;
 			}
 			else if (this.data.x > this.data.destX) {
-				newX -= this.data.speed * deltaStep;
+				newX -= speed * deltaStep;
 			}
 		}
 		else {
 			newX = this.data.destX;
 		}
-		
+
 		if (Math.abs(this.data.y - this.data.destY) >= 1.5) {
 			if (this.data.y < this.data.destY) {
-				newY += this.data.speed * deltaStep;
+				newY += speed * deltaStep;
 			}
 			else if (this.data.y > this.data.destY) {
-				newY -= this.data.speed * deltaStep;
+				newY -= speed * deltaStep;
 			}
 		}
 		else {
@@ -268,6 +304,15 @@ Sprite.prototype.tick = function(delta){
 		}
 	}
 
+	for (var i = 0; i < this.data.modifiers.length; i++) {
+		this.data.modifiers[i].time -= delta;
+
+		if (this.data.modifiers[i].time <= 0) {
+			this.data.modifiers.splice(i, 1);
+			i--;
+		}
+	}
+
 	if (global != undefined && global.level != undefined) {
 		if (this.ai != null) {
 			this.ai.tick(this);
@@ -284,6 +329,15 @@ Sprite.prototype.tick = function(delta){
 }
 
 Sprite.prototype.draw = function (ctx) {
+	if (this.data.modifiers != null) {
+		for (var i = 0; i < this.data.modifiers.length; i++) {
+			if (this.data.modifiers[i].fromAction == "frost-nova") {
+				ctx.fillStyle = "rgba(0, 0, 250, 0.7)";
+				ctx.fillRect(this.data.x - this.data.minDistance/2, this.data.y + this.data.minDistance - 10, this.data.minDistance, 10);
+			}
+		}
+	}
+
 	if (game.target != null && game.target == this) {
 		ctx.beginPath();
 	    ctx.arc(this.data.x, this.data.y + game.target.data.minDistance/2, game.target.data.minDistance/3, 0, 2 * Math.PI, false);

@@ -2,6 +2,7 @@ var Sprite = require('../Sprite');
 var FireBolt = require('../action/FireBolt');
 var HealingPotion = require('../action/HealingPotion');
 var Teleport = require('../action/Teleport');
+var FrostNova = require('../action/FrostNova');
 
 module.exports = Mage = function() {
 
@@ -10,7 +11,7 @@ module.exports = Mage = function() {
 Mage.prototype = new Sprite();
 
 Mage.prototype.initPlayer = function (id, name) {
-	this.build(true, id, name, "Mage", 60, 60, 80, 80, 0.05, [ new FireBolt(null, 1), new Teleport(null, 1), new HealingPotion(null, 1) ]);
+	this.build(true, id, name, "Mage", 60, 60, 80, 80, 0.05, [ new FireBolt(null, 1), new FrostNova(null, 1), new Teleport(null, 1), new HealingPotion(null, 1) ]);
 }
 
 Mage.prototype.loadUI = function() {	
