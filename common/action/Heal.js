@@ -1,0 +1,38 @@
+var Action = require('./Action');
+
+module.exports = Heal = function (data, level) {
+	if (data == null) {
+		Action.call(this, "heal", 5000, 700);
+	}
+	else {
+		Action.call(this, "heal", data.cooldown, 700);
+		this.data = data;
+	}
+
+	if (level != null) {
+		this.data.level = level;
+	}
+
+}
+
+Heal.prototype = new Action();
+Heal.prototype.constructor = Heal;
+
+Heal.prototype.getName = function () {
+	return "Heal";
+}
+
+Heal.prototype.update = function (fromSprite, delta) {
+	this.data.manaCost = 15 + 3 * this.data.level;
+}
+
+Heal.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
+	var success = false;
+	
+	if (fromSprite.data.isPlayer == toSprite.data.isPlayer) {
+		toSprite.heal(40 + this.data.level * 5, fromSprite);
+		success = true;
+	}
+	
+	return success;
+}

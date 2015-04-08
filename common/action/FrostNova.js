@@ -63,7 +63,7 @@ FrostNova.prototype.update = function (fromSprite, delta) {
 	}
 }
 
-FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
+FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	this.data.distance = 100 + 10 * this.data.level;
 	this.data.x = fromSprite.data.x;
 	this.data.y = fromSprite.data.y;

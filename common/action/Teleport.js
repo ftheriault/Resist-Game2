@@ -36,7 +36,7 @@ Teleport.prototype.update = function (fromSprite, delta) {
 	}
 }
 
-Teleport.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
+Teleport.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	var success = false;
 
 	if (global.level.getWalkableCost(mouseX, mouseY, [], true) == 0) {

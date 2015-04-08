@@ -21,7 +21,7 @@ Shoot.prototype.update = function (fromSprite, delta) {
 
 }
 
-Shoot.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
+Shoot.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	// trigger action and send animation
 
 	return true;

@@ -62,7 +62,7 @@ FireWell.prototype.update = function (fromSprite, delta) {
 	}
 }
 
-FireWell.prototype.triggerEvent = function (fromSprite, mouseX, mouseY) {
+FireWell.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	this.data.distance = 40 + 15 * this.data.level;
 	this.data.x = mouseX;
 	this.data.y = mouseY;
