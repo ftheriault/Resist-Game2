@@ -130,7 +130,7 @@ Game.prototype.send = function(data) {
 	}
 }
 
-Game.prototype.rightClick = function(x, y) {
+Game.prototype.click = function(x, y) {
 	if (this.playerId != null) {
 		for (var i = 0; i < this.level.spriteList.length; i++) {
 			var distance = Math.sqrt(Math.pow(x - this.level.spriteList[i].data.x, 2) + Math.pow(y - this.level.spriteList[i].data.y, 2));
@@ -178,7 +178,7 @@ Game.prototype.actionIconClick = function(idx) {
 	});
 }
 
-Game.prototype.click = function(x, y) {	
+Game.prototype.rightClick = function(x, y) {	
 	if (this.playerId != null) {
 
 		for (var i = 0; i < this.level.spriteList.length; i++) {

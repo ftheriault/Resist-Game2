@@ -10,6 +10,8 @@ var FrostNova = require('./action/FrostNova');
 var FireWell = require('./action/FireWell');
 var Heal = require('./action/Heal');
 var MagicPit = require('./action/MagicPit');
+var MultipleShots = require('./action/MultipleShots');
+var ExplosiveArrow = require('./action/ExplosiveArrow');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -93,6 +95,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "multiple-shots") {
 			this.data.actions.push(new MultipleShots(actions[i].data));
+		}
+		else if (actions[i].type == "explosive-arrow") {
+			this.data.actions.push(new ExplosiveArrow(actions[i].data));
 		}
 	}	
 };

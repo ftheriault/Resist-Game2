@@ -49,8 +49,10 @@ MultipleShots.prototype.update = function (fromSprite, delta) {
 					if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 						var distance = Math.sqrt(Math.pow(this.data.x - global.level.spriteList[i].data.x, 2) + Math.pow(this.data.y - global.level.spriteList[i].data.y, 2));
 
-						if (distance < global.level.spriteList[i].data.minDistance) {
-							global.level.spriteList[i].hit(2 + this.data.level * 2, fromSprite);
+						if (distance < global.level.spriteList[i].data.minDistance &&
+							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
+							global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite);
+							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}
 				}
@@ -87,6 +89,7 @@ MultipleShots.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toS
 	this.data.y = fromSprite.data.y;
 
 	this.data.tmp = [];
+	this.data.tmpAlreadyHit = [];
 
 	for (var i = 0; i < 1 + fromSprite.data.level * 1; i++) {
 		this.data.tmp.push({x : this.data.x, y : this.data.y});
