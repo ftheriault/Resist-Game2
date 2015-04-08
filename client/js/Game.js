@@ -179,6 +179,13 @@ Game.prototype.actionIconClick = function(idx) {
 	});
 }
 
+Game.prototype.statIconClick = function(statType) {	
+	this.send({
+		type : "STAT_ICON_CLICKED",
+		statType : statType
+	});
+}
+
 Game.prototype.rightClick = function(x, y) {	
 	if (this.playerId != null) {
 
@@ -200,6 +207,10 @@ Game.prototype.rightClick = function(x, y) {
 }
 
 Game.prototype.tick = function(delta) {
+	if (delta == null || delta < 0) {
+		delta = 1;
+	}
+
 	if (this.level != null) {
 		this.level.draw(this.ctx);
 	}

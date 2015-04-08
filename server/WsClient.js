@@ -73,6 +73,13 @@ module.exports = WsClient = function(ws) {
 					this.sprite.broadcastState();
 				}
 			}
+			else if (message.type == "STAT_ICON_CLICKED") {
+				if (this.sprite.data.freeStatPoints > 0) {
+					this.sprite.broadcastState();
+					this.sprite.addStatsPoint(message.statType);
+					this.sprite.broadcastState(this.sprite);
+				}	
+			}
 		}
 	}
 

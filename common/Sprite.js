@@ -36,17 +36,28 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.maxMana = maxMana;
 	this.data.speed = speed;
 	this.data.minDistance = 30; 
-	this.data.freeActionPoints = 0;
 	this.data.modifiers = [];
 	this.data.actions = actions; 
+
+	this.data.freeActionPoints = 0;
+	this.data.freeStatPoints = 0;
 
 	if (isPlayer) {
 		this.data.level = 1; 
 		this.data.experience = 0; 
 		this.data.maxExperience = 50; 
+		this.data.dexterity = 1;
+		this.data.vitality = 1;
+		this.data.intelligence = 1;
+		this.data.strength = 1;
+		this.data.armor = 1;
 	}
 	else {
 		this.data.experienceToGive = experienceToGive;
+		this.data.dexterity = 0;
+		this.data.vitality = 0;
+		this.data.intelligence = 0;
+		this.data.strength = 0;
 	}
 
 	this.buildActions();
@@ -118,8 +129,38 @@ Sprite.prototype.addModifier = function(type, mod, fromAction, time) {
 	this.broadcastState();
 }
 
+Sprite.prototype.addStatsPoint = function(type) {
+	this.data.freeStatPoints--;
+
+	if (type == "DEXTERITY") {
+		this.data.dexterity++;
+		this.data.speed += 0.001;
+
+		for (var i = 0; i < this.data.actions.length; i++) {
+			if (this.data.actions[i].data.cooldown > 0) {
+				this.data.actions[i].data.cooldown - 50;
+			}
+		};
+	}
+	else if (type == "VITALITY") {
+		this.data.vitality++;
+		this.data.life += 5;
+		this.data.maxLife += 5;
+	}
+	else if (type == "INTELLIGENCE") {
+		this.data.intelligence++;
+		this.data.mana += 5;
+		this.data.maxMana += 5;
+	}
+	else if (type == "STRENGTH") {
+		this.data.strength++;
+		this.data.armor += 0.5;
+	}
+}
+
 Sprite.prototype.getSpeed = function() {
 	var speed = this.data.speed;
+
 
 	for (var i = 0; i < this.data.modifiers.length; i++) {
 		if (this.data.modifiers[i].type == "SPEED") {
@@ -165,8 +206,9 @@ Sprite.prototype.giveExperience = function(amount) {
 		this.data.maxExperience = parseInt(this.data.maxExperience * 2.5);
 		this.data.level += 1;
 		this.data.freeActionPoints += 1;
-		this.data.maxLife = parseInt(this.data.maxLife * 1.2);
-		this.data.maxMana = parseInt(this.data.maxMana * 1.2);
+		this.data.freeStatPoints += 5;
+		this.data.maxLife = parseInt(this.data.maxLife + 5);
+		this.data.maxMana = parseInt(this.data.maxMana + 5);
 		this.data.life = this.data.maxLife;
 		this.data.mana = this.data.maxMana;
 		
@@ -200,7 +242,17 @@ Sprite.prototype.hit = function (amount, fromSprite) {
 	};
 
 	if (vulnerable) {
-		this.data.life -= amount;
+		var finalAmount = amount;
+
+		if (amount - this.armor < amount * 0.1) {
+			finalAmount = amount * 0.1;
+		}
+
+		if (finalAmount < 1) {
+			finalAmount = 1;
+		}
+
+		this.data.life -= parseInt(amount);		
 	}
 
 	if (this.data.life <= 0) {

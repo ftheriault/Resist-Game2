@@ -72,7 +72,7 @@ FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.distance) {
-				global.level.spriteList[i].addModifier("SPEED", -global.level.spriteList[i].data.speed, this.type, 2000 + 500 * this.data.level);
+				global.level.spriteList[i].addModifier("SPEED", -global.level.spriteList[i].getSpeed(), this.type, 2000 + 500 * this.data.level);
 				global.level.spriteList[i].hit(2 + this.data.level * 1, fromSprite);
 			}
 		}
