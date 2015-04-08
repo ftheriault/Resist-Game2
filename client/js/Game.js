@@ -136,7 +136,7 @@ Game.prototype.click = function(x, y) {
 		for (var i = 0; i < this.level.spriteList.length; i++) {
 			var distance = Math.sqrt(Math.pow(x - this.level.spriteList[i].data.x, 2) + Math.pow(y - this.level.spriteList[i].data.y, 2));
 
-			if (distance < this.level.spriteList[i].data.minDistance/1.5) {
+			if (distance < this.level.spriteList[i].data.minDistance) {
 				this.target = this.level.spriteList[i];
 				break;
 			}
@@ -232,7 +232,7 @@ Game.prototype.tick = function(delta) {
 			var percent = 1.0 - sinceTime/5000.0;
 			this.ctx.fillStyle = "rgba(255, 255, 255, " + percent + ")";
       		this.ctx.textAlign = 'center';
-			this.ctx.font = "50px Arial";
+			this.ctx.font = "60px Arial";
 			this.ctx.fillText(game.level.title, 350, 100);	
 			this.ctx.textAlign = 'left';
 		}

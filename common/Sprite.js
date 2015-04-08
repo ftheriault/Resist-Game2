@@ -134,11 +134,11 @@ Sprite.prototype.addStatsPoint = function(type) {
 
 	if (type == "DEXTERITY") {
 		this.data.dexterity++;
-		this.data.speed += 0.001;
+		this.data.speed += 0.0005;
 
 		for (var i = 0; i < this.data.actions.length; i++) {
 			if (this.data.actions[i].data.cooldown > 0) {
-				this.data.actions[i].data.cooldown - 50;
+				this.data.actions[i].data.cooldown - 20;
 			}
 		};
 	}
@@ -160,7 +160,6 @@ Sprite.prototype.addStatsPoint = function(type) {
 
 Sprite.prototype.getSpeed = function() {
 	var speed = this.data.speed;
-
 
 	for (var i = 0; i < this.data.modifiers.length; i++) {
 		if (this.data.modifiers[i].type == "SPEED") {
@@ -221,6 +220,7 @@ Sprite.prototype.giveExperience = function(amount) {
 
 Sprite.prototype.heal = function (amount, fromSprite) {
 	if (this.isAlive()) {
+		amount += this.data.intelligence;		
 		this.data.life += amount;
 
 		if (this.data.life > this.data.maxLife) {
@@ -244,8 +244,8 @@ Sprite.prototype.hit = function (amount, fromSprite) {
 	if (vulnerable) {
 		var finalAmount = amount;
 
-		if (amount - this.armor < amount * 0.1) {
-			finalAmount = amount * 0.1;
+		if (amount - this.armor < amount * 0.25) {
+			finalAmount = amount * 0.25;
 		}
 
 		if (finalAmount < 1) {
