@@ -91,6 +91,9 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "magic-rain") {
 			this.data.actions.push(new MagicRain(actions[i].data));
 		}
+		else if (actions[i].type == "multiple-shots") {
+			this.data.actions.push(new MultipleShots(actions[i].data));
+		}
 	}	
 };
 

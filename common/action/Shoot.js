@@ -26,6 +26,7 @@ Shoot.prototype.getName = function () {
 }
 
 Shoot.prototype.update = function (fromSprite, delta) {
+	
 	if (this.data.triggered && delta != null) {
 
 		this.moveProjectile(delta);
