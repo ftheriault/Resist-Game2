@@ -99,7 +99,7 @@ Action.prototype.draw = function (ctx, x, y, size) {
 
 	if (game.playerSprite.data.mana < this.data.manaCost || this.data.level == 0) {
 		var percent = 0;
-		ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+		ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
 		ctx.fillRect(x, y + size * percent, size, size * (100 - percent));		
 	}
 	else if (!this.isReady() && !this.data.passive) {

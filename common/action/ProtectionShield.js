@@ -19,7 +19,7 @@ ProtectionShield.prototype = new Action();
 ProtectionShield.prototype.constructor = ProtectionShield;
 
 ProtectionShield.prototype.getName = function () {
-	return "Protection Shield";
+	return "Active Shield";
 }
 
 ProtectionShield.prototype.update = function (fromSprite, delta) {
