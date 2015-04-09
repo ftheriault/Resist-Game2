@@ -126,6 +126,9 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "aura-fire") {
 			this.data.actions.push(new FireAura(actions[i].data));
 		}
+		else if (actions[i].type == "aura-healing") {
+			this.data.actions.push(new HealingAura(actions[i].data));
+		}
 	}	
 };
 
@@ -463,6 +466,13 @@ Sprite.prototype.draw = function (ctx) {
 				ctx.beginPath();
 			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2.5, 0, 2 * Math.PI, false);
 				ctx.fillStyle = "rgba(250, 0, 0, 0.3)";
+			    ctx.fill();
+			    ctx.closePath();
+			}
+			else if (this.data.modifiers[i].fromAction == "aura-healing") {
+				ctx.beginPath();
+			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2.25, 0, 2 * Math.PI, false);
+				ctx.fillStyle = "rgba(250, 250, 250, 0.3)";
 			    ctx.fill();
 			    ctx.closePath();
 			}
