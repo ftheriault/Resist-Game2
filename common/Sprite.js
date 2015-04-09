@@ -64,6 +64,14 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.buildActions();
 }
 
+Sprite.prototype.getDeathSound = function() {
+	return  null;
+};
+
+Sprite.prototype.getHitSound = function() {
+	return  null;
+};
+
 Sprite.prototype.buildActions = function() {
 	var actions = this.data.actions;
 	this.data.actions = [];

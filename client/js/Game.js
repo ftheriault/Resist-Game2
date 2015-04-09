@@ -128,13 +128,20 @@ Game.prototype.connect = function(username, playerType) {
 		else if (serverMessage.type == "HIT") {
 			for (var i = 0; i < game.level.spriteList.length; i++) {
 				if (game.level.spriteList[i].data.id == serverMessage.fromSpriteId) {
+					var previousLife = game.level.spriteList[i].data.life;
 					game.level.spriteList[i].data.life = serverMessage.data;
 					
 					if (serverMessage.data <= 0) {
-						game.level.spriteList.splice(i, 1);
 						if (game.level.spriteList[i].getDeathSound() != null) {
 							game.playSound(game.level.spriteList[i].getDeathSound());
 						}
+						
+						game.level.spriteList.splice(i, 1);
+					}
+					else if (previousLife < serverMessage.data) {
+						if (game.level.spriteList[i].getHitSound() != null) {
+							game.playSound(game.level.spriteList[i].getHitSound());
+						}	
 					}
 
 					break;
