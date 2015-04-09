@@ -106,6 +106,11 @@ Game.prototype.connect = function(username, playerType) {
 				game.playerLevel = game.playerSprite.data.level;
 				game.showMessage("! LEVEL UP !", "green");
 			}
+			else if (game.playerSprite.data.life == 0 && game.playerAlive) {
+				game.showMessage("! YOU DIED !", "red");
+			}
+
+			game.playerAlive = game.playerSprite.data.life > 0;
 		}
 		else if (serverMessage.type == "HIT") {
 			for (var i = 0; i < game.level.spriteList.length; i++) {
