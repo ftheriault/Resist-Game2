@@ -20,7 +20,7 @@ Spin.prototype.getName = function () {
 }
 
 Spin.prototype.update = function (fromSprite, delta) {
-	this.data.manaCost = 2 + 1 * this.data.level;
+	this.data.manaCost = 2 + 3 * this.data.level;
 }
 
 Spin.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {

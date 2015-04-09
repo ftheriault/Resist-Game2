@@ -31,7 +31,8 @@ module.exports = WsServerWrapper = function (wsPort) {
 WsServerWrapper.prototype.sendStateTo = function (to) {
 	to.send({
 		type : "GAME_STATE_UPDATE",
-		level : global.level
+		level : global.level,
+		waveNumber : global.waveNumber
 	});
 }
 
@@ -64,7 +65,8 @@ WsServerWrapper.prototype.broadcastState = function (sprite) {
 		for (var i = 0; i < this.clients.length; i++) {
 			this.clients[i].send({
 				type : "GAME_STATE_UPDATE",
-				level : global.level
+				level : global.level,
+				waveNumber : global.waveNumber
 			});
 		};
 	}

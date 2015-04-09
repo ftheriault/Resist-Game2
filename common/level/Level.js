@@ -1,6 +1,5 @@
-module.exports = Level = function(name, title, spawnX, spawnY, enemySpawnX, enemySpawnY) {
+module.exports = Level = function(name, spawnX, spawnY, enemySpawnX, enemySpawnY) {
 	this.name = name;
-	this.title = title;
 	this.spawnX = spawnX;
 	this.spawnY = spawnY;
 
@@ -8,34 +7,36 @@ module.exports = Level = function(name, title, spawnX, spawnY, enemySpawnX, enem
 	this.enemySpawnY = enemySpawnY;
 
 	this.previousNow = new Date();
-
-	this.spriteList = [];
-	this.obstacles = [];
-
-	this.aStarQueue = [];
-
-	this.startAt = null;
 }
 
 Level.prototype.getPlayers = function () {
 	return global.wsServer.clients;
 }
 
+Level.prototype.commonInit = function () {
+	this.startAt = null;
+	this.spriteList = [];
+	this.aStarQueue = [];
+	this.previousNow = new Date();
+	this.obstacles = [];
+}
+
 // Server only
 Level.prototype.init = function () {
-	this.spriteList = [];
-
+	this.commonInit();
 	this.initLandscape();
 
 	for (var i = 0; i < global.wsServer.clients.length; i++) {
-		var point = this.getSpawnPoint(true);
-		global.wsServer.clients[i].sprite.data.path = null;
-		global.wsServer.clients[i].sprite.data.x = point.x;
-		global.wsServer.clients[i].sprite.data.y = point.y;
-		global.wsServer.clients[i].sprite.data.destX = point.x;
-		global.wsServer.clients[i].sprite.data.destY = point.y;
-		global.wsServer.clients[i].sprite.restore();
-		this.spriteList.push(global.wsServer.clients[i].sprite);
+		if (global.wsServer.clients[i].sprite != null) {
+			var point = this.getSpawnPoint(true);
+			global.wsServer.clients[i].sprite.data.path = null;
+			global.wsServer.clients[i].sprite.data.x = point.x;
+			global.wsServer.clients[i].sprite.data.y = point.y;
+			global.wsServer.clients[i].sprite.data.destX = point.x;
+			global.wsServer.clients[i].sprite.data.destY = point.y;
+			global.wsServer.clients[i].sprite.restore();
+			this.spriteList.push(global.wsServer.clients[i].sprite);
+		}
 	}
 
 	global.wsServer.broadcastState();
@@ -94,6 +95,7 @@ Level.prototype.checkIfCompleted = function () {
 	}
 
 	if (allPlayers) {
+		global.waveNumber++;
 		this.gotoNextLevel();
 	}
 }
@@ -125,12 +127,17 @@ Level.prototype.tick = function () {
 		}
 	}
 
-	if (global.wsServer.clients.length > 0 && !allPlayersDead) {
-		if (this.startAt == null) {
-			this.startAt = now.getTime() + 5000;
+	if (global.wsServer.clients.length > 0) {
+		if (!allPlayersDead) {
+			if (this.startAt == null) {
+				this.startAt = now.getTime() + 5000;
+			}
+			else if (this.startAt < now.getTime()) {
+				this.tickLevel(now.getTime(), delta);
+			}
 		}
-		else if (this.startAt < now.getTime()) {
-			this.tickLevel(now.getTime(), delta);
+		else {
+			global.level.init();
 		}
 	}
 	else {
@@ -138,6 +145,7 @@ Level.prototype.tick = function () {
 			console.log("- Starting back to Level1");
 			global.level = new Level1();
 			global.level.init();
+			global.waveNumber = 1;
 		}
 	}
 

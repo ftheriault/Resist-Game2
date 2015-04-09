@@ -79,9 +79,9 @@ Game.prototype.connect = function(username, playerType) {
 		}
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
 			game.level = new (window[serverMessage.level.name])();
+			game.level.commonInit();
 			game.level.initLandscape();
-			game.level.spriteList = [];
-			game.showMessage(game.level.title, "white");
+			game.showMessage("Wave " + serverMessage.waveNumber, "white");
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
