@@ -16,15 +16,24 @@ Level1.prototype.constructor = Level1;
 
 Level1.prototype.initLandscape = function () {
 	
-	this.obstacles.push(new Tree(40, 50));
-	this.obstacles.push(new Tree(80, 80));
-	this.obstacles.push(new Tree(140, 150));
+	this.obstacles.push(new Tree(20, 150));
+	this.obstacles.push(new Tree(140, 130));
+	this.obstacles.push(new Tree(160, 100));
+	this.obstacles.push(new Tree(190, 90));
+	this.obstacles.push(new Tree(10, 10));
+	this.obstacles.push(new Tree(240, 00));
+	this.obstacles.push(new Tree(450, 470));
+	this.obstacles.push(new Tree(450, 600));
+	this.obstacles.push(new Tree(200, 600));
+	this.obstacles.push(new Tree(220, 570));
+	this.obstacles.push(new Tree(520, 50));
+	this.obstacles.push(new Tree(600, 90));
 }
 
 // Server only
 Level1.prototype.tickLevel = function (now, delta) {
 	if (this.enemyLeft > 0) {
-		if (this.lastEnemySpawnTime + 2000 < now) {
+		if (this.lastEnemySpawnTime + 1000 < now) {
 			this.enemyLeft--;
 			this.lastEnemySpawnTime = now;
 
