@@ -51,7 +51,7 @@ MagicRain.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
-			global.level.spriteList[i].hit(amount, fromSprite);
+			global.level.spriteList[i].hit(amount, fromSprite, true);
 		}
 		else {
 			global.level.spriteList[i].heal(amount * 2, fromSprite);

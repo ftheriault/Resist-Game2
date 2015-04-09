@@ -260,7 +260,7 @@ Sprite.prototype.heal = function (amount, fromSprite) {
 	}
 }
 
-Sprite.prototype.hit = function (amount, fromSprite) {
+Sprite.prototype.hit = function (amount, fromSprite, isMagic) {
 	var vulnerable = true;
 
 	for (var i = 0; i < this.data.modifiers.length; i++) {
@@ -272,6 +272,15 @@ Sprite.prototype.hit = function (amount, fromSprite) {
 			amount -= this.data.modifiers[i].mod;
 		}
 	};
+
+	if (fromSprite.isPlayer) {
+		if (isMagic) {
+			amount *=  this.data.intelligence * 0.005 + 1.0;
+		}
+		else {
+			amount *=  (this.data.dexterity + this.data.strength) * 0.005 + 1.0;	
+		}
+	}
 
 	if (vulnerable) {
 		var finalAmount = amount;

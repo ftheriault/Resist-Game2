@@ -36,7 +36,7 @@ ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 						var distance = Math.sqrt(Math.pow(this.data.x - global.level.spriteList[i].data.x, 2) + Math.pow(this.data.y - global.level.spriteList[i].data.y, 2));
 
 						if (distance < global.level.spriteList[i].data.minDistance) {
-							global.level.spriteList[i].hit(3 + this.data.level * 2, fromSprite);
+							global.level.spriteList[i].hit(3 + this.data.level * 2, fromSprite, false);
 							this.data.triggeredState = 2;
 							fromSprite.broadcastState();
 						}
@@ -49,7 +49,7 @@ ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 				for (var i = 0; i < global.level.spriteList.length; i++) {
 					if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 						if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
-							global.level.spriteList[i].hit(5 + this.data.level * 3, fromSprite);
+							global.level.spriteList[i].hit(5 + this.data.level * 3, fromSprite, false);
 						}
 					}
 				}

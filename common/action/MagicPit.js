@@ -71,7 +71,7 @@ MagicPit.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
 				global.level.spriteList[i].addModifier("SPEED", -global.level.spriteList[i].getSpeed() * 0.8, this.type, this.data.lastTime);
-				global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite);
+				global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite, true);
 			}
 		}
 	}

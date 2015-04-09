@@ -38,7 +38,7 @@ FireAura.prototype.propagate = function(fromSprite) {
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < distance) {
-				global.level.spriteList[i].hit(2 + this.data.level, fromSprite);
+				global.level.spriteList[i].hit(2 + this.data.level, fromSprite, true);
 			}
 		}
 	}

@@ -48,7 +48,7 @@ FireTrap.prototype.update = function (fromSprite, delta) {
 
 						if (distance < this.data.distance &&
 							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(6 + this.data.level * 3, fromSprite);
+							global.level.spriteList[i].hit(6 + this.data.level * 3, fromSprite, false);
 							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}

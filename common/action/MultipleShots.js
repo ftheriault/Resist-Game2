@@ -47,7 +47,7 @@ MultipleShots.prototype.update = function (fromSprite, delta) {
 
 						if (distance < global.level.spriteList[i].data.minDistance &&
 							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite);
+							global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite, false);
 							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}
