@@ -39,6 +39,19 @@ function Game() {
 	}
 }
 
+Game.prototype.playSound = function(path) {
+	this.soundId++;
+
+	var audio = document.createElement("audio");
+	audio.setAttribute("autoplay","autoplay");
+	audio.src ='sound/' + path;
+	document.body.appendChild(audio);
+
+	audio.addEventListener('ended', function () {
+		document.body.removeChild(audio);		
+	});
+};
+
 Game.prototype.connect = function(username, playerType) {
 	this.ws = new WebSocket('ws://' + this.serverLocation);
 	this.playerId = null;
@@ -119,6 +132,9 @@ Game.prototype.connect = function(username, playerType) {
 					
 					if (serverMessage.data <= 0) {
 						game.level.spriteList.splice(i, 1);
+						if (game.level.spriteList[i].getDeathSound() != null) {
+							game.playSound(game.level.spriteList[i].getDeathSound());
+						}
 					}
 
 					break;
