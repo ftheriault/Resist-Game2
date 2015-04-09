@@ -243,7 +243,10 @@ Sprite.prototype.giveExperience = function(amount) {
 
 Sprite.prototype.heal = function (amount, fromSprite) {
 	if (this.isAlive()) {
-		amount += this.data.intelligence;		
+		if (this.data.intelligence > 1) {
+			amount *= this.data.intelligence * 0.005 + 1.0;		
+			amount = parseInt(amount);
+		}
 		this.data.life += amount;
 
 		if (this.data.life > this.data.maxLife) {
