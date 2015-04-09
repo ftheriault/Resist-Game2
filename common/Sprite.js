@@ -123,6 +123,9 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "aura-swift") {
 			this.data.actions.push(new SwiftAura(actions[i].data));
 		}
+		else if (actions[i].type == "aura-fire") {
+			this.data.actions.push(new FireAura(actions[i].data));
+		}
 	}	
 };
 
@@ -453,6 +456,13 @@ Sprite.prototype.draw = function (ctx) {
 				ctx.beginPath();
 			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2, 0, 2 * Math.PI, false);
 				ctx.fillStyle = "rgba(250, 250, 0, 0.3)";
+			    ctx.fill();
+			    ctx.closePath();
+			}
+			else if (this.data.modifiers[i].fromAction == "aura-fire") {
+				ctx.beginPath();
+			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2.5, 0, 2 * Math.PI, false);
+				ctx.fillStyle = "rgba(250, 0, 0, 0.3)";
 			    ctx.fill();
 			    ctx.closePath();
 			}
