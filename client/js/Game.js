@@ -7,6 +7,7 @@ function Game() {
 	this.serverLocation = 'localhost:8081';	
 
 	this.playerId = null;
+	this.playerLevel = 1;
 	this.playerSprite = null;
 	this.spriteList = [];
 	this.mouseX = 0;
@@ -67,7 +68,7 @@ Game.prototype.connect = function(username, playerType) {
 			game.level = new (window[serverMessage.level.name])();
 			game.level.initLandscape();
 			game.level.spriteList = [];
-			game.levelInitiatedTime = (new Date()).getTime();
+			game.showMessage(game.level.title, "white");
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
 				var sprite = new (window[serverMessage.level.spriteList[i].type])();
@@ -100,6 +101,11 @@ Game.prototype.connect = function(username, playerType) {
 				sprite.loadUI();
 				game.level.spriteList.push(sprite);
 			}
+
+			if (game.playerSprite.data.level > game.playerLevel) {
+				game.playerLevel = game.playerSprite.data.level;
+				game.showMessage("! LEVEL UP !", "green");
+			}
 		}
 		else if (serverMessage.type == "HIT") {
 			for (var i = 0; i < game.level.spriteList.length; i++) {
@@ -124,6 +130,12 @@ Game.prototype.connect = function(username, playerType) {
 		game.errorMessage = 'Error detected: ' + error;
 	}
 }
+
+Game.prototype.showMessage = function(message, color) {
+	game.messageToShow = message;
+	game.messageColor = color;
+	game.messageInitTime = (new Date()).getTime();
+};
 
 Game.prototype.send = function(data) {
 	if (this.level == null || this.playerSprite.isAlive()) {
@@ -226,15 +238,20 @@ Game.prototype.tick = function(delta) {
 			this.level.spriteList[i].draw(this.ctx);
 		}
 
-		var sinceTime = (new Date()).getTime() - this.levelInitiatedTime;
+		if (this.messageInitTime != null) {
+			var sinceTime = (new Date()).getTime() - this.messageInitTime;
 
-		if (sinceTime < 5000) {
-			var percent = 1.0 - sinceTime/5000.0;
-			this.ctx.fillStyle = "rgba(255, 255, 255, " + percent + ")";
-      		this.ctx.textAlign = 'center';
-			this.ctx.font = "60px Arial";
-			this.ctx.fillText(game.level.title, 350, 100);	
-			this.ctx.textAlign = 'left';
+			if (sinceTime < 5000) {
+				var percent = 1.0 - sinceTime/5000.0;
+				this.ctx.save();
+				this.ctx.fillStyle = this.messageColor;
+				this.ctx.globalAlpha = percent;
+	      		this.ctx.textAlign = 'center';
+				this.ctx.font = "60px Arial";
+				this.ctx.fillText(game.messageToShow, 350, 100);	
+				this.ctx.textAlign = 'left';
+				this.ctx.restore();
+			}
 		}
 	}
 

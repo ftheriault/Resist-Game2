@@ -41,7 +41,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.actions = actions; 
 
 	this.data.freeActionPoints = 1;
-	this.data.freeStatPoints = 10;
+	this.data.freeStatPoints = 0;
 
 	if (isPlayer) {
 		this.data.level = 1; 
