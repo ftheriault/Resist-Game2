@@ -5,7 +5,7 @@ var Skeleton = require('./../npc/Skeleton');
 var MeleeAI = require('./../ai/MeleeAI');
 
 module.exports = Level1 = function() {
-	Level.call(this, "Level1", "Level 1", 350, 350, 350, 650);
+	Level.call(this, "Level1", "Level 1", 350, 350, 350, 750);
 
 	this.lastEnemySpawnTime = 0;
 	this.enemyLeft = 10;
@@ -33,14 +33,19 @@ Level1.prototype.initLandscape = function () {
 // Server only
 Level1.prototype.tickLevel = function (now, delta) {
 	if (this.enemyLeft > 0) {
-		if (this.lastEnemySpawnTime + 1000 < now) {
+		if (this.lastEnemySpawnTime + 1500 < now) {
 			this.enemyLeft--;
 			this.lastEnemySpawnTime = now;
 
 			var npc = new Skeleton();
 			npc.build(false, global.spriteId++, "Skeleton", "Skeleton", 20, 20, 20, 20, 0.04, [ new Slash(null, 1) ], 10);		
 			npc.ai = new MeleeAI();
-			this.addNPC(npc);
+
+			npc.setLocation(this.enemySpawnX, this.enemySpawnY);
+			npc.data.destX = 350 + parseInt(Math.random() * 20);
+			npc.data.destY = 400 + parseInt(Math.random() * 50);
+			this.spriteList.push(npc);	
+			npc.broadcastState();
 		}
 	}
 	else {

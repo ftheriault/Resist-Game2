@@ -52,8 +52,10 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 		this.data.intelligence = 1;
 		this.data.strength = 1;
 		this.data.armor = 1;
+		this.data.incoming = false;
 	}
 	else {
+		this.data.incoming = true;
 		this.data.experienceToGive = experienceToGive;
 		this.data.dexterity = 0;
 		this.data.vitality = 0;
@@ -364,6 +366,7 @@ Sprite.prototype.tick = function(delta){
 			
 			this.data.x = this.data.destX;
 			this.data.y = this.data.destY;
+			this.data.incoming = false;
 
 			if (this.data.path != null && this.data.path.length > 0) {
 				var point = this.data.path.shift();
@@ -412,8 +415,8 @@ Sprite.prototype.tick = function(delta){
 		if (this.data.x != newX || this.data.y != newY) {
 			// server
 			if (global != undefined && global.level != undefined) {
-				if (global.level.getWalkableCost(newX, newY, [this.data.id]) == 0 &&
-					!global.level.checkSpriteCollision(newX, newY, [this.data.id])) {
+				if ((global.level.getWalkableCost(newX, newY, [this.data.id]) == 0 || this.data.incoming)&&
+					!global.level.checkSpriteCollision(newX, newY, [this.data.id]) ) {
 					this.data.x = newX;
 					this.data.y = newY;
 				}
@@ -427,7 +430,7 @@ Sprite.prototype.tick = function(delta){
 				}
 			}
 			else if (game != undefined && game.level != undefined) {
-				if (game.level.getWalkableCost(newX, newY, [this.data.id]) == 0 &&
+				if ((game.level.getWalkableCost(newX, newY, [this.data.id]) == 0 || this.data.incoming )&&
 					!game.level.checkSpriteCollision(newX, newY, [this.data.id])) {
 					this.data.x = newX;
 					this.data.y = newY;
