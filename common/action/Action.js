@@ -1,4 +1,4 @@
-module.exports = Action = function(type, cooldown, maxDistance, manaCost) {
+module.exports = Action = function(level, type, cooldown, maxDistance, manaCost) {
 	this.type = type;
 	this.maxDistance = maxDistance;
 
@@ -6,10 +6,13 @@ module.exports = Action = function(type, cooldown, maxDistance, manaCost) {
 	this.data.cooldown = cooldown;
 	this.data.triggeredTime = 0;
 	this.needTarget = true;
+	this.data.passive = false;
 
 	if (manaCost == null) {
 		manaCost = 0;
 	}
+
+	this.data.level = level;
 
 	this.data.manaCost = manaCost;
 }
@@ -64,7 +67,9 @@ Action.prototype.getAngle = function(x1, y1, x2, y2) {
 }
 
 Action.prototype.tick = function (fromSprite, delta) {
-	this.update(fromSprite, delta);
+	if (this.data.level > 0) {
+		this.update(fromSprite, delta);
+	}
 }
 
 Action.prototype.draw = function (ctx, x, y, size) {
@@ -84,17 +89,20 @@ Action.prototype.draw = function (ctx, x, y, size) {
 		ctx.font = "12px Arial";
 		ctx.fillText("Level : " + this.data.level, x + 5, y + 30);
 
-		if (this.data.manaCost > 0) {
+		if (this.data.passive) {
+			ctx.fillText("Passive", x + 5, y + size - 5);			
+		}
+		else if (this.data.manaCost > 0) {
 			ctx.fillText("Mana cost : " + this.data.manaCost, x + 5, y + size - 5);			
 		}
 	}
 
-	if (game.playerSprite.data.mana < this.data.manaCost) {
+	if (game.playerSprite.data.mana < this.data.manaCost || this.data.level == 0) {
 		var percent = 0;
 		ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
 		ctx.fillRect(x, y + size * percent, size, size * (100 - percent));		
 	}
-	else if (!this.isReady()) {
+	else if (!this.isReady() && !this.data.passive) {
 		var percent = ((new Date()).getTime() - this.data.triggeredTime * 1.0)/this.data.cooldown;
 		ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
 		ctx.fillRect(x, y + size * percent, size, size * (100 - percent));		
@@ -114,7 +122,7 @@ Action.prototype.draw = function (ctx, x, y, size) {
 Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 	var success = false;
 
-	if (this.isReady()) {
+	if (this.isReady() && this.data.level > 0 && !this.data.passive) {
 		var distanceToTarget = 0;
 		var attackRange = 0;
 

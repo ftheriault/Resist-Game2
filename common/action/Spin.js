@@ -2,15 +2,11 @@ var Action = require('./Action');
 
 module.exports = Spin = function (data, level) {
 	if (data == null) {
-		Action.call(this, "spin", 3000, 10);
+		Action.call(this, level, "spin", 3000, 10);
 	}
 	else {
-		Action.call(this, "spin", data.cooldown, 10);
+		Action.call(this, data.level, "spin", data.cooldown, 10);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

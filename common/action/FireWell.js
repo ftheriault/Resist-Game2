@@ -2,18 +2,14 @@ var Action = require('./Action');
 
 module.exports = FireWell = function (data, level) {
 	if (data == null) {
-		Action.call(this, "fire-well", 8000, 100);
+		Action.call(this, level, "fire-well", 8000, 100);
 
 		this.data.speed = 1;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "fire-well", data.cooldown, 100);
+		Action.call(this, data.level, "fire-well", data.cooldown, 100);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

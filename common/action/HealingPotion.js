@@ -2,15 +2,11 @@ var Action = require('./Action');
 
 module.exports = HealingPotion = function (data, level) {
 	if (data == null) {
-		Action.call(this, "healing-potion", 10000, 0);
+		Action.call(this, level, "healing-potion", 10000, 0);
 	}
 	else {
-		Action.call(this, "healing-potion", data.cooldown);
+		Action.call(this, data.level, "healing-potion", data.cooldown);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

@@ -2,18 +2,14 @@ var Action = require('./Action');
 
 module.exports = FrostNova = function (data, level) {
 	if (data == null) {
-		Action.call(this, "frost-nova", 10000, 100);
+		Action.call(this, level, "frost-nova", 10000, 100);
 
 		this.data.speed = 1;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "frost-nova", data.cooldown, 100);
+		Action.call(this, data.level, "frost-nova", data.cooldown, 100);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

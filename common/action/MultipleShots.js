@@ -2,19 +2,15 @@ var Action = require('./Action');
 
 module.exports = MultipleShots = function (data, level) {
 	if (data == null) {
-		Action.call(this, "multiple-shots", 2000, 700);
+		Action.call(this, level, "multiple-shots", 2000, 700);
 
 		this.data.angle = 0;
 		this.data.speed = 0.9;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "multiple-shots", data.cooldown, 700);
+		Action.call(this, data.level, "multiple-shots", data.cooldown, 700);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

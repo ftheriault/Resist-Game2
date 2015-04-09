@@ -2,19 +2,15 @@ var Action = require('./Action');
 
 module.exports = FireBolt = function (data, level) {
 	if (data == null) {
-		Action.call(this, "fire-bolt", 3000, 700);
+		Action.call(this, level, "fire-bolt", 3000, 700);
 
 		this.data.angle = 0;
 		this.data.speed = 0.8;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "fire-bolt", data.cooldown, 700);
+		Action.call(this, data.level, "fire-bolt", data.cooldown, 700);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 }
 

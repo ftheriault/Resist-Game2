@@ -2,18 +2,14 @@ var Action = require('./Action');
 
 module.exports = FireTrap = function (data, level) {
 	if (data == null) {
-		Action.call(this, "fire-trap", 8000, 100);
+		Action.call(this, level, "fire-trap", 8000, 100);
 
 		this.data.speed = 1;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "fire-trap", data.cooldown, 100);
+		Action.call(this, data.level, "fire-trap", data.cooldown, 100);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

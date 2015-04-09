@@ -2,19 +2,15 @@ var Action = require('./Action');
 
 module.exports = MagicBolt = function (data, level) {
 	if (data == null) {
-		Action.call(this, "magic-bolt", 3000, 700);
+		Action.call(this, level, "magic-bolt", 3000, 700);
 
 		this.data.angle = 0;
 		this.data.speed = 0.7;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "magic-bolt", data.cooldown, 700);
+		Action.call(this, data.level, "magic-bolt", data.cooldown, 700);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 }
 

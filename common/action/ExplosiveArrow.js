@@ -2,19 +2,15 @@ var Action = require('./Action');
 
 module.exports = ExplosiveArrow = function (data, level) {
 	if (data == null) {
-		Action.call(this, "explosive-arrow", 4000, 700);
+		Action.call(this, level, "explosive-arrow", 4000, 700);
 
 		this.data.angle = 0;
 		this.data.speed = 0.9;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "explosive-arrow", data.cooldown, 700);
+		Action.call(this, data.level, "explosive-arrow", data.cooldown, 700);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 }
 

@@ -2,15 +2,11 @@ var Action = require('./Action');
 
 module.exports = MagicRain = function (data, level) {
 	if (data == null) {
-		Action.call(this, "magic-rain", 15000, 0);
+		Action.call(this, level, "magic-rain", 15000, 0);
 	}
 	else {
-		Action.call(this, "magic-rain", data.cooldown);
+		Action.call(this, data.level, "magic-rain", data.cooldown);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

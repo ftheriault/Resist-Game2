@@ -2,18 +2,14 @@ var Action = require('./Action');
 
 module.exports = ProtectionShield = function (data, level) {
 	if (data == null) {
-		Action.call(this, "protection-shield", 10000, 0);
+		Action.call(this, level, "protection-shield", 10000, 0);
 
 		this.data.lastTime = 2000;
 		this.data.triggered = false;
 	}
 	else {
-		Action.call(this, "protection-shield", data.cooldown);
+		Action.call(this, data.level, "protection-shield", data.cooldown);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

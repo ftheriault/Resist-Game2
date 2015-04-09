@@ -2,16 +2,13 @@ var Action = require('./Action');
 
 module.exports = Sacrifice = function (data, level) {
 	if (data == null) {
-		Action.call(this, "sacrifice", 1000, 10);
+		Action.call(this, level, "sacrifice", 1000, 10);
 	}
 	else {
-		Action.call(this, "sacrifice", data.cooldown, 10);
+		Action.call(this, data.level, "sacrifice", data.cooldown, 10);
 		this.data = data;
 	}
 
-	if (level != null) {
-		this.data.level = level;
-	}
 }
 
 Sacrifice.prototype = new Action();

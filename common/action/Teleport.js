@@ -2,10 +2,10 @@ var Action = require('./Action');
 
 module.exports = Teleport = function (data, level) {
 	if (data == null) {
-		Action.call(this, "teleport", 10000, 0);
+		Action.call(this, level, "teleport", 10000, 0);
 	}
 	else {
-		Action.call(this, "teleport", data.cooldown);
+		Action.call(this, data.level, "teleport", data.cooldown);
 		this.data = data;
 	}
 

@@ -2,15 +2,11 @@ var Action = require('./Action');
 
 module.exports = MagicPit = function (data, level) {
 	if (data == null) {
-		Action.call(this, "magic-pit", 10000, 0);
+		Action.call(this, level, "magic-pit", 10000, 0);
 	}
 	else {
-		Action.call(this, "magic-pit", data.cooldown);
+		Action.call(this, data.level, "magic-pit", data.cooldown);
 		this.data = data;
-	}
-
-	if (level != null) {
-		this.data.level = level;
 	}
 
 	this.needTarget = false;

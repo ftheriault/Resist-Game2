@@ -2,17 +2,12 @@ var Action = require('./Action');
 
 module.exports = Heal = function (data, level) {
 	if (data == null) {
-		Action.call(this, "heal", 5000, 700);
+		Action.call(this, level, "heal", 5000, 700);
 	}
 	else {
-		Action.call(this, "heal", data.cooldown, 700);
+		Action.call(this, data.level, "heal", data.cooldown, 700);
 		this.data = data;
 	}
-
-	if (level != null) {
-		this.data.level = level;
-	}
-
 }
 
 Heal.prototype = new Action();

@@ -14,6 +14,7 @@ var MultipleShots = require('./action/MultipleShots');
 var ExplosiveArrow = require('./action/ExplosiveArrow');
 var FireTrap = require('./action/FireTrap');
 var ProtectionShield = require('./action/ProtectionShield');
+var SwiftAura = require('./action/SwiftAura');
 
 
 module.exports = Sprite = function() {
@@ -39,7 +40,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.modifiers = [];
 	this.data.actions = actions; 
 
-	this.data.freeActionPoints = 0;
+	this.data.freeActionPoints = 1;
 	this.data.freeStatPoints = 0;
 
 	if (isPlayer) {
@@ -119,13 +120,29 @@ Sprite.prototype.buildActions = function() {
 		else if (actions[i].type == "protection-shield") {
 			this.data.actions.push(new ProtectionShield(actions[i].data));
 		}
+		else if (actions[i].type == "aura-swift") {
+			this.data.actions.push(new SwiftAura(actions[i].data));
+		}
 	}	
 };
 
 Sprite.prototype.addModifier = function(type, mod, fromAction, time) {
 	var modifier = {type : type, mod : mod, fromAction : fromAction, time : time};
+	var found = false;
 
-	this.data.modifiers.push(modifier);
+	for (var i = 0; i < this.data.modifiers.length; i++) {
+		if (this.data.modifiers[i].fromAction == modifier.fromAction &&
+			this.data.modifiers[i].mod <= modifier.mod) {
+			this.data.modifiers[i] = modifier;
+			found = true;
+			break;
+		}
+	};
+
+	if (!found) {
+		this.data.modifiers.push(modifier);
+	}
+
 	this.broadcastState();
 }
 
@@ -432,12 +449,19 @@ Sprite.prototype.draw = function (ctx) {
 				ctx.fillStyle = "rgba(0, 0, 250, 0.7)";
 				ctx.fillRect(this.data.x - this.data.minDistance/2, this.data.y + this.data.minDistance - 10, this.data.minDistance, 10);
 			}
+			else if (this.data.modifiers[i].fromAction == "aura-swift") {
+				ctx.beginPath();
+			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2, 0, 2 * Math.PI, false);
+				ctx.fillStyle = "rgba(250, 250, 0, 0.3)";
+			    ctx.fill();
+			    ctx.closePath();
+			}
 		}
 	}
 
 	if (game.target != null && game.target == this) {
 		ctx.beginPath();
-	    ctx.arc(this.data.x, this.data.y + game.target.data.minDistance/2, game.target.data.minDistance/1.5, 0, 2 * Math.PI, false);
+	    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2, this.data.minDistance/1.5, 0, 2 * Math.PI, false);
 		ctx.fillStyle = "rgba(100, 250, 250, 0.3)";
 	    ctx.fill();
 	    ctx.closePath();
