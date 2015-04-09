@@ -33,7 +33,7 @@ FireAura.prototype.update = function (fromSprite, delta) {
 
 FireAura.prototype.propagate = function(fromSprite) {
 	fromSprite.addModifier("MISC", 0, this.type, this.data.lastTime + 1000);
-	var distance = 60 + 2 * this.data.level;
+	var distance = 100 + 3 * this.data.level;
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {

@@ -32,11 +32,11 @@ SwiftAura.prototype.update = function (fromSprite, delta) {
 }
 
 SwiftAura.prototype.propagate = function(fromSprite) {
-	var incPercent = 0.01 * this.data.level;
+	var incPercent = 0.001 * this.data.level;
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer == global.level.spriteList[i].data.isPlayer) {
-			global.level.spriteList[i].addModifier("SPEED", global.level.spriteList[i].getSpeed() * incPercent, this.type, this.data.lastTime + 1000);
+			global.level.spriteList[i].addModifier("SPEED", incPercent, this.type, this.data.lastTime + 1000);
 		}
 	}
 	

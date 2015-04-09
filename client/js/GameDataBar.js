@@ -29,8 +29,8 @@ GameDataBar.prototype.addStatBox = function (num, statType, caption) {
 	var sizeX = 110;
 	var sizeY = 40;
 	var x = (150 - sizeX) /2;
-	var y = 100 + (150 - sizeY) /2;
-	var yOffset = 15;	
+	var y = 168 + (150 - sizeY) /2;
+	var yOffset = 16;	
 
 	y += yOffset * num + sizeX/2 * num;
 		
@@ -47,7 +47,7 @@ GameDataBar.prototype.addStatBox = function (num, statType, caption) {
 	}
 
 	this.ctx.strokeRect(x, y, sizeX, sizeY);
-	this.ctx.fillText(caption, x + 10, y + sizeY - 15);
+	this.ctx.fillText(caption, x + 10, y + sizeY - 13);
 
 	if (this.mouseX != null && this.mouseX > x && this.mouseX < x + sizeX &&
 		this.mouseY > y && this.mouseY < y + sizeY) {
@@ -63,14 +63,27 @@ GameDataBar.prototype.tick = function (delta) {
 		this.ctx.fillStyle = "white";
 		this.ctx.font = "15px Arial";
 
+		var bonusArmor = 0;
+		var bonusSpeed = 0;
+
+		for (var i = 0; i < game.playerSprite.data.modifiers.length; i++) {
+			if (game.playerSprite.data.modifiers[i].type == "ARMOR") {
+				bonusArmor += game.playerSprite.data.modifiers[i].mod;
+			}
+			else if (game.playerSprite.data.modifiers[i].type == "SPEED") {
+				bonusSpeed += game.playerSprite.data.modifiers[i].mod;
+			}
+		};
+
 		this.ctx.fillText("Life : " + game.playerSprite.data.life + " / " + game.playerSprite.data.maxLife, 10, 30);
 		this.ctx.fillText("Mana : " + game.playerSprite.data.mana + " / " + game.playerSprite.data.maxMana, 10, 50);
-		this.ctx.fillText("Armor : " + parseInt(game.playerSprite.data.armor), 10, 70);
-		this.ctx.fillText("Level : " + game.playerSprite.data.level, 10, 90);
-		this.ctx.fillText("Exp : " + game.playerSprite.data.experience + " / " + game.playerSprite.data.maxExperience, 10, 110);
+		this.ctx.fillText("Armor : " + parseInt(game.playerSprite.data.armor) + (bonusArmor > 0 ? " +" + bonusArmor : ""), 10, 70);
+		this.ctx.fillText("Run speed : " + parseInt(game.playerSprite.data.speed * 1000) + (bonusSpeed > 0 ? " +" + parseInt(bonusSpeed * 1000) : ""), 10, 90);
+		this.ctx.fillText("Level : " + game.playerSprite.data.level, 10, 110);
+		this.ctx.fillText("Exp : " + game.playerSprite.data.experience + " / " + game.playerSprite.data.maxExperience, 10, 130);
 
-		this.ctx.fillText("Free action points : " + game.playerSprite.data.freeActionPoints, 10, 150);
-		this.ctx.fillText("Free stat points : " + game.playerSprite.data.freeStatPoints, 10, 170);
+		this.ctx.fillText("Free action points : " + game.playerSprite.data.freeActionPoints, 10, 170);
+		this.ctx.fillText("Free stat points : " + game.playerSprite.data.freeStatPoints, 10, 190);
 
 		this.addStatBox(1, "STRENGTH", "Strength : " + game.playerSprite.data.strength);
 		this.addStatBox(2, "VITALITY", "Vitality : " + game.playerSprite.data.vitality);

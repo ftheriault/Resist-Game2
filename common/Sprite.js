@@ -41,7 +41,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.actions = actions; 
 
 	this.data.freeActionPoints = 1;
-	this.data.freeStatPoints = 0;
+	this.data.freeStatPoints = 10;
 
 	if (isPlayer) {
 		this.data.level = 1; 
@@ -128,6 +128,9 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "aura-healing") {
 			this.data.actions.push(new HealingAura(actions[i].data));
+		}
+		else if (actions[i].type == "aura-defense") {
+			this.data.actions.push(new DefenseAura(actions[i].data));
 		}
 	}	
 };
@@ -264,6 +267,9 @@ Sprite.prototype.hit = function (amount, fromSprite) {
 		if (this.data.modifiers[i].type == "INVULNERABLE") {
 			vulnerable = false;
 			break;
+		}
+		else if (this.data.modifiers[i].type == "ARMOR") {
+			amount -= this.data.modifiers[i].mod;
 		}
 	};
 
@@ -476,6 +482,13 @@ Sprite.prototype.draw = function (ctx) {
 				ctx.beginPath();
 			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2.25, 0, 2 * Math.PI, false);
 				ctx.fillStyle = "rgba(250, 250, 250, 0.3)";
+			    ctx.fill();
+			    ctx.closePath();
+			}
+			else if (this.data.modifiers[i].fromAction == "aura-defense") {
+				ctx.beginPath();
+			    ctx.arc(this.data.x, this.data.y + this.data.minDistance/2 + 10, this.data.minDistance/2.75, 0, 2 * Math.PI, false);
+				ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
 			    ctx.fill();
 			    ctx.closePath();
 			}
