@@ -1,5 +1,4 @@
 var Level = require('./Level');
-var Level1 = require('./Level1');
 var Tree = require('./obstacle/Tree');
 var Invisible = require('./obstacle/Invisible');
 var Skeleton = require('./../npc/Skeleton');

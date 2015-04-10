@@ -22,6 +22,9 @@ Shoot.prototype.getName = function () {
 }
 
 Shoot.prototype.update = function (fromSprite, delta) {
+	if (!fromSprite.data.isPlayer) {
+		this.maxDistance = 300;
+	}
 	
 	if (this.data.triggered && delta != null) {
 
