@@ -22,10 +22,13 @@ FireBolt.prototype.getName = function () {
 }
 
 FireBolt.prototype.update = function (fromSprite, delta) {
+	if (!fromSprite.data.isPlayer) {
+		this.maxDistance = 200;
+	}
+
 	if (this.data.triggered && delta != null) {
 
 		this.moveProjectile(delta);
-
 		if (global != null && global.level != null) {
 			for (var i = 0; i < global.level.spriteList.length; i++) {
 				if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
@@ -41,17 +44,10 @@ FireBolt.prototype.update = function (fromSprite, delta) {
 			}
 		}
 		else {
-			if (this.image == null) {
-				this.image = new Image();
-				this.image.src = "images/map-assets/fire.png";
-			}
-
-			if (this.image.complete) {
-				game.ctx.drawImage(this.image, this.data.x, this.data.y, 30, 30);
-			}
+			game.ctx.drawImage(fireImage, this.data.x, this.data.y, 30, 30);
 		}
 
-		if (this.data.triggeredTime + 500 < (new Date()).getTime()) {
+		if (this.data.triggeredTime + 1000 < (new Date()).getTime()) {
 			this.data.triggered = false;
 		}
 	}

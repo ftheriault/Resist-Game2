@@ -9,19 +9,26 @@ var source = require('vinyl-source-stream');
 
 gulp.task('default', function() {
   console.log("=======================");
-  console.log(" Preparing application");
-  console.log("-----------------------");
+  console.log(" - Preparing application building ...");
 
   // Browserify/bundle the JS.
   browserify(['./common/browserify-files.js'])
     .transform(reactify)
-    .bundle()
+    .bundle().on('error', handleError)
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./client/js/'));
 
 
-  console.log("- Completed");
+  console.log(" - Completed");
+  console.log("-----------------------");
 });
+
+function handleError(err) {
+	console.log("!!!!!!!!!!!!!");
+	console.log(" GULP ERROR ");
+	console.log("!!!!!!!!!!!!!");
+	console.log(err.toString());
+}
 
 // Watch Files For Changes
 gulp.task('watch', function() {

@@ -1,4 +1,5 @@
 var Level = require('./Level');
+var Level3 = require('./Level3');
 var Tree = require('./obstacle/Tree');
 var Invisible = require('./obstacle/Invisible');
 var Skeleton = require('./../npc/Skeleton');
@@ -74,6 +75,6 @@ Level2.prototype.drawLevel = function (ctx) {
 }
 
 Level2.prototype.gotoNextLevel = function() {
-	global.level = new Level1();
+	global.level = new Level3();
 	global.level.init();
 };

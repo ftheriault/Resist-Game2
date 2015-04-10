@@ -66,25 +66,14 @@ ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 		    	game.ctx.closePath();
 		    }
 		    else {
-				if (this.texImage == null) {
-					this.texImage = new Image();
-					var tmp = this;
-					this.texImage.onload = function () {
-						tmp.pattern = game.ctx.createPattern(this, 'repeat');
-					}
-					this.texImage.src = "images/map-assets/lava.png";
-				}
-
-				if (this.texImage.complete) {			
-					game.ctx.save();	
-					game.ctx.beginPath();
-					game.ctx.arc(this.data.x, this.data.y, this.data.distance, 0, 2 * Math.PI, false);
-					game.ctx.globalAlpha = 0.2; 
-					game.ctx.fillStyle = this.pattern;
-					game.ctx.fill();
-					game.ctx.closePath();
-					game.ctx.restore();
-				}
+				game.ctx.save();	
+				game.ctx.beginPath();
+				game.ctx.arc(this.data.x, this.data.y, this.data.distance, 0, 2 * Math.PI, false);
+				game.ctx.globalAlpha = 0.2; 
+				game.ctx.fillStyle = lavaPattern;
+				game.ctx.fill();
+				game.ctx.closePath();
+				game.ctx.restore();
 		    }
 		}
 

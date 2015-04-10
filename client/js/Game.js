@@ -1,3 +1,11 @@
+var fireImage = new Image();
+
+var lavaImage = new Image();
+var lavaPattern = null;
+
+var sandImage = new Image();
+var sandPattern = null;
+
 function Game() {
 	this.ctx = document.getElementById("canvas").getContext("2d");
 	this.gameWidth = 700;
@@ -12,6 +20,18 @@ function Game() {
 	this.spriteList = [];
 	this.mouseX = 0;
 	this.mouseY = 0;
+
+	var tmpGame = this;
+
+	fireImage.src = "images/map-assets/fire.png";
+	lavaImage.onload = function() {
+		lavaPattern = tmpGame.ctx.createPattern(this, 'repeat');
+	}
+	lavaImage.src = "images/map-assets/lava.png";
+	sandImage.onload = function() {
+		sandImage = tmpGame.ctx.createPattern(this, 'repeat');
+	}
+	sandImage.src = "images/map-assets/sand.png";
 
 	document.getElementById("canvas").onclick = function (e) { 
 		game.click(e.pageX - document.getElementById("canvas").offsetLeft, 
@@ -144,6 +164,15 @@ Game.prototype.connect = function(username, playerType) {
 						}	
 					}
 
+					break;
+				}
+			}
+		}
+		else if (serverMessage.type == "HEAL") {
+			for (var i = 0; i < game.level.spriteList.length; i++) {
+				if (game.level.spriteList[i].data.id == serverMessage.fromSpriteId) {
+					game.level.spriteList[i].data.life = serverMessage.data;
+					
 					break;
 				}
 			}

@@ -266,7 +266,7 @@ Sprite.prototype.heal = function (amount, fromSprite) {
 			this.data.life = this.data.maxLife;
 		}
 
-		this.broadcastState();
+		global.wsServer.broadcastEvent("HEAL", this.data.id, this.data.life);
 	}
 }
 

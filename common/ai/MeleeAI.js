@@ -2,7 +2,7 @@ var Level = require('./../Sprite');
 
 module.exports = MeleeAI = function() {
 	this.lastActionTime = 0;
-	this.defaultCooldown = 3000;
+	this.defaultCooldown = 2000;
 	this.cooldown = this.defaultCooldown;
 	this.target = null;
 }
@@ -17,7 +17,7 @@ MeleeAI.prototype.tick = function (sprite) {
 		if (this.target != null && this.target.isAlive()) {
 			var success = sprite.data.actions[0].trigger(sprite, this.target.data.x, this.target.data.y, this.target);
 			
-			if (!success) {
+			if (!success && sprite.data.actions[0].maxDistance > sprite.distanceWith(sprite, this.target)) {
 				if (sprite.isStuck && sprite.data.path == null) {
 					this.findTarget(sprite, this.target.data.id);
 
@@ -28,6 +28,9 @@ MeleeAI.prototype.tick = function (sprite) {
 				else {
 					global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
 				}
+			}
+			else if (sprite.data.path != null) {
+				sprite.stop();
 			}
 		} 
 		else {
