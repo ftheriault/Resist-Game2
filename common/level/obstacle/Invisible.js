@@ -8,7 +8,7 @@ Invisible.prototype = new Obstacle();
 Invisible.prototype.constructor = Invisible;
 
 Invisible.prototype.draw = function(ctx) {
-	if (false) { // debut
+	if (debug) { 
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this.minDistance, 0, 2 * Math.PI, false);
 		ctx.fillStyle = "rgba(250, 250, 0, 0.3)";

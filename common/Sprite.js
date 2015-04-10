@@ -38,6 +38,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.data.speed = speed;
 	this.data.minDistance = 30; 
 	this.data.modifiers = [];
+	var previousActions = this.data.actions;
 	this.data.actions = actions; 
 
 	this.data.freeActionPoints = 1;
@@ -63,7 +64,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 		this.data.strength = 0;
 	}
 
-	this.buildActions();
+	this.buildActions(previousActions);
 }
 
 Sprite.prototype.getDeathSound = function() {
@@ -74,7 +75,7 @@ Sprite.prototype.getHitSound = function() {
 	return  null;
 };
 
-Sprite.prototype.buildActions = function() {
+Sprite.prototype.buildActions = function(previousActions) {
 	var actions = this.data.actions;
 	this.data.actions = [];
 
@@ -141,6 +142,10 @@ Sprite.prototype.buildActions = function() {
 		}
 		else if (actions[i].type == "aura-defense") {
 			this.data.actions.push(new DefenseAura(actions[i].data));
+		}
+
+		if (previousActions != null &&  previousActions.length > i) {
+			this.data.actions[i].data.triggeredTime = previousActions[i].data.triggeredTime;
 		}
 	}	
 };
@@ -220,9 +225,10 @@ Sprite.prototype.setLocation = function (x, y) {
 Sprite.prototype.copy = function (sprite) {
 	this.tileSpriteList = [];
 	this.type = sprite.type;
+	var previousActions = this.data.actions;
 	this.data = sprite.data;
 
-	this.buildActions();
+	this.buildActions(previousActions);
 }
 
 Sprite.prototype.restore = function() {
@@ -238,7 +244,7 @@ Sprite.prototype.giveExperience = function(amount) {
 	this.data.experience += amount;
 
 	if (this.data.experience >= this.data.maxExperience) {
-		this.data.maxExperience = parseInt(this.data.maxExperience * 2.5);
+		this.data.maxExperience = parseInt(this.data.maxExperience * 2.25);
 		this.data.level += 1;
 		this.data.freeActionPoints += 1;
 		this.data.freeStatPoints += 5;
@@ -309,7 +315,7 @@ Sprite.prototype.hit = function (amount, fromSprite, isMagic) {
 	if (this.data.life <= 0) {
 		this.data.life = 0;
 
-		if (fromSprite != null && fromSprite.data.isPlayer) {
+		if (fromSprite != null && fromSprite.data != null && fromSprite.data.isPlayer) {
 			for (var i = 0; i < global.wsServer.clients.length; i++) {
 				if (global.wsServer.clients[i].sprite.isAlive()) {
 					global.wsServer.clients[i].sprite.giveExperience(this.data.experienceToGive);
@@ -358,6 +364,7 @@ Sprite.prototype.tick = function(delta){
 	}
 
 	var deltaStep = delta > 50 ? 20 : delta;
+
 	for (var i = deltaStep; i <= delta; i += deltaStep) {
 		// deal with path (one at a time, using x, y)
 		if (this.data.destX != null && this.data.destY != null &&
@@ -415,31 +422,35 @@ Sprite.prototype.tick = function(delta){
 		if (this.data.x != newX || this.data.y != newY) {
 			// server
 			if (global != undefined && global.level != undefined) {
-				if ((global.level.getWalkableCost(newX, newY, [this.data.id]) == 0 || this.data.incoming)&&
+				if ((global.level.getWalkableCost(newX, newY, [this.data.id]) == 0 || this.data.incoming) &&
 					!global.level.checkSpriteCollision(newX, newY, [this.data.id]) ) {
 					this.data.x = newX;
 					this.data.y = newY;
 				}
 				else {					
-					this.isStuck = true;	
-					this.data.path = null;
-					this.data.destX = this.data.x;
-					this.data.destY = this.data.y;
-					this.broadcastState();
-					break;
+					if (!this.data.incoming) {
+						this.isStuck = true;	
+						this.data.path = null;
+						this.data.destX = this.data.x;
+						this.data.destY = this.data.y;
+						this.broadcastState();
+						break;
+					}
 				}
 			}
 			else if (game != undefined && game.level != undefined) {
-				if ((game.level.getWalkableCost(newX, newY, [this.data.id]) == 0 || this.data.incoming )&&
+				if ((game.level.getWalkableCost(newX, newY, [this.data.id]) == 0 || this.data.incoming ) &&
 					!game.level.checkSpriteCollision(newX, newY, [this.data.id])) {
 					this.data.x = newX;
 					this.data.y = newY;
 				}
 				else {
-					this.data.path = null;
-					this.data.destX = this.data.x;
-					this.data.destY = this.data.y;
-					break;
+					if (!this.data.incoming) {
+						this.data.path = null;
+						this.data.destX = this.data.x;
+						this.data.destY = this.data.y;
+						break;
+					}
 				}
 			}
 		}

@@ -47,7 +47,7 @@ MagicRain.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
-	var amount = 5 + this.data.level * 4;
+	var amount = 4 + parseInt(this.data.level/2);
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {

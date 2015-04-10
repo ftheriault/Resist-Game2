@@ -7,6 +7,7 @@ module.exports = Level = function(name, spawnX, spawnY, enemySpawnX, enemySpawnY
 	this.enemySpawnY = enemySpawnY;
 
 	this.previousNow = new Date();
+	this.debugMessageCooldown =0;
 }
 
 Level.prototype.getPlayers = function () {
@@ -106,13 +107,26 @@ Level.prototype.tick = function () {
 	var delta = now - this.previousNow;
 	this.previousNow = now;
 
+	if (delta == 0) {
+		delta = 1;
+	}
+	
+	if (global.debugMode) {
+		this.debugMessageCooldown += delta;
+
+		if (this.debugMessageCooldown > 5000) {
+			console.log("- Debug : aStar queue size : " + this.aStarQueue.length);
+			console.log("- Debug : tick delta : " + delta);
+		}
+	}
+	
 	if (this.aStarQueue.length > 0) {
 		var elem = this.aStarQueue.shift();
 		elem.logic();
 	}
 
 	var allPlayersDead = true;
-
+	
 	for (var i = 0; i < this.spriteList.length; i++) {
 		if (!this.spriteList[i].isAlive()) {
 			this.spriteList.splice(i, 1);
@@ -126,7 +140,7 @@ Level.prototype.tick = function () {
 			}
 		}
 	}
-
+	
 	if (global.wsServer.clients.length > 0) {
 		if (!allPlayersDead) {
 			if (this.startAt == null) {
@@ -147,6 +161,11 @@ Level.prototype.tick = function () {
 			global.level.init();
 			global.waveNumber = 1;
 		}
+	}
+	
+	if (global.debugMode && this.debugMessageCooldown > 5000) {
+		console.log("- Debug : Cycle finished");
+		this.debugMessageCooldown = 0;
 	}
 
 	return delta;

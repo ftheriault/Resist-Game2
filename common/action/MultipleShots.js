@@ -5,7 +5,7 @@ module.exports = MultipleShots = function (data, level) {
 		Action.call(this, level, "multiple-shots", 2000, 700);
 
 		this.data.angle = 0;
-		this.data.speed = 0.9;
+		this.data.speed = 0.8;
 		this.data.triggered = false;
 	}
 	else {
@@ -47,7 +47,7 @@ MultipleShots.prototype.update = function (fromSprite, delta) {
 
 						if (distance < global.level.spriteList[i].data.minDistance &&
 							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite, false);
+							global.level.spriteList[i].hit(4 + this.data.level, fromSprite, false);
 							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}

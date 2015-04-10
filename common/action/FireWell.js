@@ -48,7 +48,7 @@ FireWell.prototype.update = function (fromSprite, delta) {
 }
 
 FireWell.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = 40 + 15 * this.data.level;
+	this.data.distance = 40 + 3 * this.data.level;
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
@@ -56,7 +56,7 @@ FireWell.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
-				global.level.spriteList[i].hit(10 + this.data.level * 3, fromSprite, true);
+				global.level.spriteList[i].hit(10 + this.data.level, fromSprite, true);
 			}
 		}
 	}

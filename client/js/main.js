@@ -66,6 +66,7 @@ function start(button) {
 		game.connect(playerName, playerClass);
 	}
 	else {
+		$("#player-name").css("background-color", "pink");
 		$("#player-name").css("color", "red");
 	}
 }

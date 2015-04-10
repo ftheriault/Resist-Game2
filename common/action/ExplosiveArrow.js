@@ -5,7 +5,7 @@ module.exports = ExplosiveArrow = function (data, level) {
 		Action.call(this, level, "explosive-arrow", 4000, 700);
 
 		this.data.angle = 0;
-		this.data.speed = 0.9;
+		this.data.speed = 0.8;
 		this.data.triggered = false;
 	}
 	else {
@@ -92,7 +92,7 @@ ExplosiveArrow.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, to
 	if (fromSprite.data.isPlayer != toSprite.data.isPlayer) {
 		success = true;
 
-		this.data.distance = 40 + 15 * this.data.level;
+		this.data.distance = 50 + 3 * this.data.level;
 		this.data.triggered = true;
 		this.data.triggeredState = 1;
 

@@ -24,17 +24,21 @@ global.waveNumber = 1;
 global.level = new Level1();
 global.level.init();
 
+global.debugMode = false;
+
+var sleepTime = 30;
+
 function tick() {
 	var delta = global.level.tick();
-	delta -= 20;
-	var next = 20 - delta;
+	delta -= sleepTime;
+	var next = sleepTime - delta;
 
 	if (delta > 200) {
 		console.log("- Long cycle to process : " + delta + "msec");
 	}
 
 	if (next <= 0) {
-		next = 10;
+		next = sleepTime/2;
 	}
 
 	setTimeout(tick, next);

@@ -68,8 +68,14 @@ Action.prototype.getAngle = function(x1, y1, x2, y2) {
 
 Action.prototype.tick = function (fromSprite, delta) {
 	if (this.data.level > 0) {
+		if (this.data.justTriggered) {
+			this.data.triggeredTime = (new Date()).getTime();
+		}
+
 		this.update(fromSprite, delta);
 	}
+
+	this.data.justTriggered = false;
 }
 
 Action.prototype.draw = function (ctx, x, y, size) {
@@ -136,7 +142,7 @@ Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 				success = this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
 
 				if (success) {
-					this.data.triggeredTime = (new Date()).getTime();
+					this.data.justTriggered = true;
 					fromSprite.data.mana -= this.data.manaCost;
 					fromSprite.data.justAttacked = true;
 

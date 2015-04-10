@@ -6,6 +6,8 @@ var lavaPattern = null;
 var sandImage = new Image();
 var sandPattern = null;
 
+var debug = false;
+
 function Game() {
 	this.ctx = document.getElementById("canvas").getContext("2d");
 	this.gameWidth = 700;
@@ -20,6 +22,11 @@ function Game() {
 	this.spriteList = [];
 	this.mouseX = 0;
 	this.mouseY = 0;
+
+	if (debug) {
+		this.debugMessageLength = 0;
+		this.debugMessageInitTime = 0;
+	}
 
 	var tmpGame = this;
 
@@ -85,6 +92,10 @@ Game.prototype.connect = function(username, playerType) {
 	}
 
 	this.ws.onmessage = function(e){
+		if (debug) {
+			game.debugMessageLength += e.data.length;
+		}
+
 		var serverMessage = JSON.parse(e.data);
 		
 		if (serverMessage.type == "SET_PLAYER_ID") {
@@ -278,6 +289,16 @@ Game.prototype.rightClick = function(x, y) {
 Game.prototype.tick = function(delta) {
 	if (delta == null || delta < 0) {
 		delta = 1;
+	}
+
+	if (debug && this.level != null) {
+		this.debugMessageInitTime += delta;
+
+		if (this.debugMessageInitTime >= 5000) {
+			console.log("Messages Length recieved from socket : " + this.debugMessageLength);
+			this.debugMessageInitTime = 0;
+			this.debugMessageLength = 0;
+		}
 	}
 
 	if (this.level != null) {

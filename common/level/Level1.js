@@ -13,7 +13,7 @@ Level1.prototype.constructor = Level1;
 
 Level1.prototype.initLandscape = function () {
 	this.lastEnemySpawnTime = 0;
-	this.enemyLeft = 7 + 4 * global.waveNumber;
+	this.enemyLeft = 5 + 4 * global.waveNumber;
 	
 	this.obstacles.push(new Tree(20, 150));
 	this.obstacles.push(new Tree(140, 130));
@@ -32,7 +32,7 @@ Level1.prototype.initLandscape = function () {
 // Server only
 Level1.prototype.tickLevel = function (now, delta) {
 	if (this.enemyLeft > 0) {
-		if (this.lastEnemySpawnTime + 1500 < now) {
+		if (this.lastEnemySpawnTime + 2500 < now) {
 			this.enemyLeft--;
 			this.lastEnemySpawnTime = now;
 

@@ -5,7 +5,7 @@ module.exports = Shoot = function (data, level) {
 		Action.call(this, level, "shoot", 2000, 700);
 
 		this.data.angle = 0;
-		this.data.speed = 0.9;
+		this.data.speed = 0.8;
 		this.data.triggered = false;
 	}
 	else {
