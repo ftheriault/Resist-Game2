@@ -1,5 +1,5 @@
 var Level = require('./Level');
-var Level1 = require('./Level1');
+var Level4 = require('./Level4');
 var Tree = require('./obstacle/Tree');
 var Invisible = require('./obstacle/Invisible');
 var Skeleton = require('./../npc/Skeleton');
@@ -16,7 +16,7 @@ Level3.prototype.constructor = Level3;
 
 Level3.prototype.initLandscape = function () {
 	this.lastEnemySpawnTime = 0;
-	this.enemyLeft = 20 + 3 * global.waveNumber;
+	this.enemyLeft = 0;//20 + 3 * global.waveNumber;
 	
 	this.obstacles.push(new Tree(380, 537));
 	this.obstacles.push(new Tree(490, 550));

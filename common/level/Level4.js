@@ -1,0 +1,78 @@
+var Level = require('./Level');
+var Level1 = require('./Level1');
+var Tree = require('./obstacle/Tree');
+var Invisible = require('./obstacle/Invisible');
+var Skeleton = require('./../npc/Skeleton');
+var Thief = require('./../npc/Thief');
+var Sorcerer = require('./../npc/Sorcerer');
+var Archer = require('./../npc/Archer');
+var MeleeAI = require('./../ai/MeleeAI');
+
+module.exports = Level4 = function() {
+	Level.call(this, "Level4", 350, 350, 350, 750);
+}
+
+Level4.prototype = new Level();
+Level4.prototype.constructor = Level4;
+
+Level4.prototype.initLandscape = function () {
+	this.lastEnemySpawnTime = 0;
+	this.enemyLeft = 24 + 3 * global.waveNumber;
+	
+	this.obstacles.push(new Invisible(458, 213, 100));
+	this.obstacles.push(new Invisible(151, 360, 100));
+	this.obstacles.push(new Invisible(529, 600, 50));
+}
+
+// Server only
+Level4.prototype.tickLevel = function (now, delta) {
+	if (this.enemyLeft > 0) {
+		if (this.lastEnemySpawnTime + 1500 < now) {
+			this.enemyLeft--;
+			this.lastEnemySpawnTime = now;
+
+			var npc = null; 
+
+			if (this.enemyLeft % 4 == 0) {
+				npc = new Sorcerer(global.waveNumber);
+				npc.setLocation(-50, 350);
+				npc.data.destX = 30;
+				npc.data.destY = 325 + parseInt(Math.random() * 50);
+			}
+			else if (this.enemyLeft % 4 == 1) {
+				npc = new Skeleton(global.waveNumber);
+				npc.setLocation(750, 350);
+				npc.data.destX = 650;
+				npc.data.destY = 325 + parseInt(Math.random() * 50);
+			}
+			else if (this.enemyLeft % 4 == 2) {
+				npc = new Thief(global.waveNumber);
+				npc.setLocation(350, 0);
+				npc.data.destX = 310 + parseInt(Math.random() * 50);
+				npc.data.destY = 100;
+			}
+			else if (this.enemyLeft % 4 == 3) {
+				npc = new Archer(global.waveNumber);
+				npc.setLocation(350, 750);
+				npc.data.destX = 300 + parseInt(Math.random() * 40);
+				npc.data.destY = 650;
+			}
+			
+			npc.ai = new MeleeAI();
+			this.spriteList.push(npc);	
+			npc.broadcastState();
+		}
+	}
+	else {
+		this.checkIfCompleted();
+	}
+}
+
+// Client only
+Level4.prototype.drawLevel = function (ctx) {
+}
+
+Level4.prototype.gotoNextLevel = function() {
+	global.level = new Level1();
+	global.level.init();
+};
