@@ -8,6 +8,3 @@ Trying a simpler way (than first version) to create an online multiplayer RPG ga
 ```
 npm install (or updating, when necessary)
 ```
-## Demo
-
-http://resist-game.objectif8.com:8080 (most of the time available)

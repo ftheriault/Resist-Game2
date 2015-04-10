@@ -12,7 +12,7 @@ function Game() {
 	this.gameHeight = 700;
 	this.ws = null;
 	this.container = null;
-	this.serverLocation = 'localhost:8081';	
+	this.serverLocation = window.location.hostname + ':8081';	
 
 	this.playerId = null;
 	this.playerLevel = 1;
