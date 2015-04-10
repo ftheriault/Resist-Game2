@@ -31,7 +31,7 @@ FireTrap.prototype.update = function (fromSprite, delta) {
 			if (this.data.triggeredState == 1) {
 				for (var i = 0; i < global.level.spriteList.length; i++) {
 					if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
-						if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < 30) {
+						if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < 40) {
 							this.data.triggeredState = 2;
 							this.data.triggeredTime = (new Date()).getTime();
 							this.data.animationTime = 2000;
@@ -48,7 +48,7 @@ FireTrap.prototype.update = function (fromSprite, delta) {
 
 						if (distance < this.data.distance &&
 							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(6 + this.data.level * 3, fromSprite, false);
+							global.level.spriteList[i].hit(6 + this.data.level, fromSprite, false);
 							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}

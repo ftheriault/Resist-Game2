@@ -2,7 +2,7 @@ var Sprite = require('../Sprite');
 
 module.exports = Sorcerer = function(level) {
 	if (level != null && global != null) {
-		this.build(false, global.spriteId++, "Sorcerer", "Sorcerer", 10 + level/2, 10 + level/2, 90, 90, 0.05 + level/500.0, [ new FireBolt(null, 1 + level) ], level * 10);		
+		this.build(false, global.spriteId++, "Sorcerer", "Sorcerer", 10 + level, 10 + level, 90, 90, 0.05 + level/500.0, [ new FireBolt(null, 1 + level) ], level * 10);		
 		this.data.level = level;
 	}
 }
