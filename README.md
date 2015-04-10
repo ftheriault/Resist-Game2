@@ -6,7 +6,7 @@ Trying a simpler way (than first version) to create an online multiplayer RPG ga
 
 ## Installing required modules
 ```
-npm update
+npm install (or updating, when necessary)
 ```
 ## Demo
 
