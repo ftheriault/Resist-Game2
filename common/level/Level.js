@@ -15,7 +15,7 @@ Level.prototype.getPlayers = function () {
 }
 
 Level.prototype.commonInit = function () {
-	this.startAt = null;
+	this.startCooldown = null;
 	this.spriteList = [];
 	this.aStarQueue = [];
 	this.previousNow = new Date();
@@ -140,13 +140,21 @@ Level.prototype.tick = function () {
 			}
 		}
 	}
+
+	if (this.startCooldown != null && this.startCooldown > 0) {
+		if (parseInt((this.startCooldown - delta)/1000) < parseInt(this.startCooldown/1000)) {
+			global.wsServer.broadcastMessage("Incoming in : " + parseInt((this.startCooldown - delta)/1000), "white");
+		}
+
+		this.startCooldown -= delta;
+	}
 	
 	if (global.wsServer.clients.length > 0) {
 		if (!allPlayersDead) {
-			if (this.startAt == null) {
-				this.startAt = now.getTime() + 5000;
+			if (this.startCooldown == null) {
+				this.startCooldown = 10000; // idle period before starting
 			}
-			else if (this.startAt < now.getTime()) {
+			else if (this.startCooldown <= 0) {
 				this.tickLevel(now.getTime(), delta);
 			}
 		}
@@ -155,7 +163,7 @@ Level.prototype.tick = function () {
 		}
 	}
 	else {
-		if (this.name != "Level1" || this.startAt != null) {
+		if (this.name != "Level1" || this.startCooldown != null) {
 			console.log("- Starting back to Level1");
 			global.level = new Level1();
 			global.level.init();

@@ -188,6 +188,9 @@ Game.prototype.connect = function(username, playerType) {
 				}
 			}
 		}
+		else if (serverMessage.type == "SERVER_INCOMING_MSG") {
+			game.showSubMessage(serverMessage.message, serverMessage.color);			
+		}
 	}
 
 	this.ws.onclose = function(){
@@ -203,6 +206,12 @@ Game.prototype.showMessage = function(message, color) {
 	game.messageToShow = message;
 	game.messageColor = color;
 	game.messageInitTime = (new Date()).getTime();
+};
+
+Game.prototype.showSubMessage = function(message, color) {
+	game.subMessageToShow = message;
+	game.subMessageColor = color;
+	game.subMessageInitTime = (new Date()).getTime();
 };
 
 Game.prototype.send = function(data) {
@@ -327,6 +336,22 @@ Game.prototype.tick = function(delta) {
 	      		this.ctx.textAlign = 'center';
 				this.ctx.font = "60px Arial";
 				this.ctx.fillText(game.messageToShow, 350, 100);	
+				this.ctx.textAlign = 'left';
+				this.ctx.restore();
+			}
+		}
+
+		if (this.subMessageInitTime != null) {
+			var sinceTime = (new Date()).getTime() - this.subMessageInitTime;
+
+			if (sinceTime < 3000) {
+				var percent = 1.0 - sinceTime/3000.0;
+				this.ctx.save();
+				this.ctx.fillStyle = this.subMessageColor;
+				this.ctx.globalAlpha = percent;
+		  		this.ctx.textAlign = 'center';
+				this.ctx.font = "30px Arial";
+				this.ctx.fillText(game.subMessageToShow, 350, 350);	
 				this.ctx.textAlign = 'left';
 				this.ctx.restore();
 			}

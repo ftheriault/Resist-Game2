@@ -49,6 +49,16 @@ WsServerWrapper.prototype.broadcastStateToOwner = function (sprite) {
 	}
 }
 
+WsServerWrapper.prototype.broadcastMessage = function (message, color) {
+	for (var i = 0; i < this.clients.length; i++) {
+		this.clients[i].send({
+			type : "SERVER_INCOMING_MSG",
+			message : message,
+			color : color
+		});
+	};
+}
+
 WsServerWrapper.prototype.broadcastEvent = function (eventType, fromSpriteId, data) {
 	for (var i = 0; i < this.clients.length; i++) {
 		this.clients[i].send({
