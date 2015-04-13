@@ -87,8 +87,8 @@ Level.prototype.getSpawnPoint = function (isPlayer) {
 Level.prototype.checkIfCompleted = function () {
 	var allPlayers = true;
 
-	for (var i = 0; i < global.level.spriteList.length; i++) {
-		if (!global.level.spriteList[i].data.isPlayer) {
+	for (var i = 0; i < this.spriteList.length; i++) {
+		if (!this.spriteList[i].data.isPlayer) {
 			allPlayers = false;
 			break;
 		}

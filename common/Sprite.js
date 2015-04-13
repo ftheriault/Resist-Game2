@@ -237,7 +237,7 @@ Sprite.prototype.restore = function() {
 };
 
 Sprite.prototype.isAlive = function () {
-	return this.data.life > 0;
+	return parseInt(this.data.life) > 0;
 }
 
 Sprite.prototype.giveExperience = function(amount) {
@@ -368,8 +368,8 @@ Sprite.prototype.tick = function(delta){
 	for (var i = deltaStep; i <= delta; i += deltaStep) {
 		// deal with path (one at a time, using x, y)
 		if (this.data.destX != null && this.data.destY != null &&
-			Math.abs(this.data.x - this.data.destX) <= 1.5 &&
-			Math.abs(this.data.y - this.data.destY) <= 1.5) {
+			Math.abs(this.data.x - this.data.destX) < 2 &&
+			Math.abs(this.data.y - this.data.destY) < 2) {
 			
 			this.data.x = this.data.destX;
 			this.data.y = this.data.destY;

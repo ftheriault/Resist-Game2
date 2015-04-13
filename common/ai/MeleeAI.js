@@ -10,7 +10,7 @@ module.exports = MeleeAI = function() {
 MeleeAI.prototype.tick = function (sprite) {
 	var now = (new Date()).getTime();
 
-	if (this.lastActionTime + this.cooldown < now) {
+	if (this.lastActionTime + this.cooldown < now && !sprite.data.incoming) {
 		this.lastActionTime = now;
 		this.cooldown = this.defaultCooldown;
 

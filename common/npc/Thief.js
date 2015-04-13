@@ -16,7 +16,7 @@ Thief.prototype.loadUI = function() {
 }
 
 Thief.prototype.getDeathSound = function() {
-	return null;
+	return  "goblin/goblin-" + Math.floor(Math.random() * 9 + 1) + ".mp3";
 };
 
 Thief.prototype.digestMessage = function () {

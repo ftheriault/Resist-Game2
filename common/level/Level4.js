@@ -16,7 +16,7 @@ Level4.prototype.constructor = Level4;
 
 Level4.prototype.initLandscape = function () {
 	this.lastEnemySpawnTime = 0;
-	this.enemyLeft = 24 + 3 * global.waveNumber;
+	this.enemyLeft = 12 + 2 * global.waveNumber;
 	
 	this.obstacles.push(new Invisible(458, 213, 100));
 	this.obstacles.push(new Invisible(151, 360, 100));

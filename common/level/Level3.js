@@ -16,7 +16,7 @@ Level3.prototype.constructor = Level3;
 
 Level3.prototype.initLandscape = function () {
 	this.lastEnemySpawnTime = 0;
-	this.enemyLeft = 20 + 3 * global.waveNumber;
+	this.enemyLeft = 10 + 2 * global.waveNumber;
 	
 	this.obstacles.push(new Tree(350, 527));
 	this.obstacles.push(new Tree(380, 537));
