@@ -51,9 +51,13 @@ Level3.prototype.tickLevel = function (now, delta) {
 			}
 			else if (this.enemyLeft % 3 == 2) {
 				npc = new Thief(global.waveNumber);
-				npc.setLocation(-50, 350);
+				npc.setLocation(350, 750);
 				npc.data.destX = 30;
 				npc.data.destY = 325 + parseInt(Math.random() * 50);
+			}
+
+			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
+				npc.setLocation(npc.data.x * Math.random() * 100, npc.data.y * Math.random() * 100);
 			}
 			
 			npc.ai = new MeleeAI();

@@ -2,7 +2,7 @@ var Action = require('./Action');
 
 module.exports = HealingPotion = function (data, level) {
 	if (data == null) {
-		Action.call(this, level, "healing-potion", 10000, 0);
+		Action.call(this, level, "healing-potion", 15000, 0);
 	}
 	else {
 		Action.call(this, data.level, "healing-potion", data.cooldown);
@@ -24,7 +24,7 @@ HealingPotion.prototype.update = function (fromSprite, delta) {
 }
 
 HealingPotion.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	fromSprite.heal(25 + this.data.level * 4, fromSprite);
+	fromSprite.heal(40 + this.data.level * 5, fromSprite);
 	
 	return true;
 }

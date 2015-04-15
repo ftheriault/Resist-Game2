@@ -40,6 +40,7 @@ Shoot.prototype.update = function (fromSprite, delta) {
 						
 						this.data.triggered = false;
 						fromSprite.broadcastState();
+						break;
 					}
 				}
 			}

@@ -241,10 +241,10 @@ Sprite.prototype.isAlive = function () {
 }
 
 Sprite.prototype.giveExperience = function(amount) {
-	this.data.experience += amount;
+	this.data.experience += parseInt(amount);
 
 	if (this.data.experience >= this.data.maxExperience) {
-		this.data.maxExperience = parseInt(this.data.maxExperience * 2.25);
+		this.data.maxExperience = parseInt(this.data.maxExperience * 1.8);
 		this.data.level += 1;
 		this.data.freeActionPoints += 1;
 		this.data.freeStatPoints += 5;

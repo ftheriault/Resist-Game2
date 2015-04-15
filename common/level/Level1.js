@@ -60,6 +60,10 @@ Level1.prototype.tickLevel = function (now, delta) {
 				npc.data.destY = 350 + parseInt(Math.random() * 50);
 			}
 
+			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
+				npc.setLocation(npc.data.x * Math.random() * 100, npc.data.y * Math.random() * 100);
+			}
+
 			this.spriteList.push(npc);	
 			npc.broadcastState();
 		}

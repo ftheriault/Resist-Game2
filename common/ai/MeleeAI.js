@@ -10,35 +10,41 @@ module.exports = MeleeAI = function() {
 MeleeAI.prototype.tick = function (sprite) {
 	var now = (new Date()).getTime();
 
-	if (this.lastActionTime + this.cooldown < now && !sprite.data.incoming) {
+	if (this.lastActionTime + this.cooldown < now) {
 		this.lastActionTime = now;
-		this.cooldown = this.defaultCooldown;
+		
+		if (!sprite.data.incoming) {
+			this.cooldown = this.defaultCooldown;
 
-		if (this.target != null && this.target.isAlive()) {
-			var success = sprite.data.actions[0].trigger(sprite, this.target.data.x, this.target.data.y, this.target);
-			
-			if (!success && sprite.data.actions[0].maxDistance > sprite.distanceWith(sprite, this.target)) {
-				if (sprite.isStuck && sprite.data.path == null) {
-					this.findTarget(sprite, this.target.data.id);
+			if (this.target != null && this.target.isAlive()) {
+				var success = sprite.data.actions[0].trigger(sprite, this.target.data.x, this.target.data.y, this.target);
+				
+				if (!success && sprite.data.actions[0].maxDistance > sprite.distanceWith(sprite, this.target)) {
+					if (sprite.isStuck && sprite.data.path == null) {
+						this.findTarget(sprite, this.target.data.id);
 
-					if (this.target != null) {
-						global.level.moveTo(sprite, this.target.data.x, this.target.data.y, true, [this.target.data.id]);
+						if (this.target != null) {
+							global.level.moveTo(sprite, this.target.data.x, this.target.data.y, true, [this.target.data.id]);
+						}
+					}
+					else {
+						global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
 					}
 				}
-				else {
+				else if (sprite.data.path != null) {
+					sprite.stop();
+				}
+			} 
+			else {
+				this.findTarget(sprite, null);
+
+				if (this.target != null) {
 					global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
 				}
 			}
-			else if (sprite.data.path != null) {
-				sprite.stop();
-			}
-		} 
-		else {
-			this.findTarget(sprite, null);
-
-			if (this.target != null) {
-				global.level.moveTo(sprite, this.target.data.x, this.target.data.y, false);
-			}
+		}
+		else if (sprite.data.path == null) {
+			global.level.moveTo(sprite, sprite.data.destX, sprite.data.destY, false);
 		}
 	}
 

@@ -47,7 +47,7 @@ GameDataBar.prototype.addStatBox = function (num, statType, caption) {
 	}
 
 	this.ctx.strokeRect(x, y, sizeX, sizeY);
-	this.ctx.fillText(caption, x + 10, y + sizeY - 13);
+	this.ctx.fillText(caption, x + 6, y + sizeY - 13);
 
 	if (this.mouseX != null && this.mouseX > x && this.mouseX < x + sizeX &&
 		this.mouseY > y && this.mouseY < y + sizeY) {

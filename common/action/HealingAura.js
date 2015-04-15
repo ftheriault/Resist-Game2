@@ -34,7 +34,7 @@ HealingAura.prototype.update = function (fromSprite, delta) {
 HealingAura.prototype.propagate = function(fromSprite) {
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer == global.level.spriteList[i].data.isPlayer) {
-			global.level.spriteList[i].heal(2 + this.data.level * 2);
+			global.level.spriteList[i].heal(2 + this.data.level);
 			global.level.spriteList[i].addModifier("MISC", 0, this.type, this.data.lastTime + 1000);
 		}
 	}

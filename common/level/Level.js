@@ -148,6 +148,8 @@ Level.prototype.tick = function () {
 
 		this.startCooldown -= delta;
 	}
+
+	var goToLevel1 = false;
 	
 	if (global.wsServer.clients.length > 0) {
 		if (!allPlayersDead) {
@@ -159,16 +161,20 @@ Level.prototype.tick = function () {
 			}
 		}
 		else {
-			global.level.init();
+			goToLevel1 = true;
 		}
 	}
 	else {
 		if (this.name != "Level1" || this.startCooldown != null) {
-			console.log("- Starting back to Level1");
-			global.level = new Level1();
-			global.level.init();
-			global.waveNumber = 1;
+			goToLevel1 = true;
 		}
+	}
+
+	if (goToLevel1) {
+		console.log("- Starting back to Level1");
+		global.level = new Level1();
+		global.level.init();
+		global.waveNumber = 1;
 	}
 	
 	if (global.debugMode && this.debugMessageCooldown > 5000) {

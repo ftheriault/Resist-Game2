@@ -22,8 +22,8 @@ MagicPit.prototype.getName = function () {
 
 MagicPit.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 10000 - this.data.level * 500;
-	this.data.manaCost = 25 + this.data.level * 3;
-	this.data.lastTime = 1500 + this.data.level * 250;
+	this.data.manaCost = 20 + this.data.level * 3;
+	this.data.lastTime = 2000 + this.data.level * 500;
 
 	if (this.data.cooldown < 3000) {
 		this.data.cooldown = 3000;		

@@ -25,7 +25,7 @@ Slash.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	var success = false;
 
 	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
-		toSprite.hit(3 + this.data.level * 2, fromSprite, false);
+		toSprite.hit(3 + this.data.level, fromSprite, false);
 		success = true;
 	}
 

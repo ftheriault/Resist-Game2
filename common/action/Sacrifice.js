@@ -26,7 +26,7 @@ Sacrifice.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 	var success = false;
 
 	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
-		toSprite.hit(6 + this.data.level * 2, fromSprite);
+		toSprite.hit(6 + this.data.level * 3, fromSprite);
 		fromSprite.hit(this.data.level * 2 + parseInt(fromSprite.data.life * 0.1), false);
 		success = true;
 	}
