@@ -165,3 +165,8 @@ canvas {
 	padding:30px;
 	font-size: 1.1em;
 }
+
+.logs {
+	width: 700px;
+	margin: 10px auto 0px auto;
+}

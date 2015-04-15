@@ -65,6 +65,12 @@
 			</div>
 		</div>
 		<div class="commands">Left-click = Set target, Right-click = move &amp; target, 1-6 = Action</div>
+		<div class="logs">
+			<h3>Hall of fame</h3>
+		</div>
+		<script>
+			jQuery.get('log.txt',function(data){$(".logs").append(data);});
+		</script>
 
 		<div class="footer">
 			<a href="about.html">

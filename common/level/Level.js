@@ -171,6 +171,21 @@ Level.prototype.tick = function () {
 		}
 		else {
 			goToLevel1 = true;
+
+			if (global.maxWaveNumber < global.waveNumber)  {
+				var chars = "";
+
+				for (var i = 0; i < global.wsServer.clients.length; i++) {
+					if (global.wsServer.clients[i].sprite != null && global.wsServer.clients[i].sprite.data != null) {
+						chars += global.wsServer.clients[i].sprite.data.name + ", ";
+					}
+				}
+
+				if (chars.length > 0) {
+					chars = chars.substr(0, chars.length - 2);
+					fs.appendFile("./client/log.txt", "<div>(" + (new Date()) + ") " + global.waveNumber + " waves completed by : " + chars + "</div>"); 
+				}
+			}
 		}
 	}
 	else {
