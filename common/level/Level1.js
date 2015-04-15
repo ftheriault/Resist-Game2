@@ -42,12 +42,12 @@ Level1.prototype.tickLevel = function (now, delta) {
 			if (this.enemyLeft % 4 == 0) {
 				npc.setLocation(this.enemySpawnX, this.enemySpawnY);
 				npc.data.destX = 350 + parseInt(Math.random() * 20);
-				npc.data.destY = 400 + parseInt(Math.random() * 50);
+				npc.data.destY = 600 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 4 == 1) {
 				npc.setLocation(350, -50);
 				npc.data.destX = 350;
-				npc.data.destY = 20 + parseInt(Math.random() * 50);
+				npc.data.destY = 50 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 4 == 2) {
 				npc.setLocation(-50, 350);
@@ -56,7 +56,7 @@ Level1.prototype.tickLevel = function (now, delta) {
 			}
 			else if (this.enemyLeft % 4 == 3) {
 				npc.setLocation(750, 350);
-				npc.data.destX = 650;
+				npc.data.destX = 600;
 				npc.data.destY = 350 + parseInt(Math.random() * 50);
 			}
 
