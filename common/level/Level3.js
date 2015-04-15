@@ -37,16 +37,22 @@ Level3.prototype.tickLevel = function (now, delta) {
 
 			var npc = null; 
 
-			if (this.enemyLeft % 2 == 0) {
+			if (this.enemyLeft % 3 == 0) {
 				npc = new Sorcerer(global.waveNumber);
 				npc.setLocation(-50, 350);
 				npc.data.destX = 30;
 				npc.data.destY = 325 + parseInt(Math.random() * 50);
 			}
-			else if (this.enemyLeft % 2 == 1) {
+			else if (this.enemyLeft % 3 == 1) {
 				npc = new Skeleton(global.waveNumber);
 				npc.setLocation(750, 350);
 				npc.data.destX = 650;
+				npc.data.destY = 325 + parseInt(Math.random() * 50);
+			}
+			else if (this.enemyLeft % 3 == 2) {
+				npc = new Thief(global.waveNumber);
+				npc.setLocation(-50, 350);
+				npc.data.destX = 30;
 				npc.data.destY = 325 + parseInt(Math.random() * 50);
 			}
 			

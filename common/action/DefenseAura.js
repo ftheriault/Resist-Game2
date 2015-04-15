@@ -32,7 +32,7 @@ DefenseAura.prototype.update = function (fromSprite, delta) {
 }
 
 DefenseAura.prototype.propagate = function(fromSprite) {
-	var inc = parseInt(Math.ceil(this.data.level/2));
+	var inc = this.data.level;
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer == global.level.spriteList[i].data.isPlayer) {

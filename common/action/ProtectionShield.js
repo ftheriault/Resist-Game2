@@ -25,7 +25,7 @@ ProtectionShield.prototype.getName = function () {
 ProtectionShield.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 500;
 	this.data.manaCost = 5 + this.data.level * 1;
-	this.data.lastTime = 2000 + this.data.level * 500;;
+	this.data.lastTime = 3000 + this.data.level * 500;
 
 	if (this.data.triggered) {
 		if (global != null && global.level != null) {

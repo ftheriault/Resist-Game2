@@ -1,5 +1,12 @@
-function SpriteUI(race, itemList, attackType) {
+function SpriteUI(race, itemList, attackType, scale) {
 	this.items = [];
+
+	if (scale == null) {
+		this.scale = 1;
+	}
+	else {
+		this.scale =scale;
+	}
 
 	var imageSpriteUI = new TiledImage("images/items/" + race + "-walk.png", "walk", 9, 4);
 	imageSpriteUI.changeColumnInterval(0, 7);
@@ -146,10 +153,10 @@ SpriteUI.prototype.draw = function (ctx, x, y, destX, destY) {
 				this.items[i].changeColumnInterval(0, 0);						
 			}
 
-			this.items[i].tick(ctx, x, y);
+			this.items[i].tick(ctx, x, y, this.scale);
 		}
 		else if (this.pendingAnimation == this.items[i].type) {
-			this.items[i].tick(ctx, x, y);
+			this.items[i].tick(ctx, x, y, this.scale);
 			this.items[i].changeRow(this.currentAnimationRow);	
 
 			if (this.items[i].imageCurrentCol == this.items[i].imageAnimationColMin) {

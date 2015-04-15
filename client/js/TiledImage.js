@@ -35,7 +35,7 @@
 		this.imageCurrentCol = this.imageAnimationColMin;
 	}
 
-	this.tick = function (ctx, spritePosX, spritePosY) {
+	this.tick = function (ctx, spritePosX, spritePosY, scale) {
 		var now = new Date().getTime();
 		var delta = now - (this.tickTime || now);
 		this.tickTime = now;
@@ -53,10 +53,10 @@
 							  this.imageList[i].height/this.imageTileRowCount * this.imageCurrentRow,
 							  this.imageList[i].width/this.imageTileColCount, 
 							  this.imageList[i].height/this.imageTileRowCount, 
-							  Math.floor(spritePosX - this.imageList[i].width/this.imageTileColCount/2), 
-							  Math.floor(spritePosY - this.imageList[i].height/this.imageTileRowCount/2), 
-							  this.imageList[i].width/this.imageTileColCount, 
-							  this.imageList[i].height/this.imageTileRowCount);
+							  Math.floor(spritePosX - this.imageList[i].width/this.imageTileColCount/2 * scale), 
+							  Math.floor(spritePosY - this.imageList[i].height/this.imageTileRowCount/2 * scale), 
+							  this.imageList[i].width/this.imageTileColCount * scale, 
+							  this.imageList[i].height/this.imageTileRowCount * scale);
 
 
 				if (this.tickDrawFrameInterval == 0) {

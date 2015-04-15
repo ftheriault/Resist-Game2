@@ -1,4 +1,5 @@
 var Level = require('./Level');
+var Level5 = require('./Level5');
 var Tree = require('./obstacle/Tree');
 var Invisible = require('./obstacle/Invisible');
 var Skeleton = require('./../npc/Skeleton');
@@ -32,29 +33,35 @@ Level4.prototype.tickLevel = function (now, delta) {
 
 			var npc = null; 
 
-			if (this.enemyLeft % 4 == 0) {
+			if (this.enemyLeft % 5 == 0) {
 				npc = new Sorcerer(global.waveNumber);
 				npc.setLocation(-50, 350);
 				npc.data.destX = 30;
 				npc.data.destY = 325 + parseInt(Math.random() * 50);
 			}
-			else if (this.enemyLeft % 4 == 1) {
+			else if (this.enemyLeft % 5 == 1) {
 				npc = new Skeleton(global.waveNumber);
 				npc.setLocation(750, 350);
 				npc.data.destX = 650;
 				npc.data.destY = 325 + parseInt(Math.random() * 50);
 			}
-			else if (this.enemyLeft % 4 == 2) {
+			else if (this.enemyLeft % 5 == 2) {
 				npc = new Thief(global.waveNumber);
 				npc.setLocation(350, 0);
 				npc.data.destX = 310 + parseInt(Math.random() * 50);
 				npc.data.destY = 100;
 			}
-			else if (this.enemyLeft % 4 == 3) {
+			else if (this.enemyLeft % 5 == 3) {
 				npc = new Archer(global.waveNumber);
 				npc.setLocation(350, 750);
 				npc.data.destX = 300 + parseInt(Math.random() * 40);
 				npc.data.destY = 650;
+			}
+			else if (this.enemyLeft % 5 == 4) {
+				npc = new Skeleton(global.waveNumber);
+				npc.setLocation(-50, 50);
+				npc.data.destX = 650;
+				npc.data.destY = 325 + parseInt(Math.random() * 50);
 			}
 			
 			npc.ai = new MeleeAI();
@@ -72,6 +79,6 @@ Level4.prototype.drawLevel = function (ctx) {
 }
 
 Level4.prototype.gotoNextLevel = function() {
-	global.level = new Level1();
+	global.level = new Level5();
 	global.level.init();
 };
