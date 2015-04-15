@@ -32,7 +32,8 @@ WsServerWrapper.prototype.sendStateTo = function (to) {
 	to.send({
 		type : "GAME_STATE_UPDATE",
 		level : global.level,
-		waveNumber : global.waveNumber
+		waveNumber : global.waveNumber,
+		maxWaveNumber : global.maxWaveNumber
 	});
 }
 
@@ -76,7 +77,8 @@ WsServerWrapper.prototype.broadcastState = function (sprite) {
 			this.clients[i].send({
 				type : "GAME_STATE_UPDATE",
 				level : global.level,
-				waveNumber : global.waveNumber
+				waveNumber : global.waveNumber,
+				maxWaveNumber : global.maxWaveNumber
 			});
 		};
 	}

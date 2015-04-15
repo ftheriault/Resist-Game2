@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports = Level = function(name, spawnX, spawnY, enemySpawnX, enemySpawnY) {
 	this.name = name;
 	this.spawnX = spawnX;
@@ -96,7 +98,14 @@ Level.prototype.checkIfCompleted = function () {
 	}
 
 	if (allPlayers) {
+
+		if (global.maxWaveNumber < global.waveNumber)  {
+			global.maxWaveNumber = global.waveNumber;
+			fs.writeFile("./data.txt", global.waveNumber); 
+		}
+		
 		global.waveNumber++;
+
 		this.gotoNextLevel();
 	}
 }

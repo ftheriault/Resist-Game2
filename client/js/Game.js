@@ -112,6 +112,8 @@ Game.prototype.connect = function(username, playerType) {
 			game.level = new (window[serverMessage.level.name])();
 			game.level.commonInit();
 			game.level.initLandscape();
+			game.maxWaveNumber = serverMessage.maxWaveNumber;
+			console.log(serverMessage)
 			game.showMessage("Wave " + serverMessage.waveNumber, "white");
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
@@ -372,5 +374,10 @@ Game.prototype.tick = function(delta) {
 		this.ctx.font = "12px Arial";
 		this.ctx.fillText(game.errorMessage, 350, 300);
 		this.ctx.textAlign = 'left';
+	}
+
+	if (game.maxWaveNumber != null) {
+		this.ctx.fillStyle = "white";
+		this.ctx.fillText("Max wave survived : " + game.maxWaveNumber, 10, 680);
 	}
 }
