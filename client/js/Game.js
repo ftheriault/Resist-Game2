@@ -312,12 +312,11 @@ Game.prototype.tick = function(delta) {
 		}
 	}
 
+	this.ctx.fillStyle = "black";
+	this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+
 	if (this.level != null) {
 		this.level.draw(this.ctx);
-	}
-	else {
-		this.ctx.fillStyle = "black";
-		this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
 	}
 
 	if (this.level != null) {
@@ -378,6 +377,6 @@ Game.prototype.tick = function(delta) {
 
 	if (game.maxWaveNumber != null) {
 		this.ctx.fillStyle = "white";
-		this.ctx.fillText("Max wave survived : " + game.maxWaveNumber, 10, 680);
+		this.ctx.fillText("Maximum waves survived : " + game.maxWaveNumber, 10, 680);
 	}
 }
