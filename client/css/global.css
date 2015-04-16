@@ -167,6 +167,10 @@ canvas {
 }
 
 .logs {
-	width: 700px;
-	margin: 10px auto 0px auto;
+	background-color: black;
+	border:1px solid white;
+	border-radius: 6px;
+	width: 980px;
+	margin: 40px auto;
+	padding:10px;
 }

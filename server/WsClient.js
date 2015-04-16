@@ -28,7 +28,17 @@ module.exports = WsClient = function(ws) {
 					this.sprite = new Priest(); 
 				}
 
-				this.sprite.initPlayer(this.id, message.username);
+				var username = "???";
+				
+				if (message.username != null) {
+					username = message.username.replace(/(<([^>]+)>)/ig,"");
+					
+					if (username.trim().length == 0) {
+						username = "n/a";
+					}
+				}
+				
+				this.sprite.initPlayer(this.id, username);
 				var spawnPoint = global.level.getSpawnPoint(true);
 				this.sprite.setLocation(spawnPoint.x, spawnPoint.y);
 				global.level.spriteList.push(this.sprite);
