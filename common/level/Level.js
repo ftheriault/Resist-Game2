@@ -172,7 +172,7 @@ Level.prototype.tick = function () {
 		else {
 			goToLevel1 = true;
 
-			if (global.maxWaveNumber < global.waveNumber)  {
+			if (global.maxWaveNumber < global.waveNumber - 1)  {
 				var chars = "";
 
 				for (var i = 0; i < global.wsServer.clients.length; i++) {
