@@ -71,7 +71,7 @@ Level5.prototype.tickLevel = function (now, delta) {
 			}
 
 			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
-				npc.setLocation(npc.data.x * Math.random() * 100, npc.data.y * Math.random() * 100);
+				npc.setLocation(npc.data.x + Math.random() * 300, npc.data.y + Math.random() * 300);
 			}
 			
 			npc.ai = new MeleeAI();
