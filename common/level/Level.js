@@ -183,7 +183,7 @@ Level.prototype.tick = function () {
 
 				if (chars.length > 0) {
 					chars = chars.substr(0, chars.length - 2);
-					fs.appendFile("./client/log.txt", "<div>(" + (new Date()) + ") " + global.waveNumber + " waves completed by : " + chars + "</div>\n"); 
+					fs.appendFile("./client/log.txt", "<div>(" + (new Date()) + ") " + (global.waveNumber - 1) + " waves completed by : " + chars + "</div>\n"); 
 				}
 			}
 		}
