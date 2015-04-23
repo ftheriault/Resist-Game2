@@ -1,10 +1,14 @@
 var game = null;
 var previousNow = null;
-var animation
+var animation = null;
 
 var tmpList = [];
 
-window.onload = function () {
+function showMenu() {
+	menuShown = true;
+	$("#loaderPercent").css("display", "none");
+	$(".hidden").fadeIn();
+
 	tmpList.push(new Warrior());
 	tmpList[tmpList.length - 1].type = "Warrior";
 	tmpList[tmpList.length - 1].loadUI();

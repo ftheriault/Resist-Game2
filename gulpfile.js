@@ -6,6 +6,7 @@ var transform = require('vinyl-transform');
 var gutil = require('gulp-util');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
+var preloadify = require('./server/preloadify');
 
 gulp.task('default', function() {
   console.log("=======================");
@@ -17,7 +18,11 @@ gulp.task('default', function() {
     .bundle().on('error', handleError)
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./client/js/'));
+  console.log(" -- Bundle created");
 
+  // Create preloader file
+  preloadify(['./client/images', './client/sound'], './client/js/preload.js', './client/');
+  console.log(" -- Preloader created");
 
   console.log(" - Completed");
   console.log("-----------------------");
