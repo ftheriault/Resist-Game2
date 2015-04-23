@@ -55,8 +55,7 @@ module.exports = Preloadify = function(list, destinationPath, pathSectionToRemov
 		});\
 \
 		myLoader.on('error', function(e){ \n\
-			clearInterval(loaderProgressInterval);\n\
-			console.error(e);\n\
+			//too bad...\n\
 		});	\n\
 	});\
 	";
