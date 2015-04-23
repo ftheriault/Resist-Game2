@@ -2,7 +2,7 @@ console.log("=================================");
 
 // Creating HTTP server
 var HttpServerWrapper = require('./HttpServerWrapper');
-var webServer = new HttpServerWrapper(8080);
+var webServer = new HttpServerWrapper(80);
 console.log("- Http Server ready");
 
 // Creating WebSocket server

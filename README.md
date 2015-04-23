@@ -10,4 +10,4 @@ npm install (or updating, when necessary)
 ```
 ## Demo
 
-http://resist-game.objectif8.com:8080 (should be available most of the time)
+http://resist-game.objectif8.com (should be available most of the time)
