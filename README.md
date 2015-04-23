@@ -17,6 +17,12 @@ To be able to run the application locally, some JavaScript files must be created
 gulp default
 ```
 
+Then, the application can be started by executing the main server file, which will start the Web server.
+
+```
+node server/main.js 
+```
+
 ## Demo
 
 http://resist-game.objectif8.com (should be available most of the time)
