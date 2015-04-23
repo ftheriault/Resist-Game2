@@ -65,23 +65,12 @@
 			</div>
 		</div>
 		<div class="commands">Left-click = Set target, Right-click = move &amp; target, 1-6 = Action</div>
-		<div class="logs">
-			<h3>Hall of fame</h3>
-			<div id="logs-data"></div>
-		</div>
-		<script>
-			jQuery.get('log.txt',function(data){
-				if (data.length > 0) {
-					data = data.split("\n");
-					
-					for (var i = 0; i < data.length; i++) {
-						$("#logs-data").prepend(data[i]);
-					}
-				}
-			});
-		</script>
-
+		
 		<div class="footer">
+			<a href="score.html">
+				Hall of fame
+			</a>
+			 | 
 			<a href="about.html">
 				About Resist! game
 			</a>

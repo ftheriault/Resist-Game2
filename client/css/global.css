@@ -166,6 +166,11 @@ canvas {
 	font-size: 1.1em;
 }
 
+.score-page {
+	padding:30px;
+	font-size: 1.1em;
+}
+
 .logs {
 	background-color: black;
 	border:1px solid white;
@@ -173,4 +178,5 @@ canvas {
 	width: 980px;
 	margin: 40px auto;
 	padding:10px;
+	min-height:500px;
 }

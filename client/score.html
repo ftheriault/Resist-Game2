@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Resist! Hall of Fame</title>
+		<link rel="stylesheet" href="css/global.css" />
+		<script src="js/jquery-2.0.3.min.js"></script>
+	</head>
+	<body>
+		<h1>Resist! - The best scores</h1>
+
+		<div class="score-page">
+			<div class="logs">
+				<h3>Hall of fame</h3>
+				<div id="logs-data"></div>
+			</div>
+			<script>
+				jQuery.get('log.txt',function(data){
+					if (data.length > 0) {
+						data = data.split("\n");
+						
+						for (var i = 0; i < data.length; i++) {
+							$("#logs-data").prepend(data[i]);
+						}
+					}
+				});
+			</script>
+		</div>
+		
+	</body>
+</html>
