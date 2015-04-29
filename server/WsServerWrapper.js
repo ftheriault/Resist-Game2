@@ -70,6 +70,16 @@ WsServerWrapper.prototype.broadcastEvent = function (eventType, fromSpriteId, da
 	};
 }
 
+WsServerWrapper.prototype.broadcastMovement = function (fromSpriteId, path) {
+	for (var i = 0; i < this.clients.length; i++) {
+		this.clients[i].send({
+			type : "UPDATE_SPRITE_PATH",
+			fromSpriteId : fromSpriteId,
+			path : path
+		});
+	};
+}
+
 WsServerWrapper.prototype.broadcastState = function (sprite) {
 	
 	if (sprite == null) {

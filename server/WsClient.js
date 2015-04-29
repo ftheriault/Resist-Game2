@@ -54,7 +54,7 @@ module.exports = WsClient = function(ws) {
 		}
 		else if (this.sprite.isAlive()) {
 			if (message.type == "MOVE_TO") {
-				global.level.moveTo(this.sprite, message.destX, message.destY);
+				global.level.moveTo(this.sprite, message.destX, message.destY, null, null, message.currX, message.currY);
 			}
 			else if (message.type == "ACTION_CLICK") {
 				if (message.key != null && !isNaN(message.key) && message.key - 1 < this.sprite.data.actions.length) {

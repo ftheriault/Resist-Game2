@@ -113,7 +113,6 @@ Game.prototype.connect = function(username, playerType) {
 			game.level.commonInit();
 			game.level.initLandscape();
 			game.maxWaveNumber = serverMessage.maxWaveNumber;
-			console.log(serverMessage)
 			game.showMessage("Wave " + serverMessage.waveNumber, "white");
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
@@ -124,6 +123,18 @@ Game.prototype.connect = function(username, playerType) {
 
 				if (sprite.data.id == game.playerId) {
 					game.playerSprite = sprite;
+				}
+			}
+		}
+		else if (serverMessage.type == "UPDATE_SPRITE_PATH") {
+			for (var i = 0; i < game.level.spriteList.length; i++) {
+				if (game.level.spriteList[i].data.id == serverMessage.fromSpriteId) {
+					var firstPoint = serverMessage.path.shift();
+
+					game.level.spriteList[i].data.path = serverMessage.path;
+					game.level.spriteList[i].data.destX = firstPoint.x;
+					game.level.spriteList[i].data.destY = firstPoint.y;
+					break;
 				}
 			}
 		}
@@ -278,7 +289,7 @@ Game.prototype.statIconClick = function(statType) {
 }
 
 Game.prototype.rightClick = function(x, y) {	
-	if (this.playerId != null) {
+	if (this.playerId != null && this.playerSprite != null) {
 
 		for (var i = 0; i < this.level.spriteList.length; i++) {
 			var distance = Math.sqrt(Math.pow(x - this.level.spriteList[i].data.x, 2) + Math.pow(y - this.level.spriteList[i].data.y, 2));
@@ -291,6 +302,8 @@ Game.prototype.rightClick = function(x, y) {
 
 		this.send({
 			type : "MOVE_TO",
+			currX : this.playerSprite.data.x,
+			currY : this.playerSprite.data.y,
 			destX : x,
 			destY : y
 		});

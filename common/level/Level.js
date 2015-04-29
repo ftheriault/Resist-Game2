@@ -216,7 +216,7 @@ Level.prototype.addNPC = function (npc) {
 	npc.broadcastState();
 }
 
-Level.prototype.moveTo = function (sprite, destX, destY, withSprites, exceptSprites) {
+Level.prototype.moveTo = function (sprite, destX, destY, withSprites, exceptSprites, currX, currY) {
 	for (var i = 0; i < this.aStarQueue.length; i++) {
 		if (this.aStarQueue[i].spriteId == sprite.data.id) {
 			this.aStarQueue.splice(i, 1);
@@ -224,32 +224,44 @@ Level.prototype.moveTo = function (sprite, destX, destY, withSprites, exceptSpri
 		}
 	}
 
-	var moveData = {
+	var moveLogic = {
 		spriteId : sprite.data.id,
 		logic : function () {
 			if (exceptSprites == null) {
 				exceptSprites = [ sprite.data.id ];
 			}
 
-			exceptSprites.push(sprite.data.id);
+			if (!sprite.data.isPlayer) {
+				exceptSprites.push(sprite.data.id);
 
-			var path = global.aStar.calculatePath(sprite.data.x, sprite.data.y, destX, destY, exceptSprites, withSprites);
+				var x = sprite.data.x;
+				var y = sprite.data.y;
 
-			if (path != null && path.length > 0) {
-				var firstPoint = path.shift();
-				sprite.data.path = path;
-				sprite.data.destX = firstPoint.x;
-				sprite.data.destY = firstPoint.y;
-				global.wsServer.broadcastState(sprite);
+				var path = global.aStar.calculatePath(x, y, destX, destY, exceptSprites, withSprites);
+
+				if (path != null && path.length > 0) {
+					global.wsServer.broadcastMovement(sprite.data.id, path);
+					var firstPoint = path.shift();
+					sprite.data.path = path;
+					sprite.data.destX = firstPoint.x;
+					sprite.data.destY = firstPoint.y;
+				}
+			}
+			else {
+				var path = [];
+				path.push({ x : destX, y : destY });
+				global.wsServer.broadcastMovement(sprite.data.id, path);
+				sprite.data.destX = destX;
+				sprite.data.destY = destY;
 			}
 		}
 	}
 	
 	if (sprite.data.isPlayer === true) {
-		this.aStarQueue.unshift(moveData);
+		this.aStarQueue.unshift(moveLogic);
 	}
 	else {
-		this.aStarQueue.push(moveData);	
+		this.aStarQueue.push(moveLogic);	
 	}
 }
 
