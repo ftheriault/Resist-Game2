@@ -1,0 +1,84 @@
+var proton;
+var emitterFire = null;
+
+var fireParticleImage = null;
+var glowParticleImage = null;
+
+function initParticleSystem(canvas) {
+	proton = new Proton();
+
+	//Creating fire effect
+	fireParticleImage = new Image();
+	fireParticleImage.src = "images/map-assets/fire.png";
+
+	//Creating glow/fog effect
+	glowParticleImage = new Image();
+	glowParticleImage.src = "images/map-assets/glow.png";
+
+	// add canvas renderer
+	var renderer = new Proton.Renderer('canvas', proton, canvas);
+	renderer.start();
+}
+
+function emitFire () {
+	var fireEmitter = new Proton.Emitter();
+	fireEmitter.rate = new Proton.Rate(new Proton.Span(1, 1), .02);
+	fireEmitter.addInitialize(new Proton.Mass(1));
+	fireEmitter.addBehaviour(new Proton.Gravity());
+	fireEmitter.addInitialize(new Proton.ImageTarget(fireParticleImage));
+	fireEmitter.addInitialize(new Proton.Life(0.3,1.0));
+	fireEmitter.addInitialize(new Proton.V(new Proton.Span(0.5, 1), new Proton.Span(0, 45, true), 'polar'));
+	fireEmitter.addBehaviour(new Proton.Scale(new Proton.Span(0.6,0.8), new Proton.Span(0.2, 0.4)));
+	fireEmitter.addBehaviour(new Proton.Alpha(1, .2));
+
+	return fireEmitter;
+}
+
+function createExplosion (x, y, size, fromColor, toColor) {
+	var emitter = new Proton.Emitter();
+	emitter.rate = new Proton.Rate(new Proton.Span(15, 50), new Proton.Span(.1, .2));
+	emitter.addInitialize(new Proton.Mass(1));
+	emitter.addInitialize(new Proton.Life(1, 2));
+	emitter.addInitialize(new Proton.ImageTarget(glowParticleImage, 32));
+	emitter.addInitialize(new Proton.Radius(size));
+	emitter.addInitialize(new Proton.V(new Proton.Span(3, 6), new Proton.Span(0, 360), 'polar'));
+	emitter.addBehaviour(new Proton.Alpha(1, 0));
+	emitter.addBehaviour(new Proton.Color(fromColor, toColor));
+	emitter.addBehaviour(new Proton.Scale(Proton.getSpan(0.3, 4), 0));
+	emitter.addBehaviour(new Proton.CrossZone(new Proton.RectZone(0, 0, 1003, 610), 'dead'));
+
+	emitter.p.x = x;
+	emitter.p.y = y;
+	emitter.rotation = 48;
+
+	emitter.emit();
+	proton.addEmitter(emitter);
+
+	setTimeout(function () {
+		emitter.stopEmit();
+	}, 300);
+}
+
+function emitDebrisParticles() {
+	//Paddle emitter
+	var myEmitter = new Proton.Emitter();
+	//set Rate
+	myEmitter.rate = new Proton.Rate(Proton.getSpan(15, 20), 0.1);
+	//add Initialize
+	myEmitter.addInitialize(new Proton.Radius(1,4));
+	myEmitter.addInitialize(new Proton.Life(0.5, 1));
+	//myEmitter.addInitialize(new Proton.V(new Proton.Span(1,3), new Proton.Span(0, 10), 'vector'));
+
+	var minSpeed = 2.0;
+	var maxSpeed = 5.0;
+	
+	myEmitter.addInitialize(new Proton.V(new Proton.Span(minSpeed, maxSpeed), new Proton.Span(-70, 140, true), 'polar'));
+	
+	//Behavior
+	myEmitter.addBehaviour(new Proton.Gravity(15));
+	myEmitter.addBehaviour(new Proton.Color('#000000', ['#555555', '#A52A2A']));
+	myEmitter.addBehaviour(new Proton.Alpha(1, 0.6));
+	myEmitter.damping = 0.1;
+
+	return myEmitter;
+}

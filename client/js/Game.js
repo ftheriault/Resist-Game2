@@ -23,6 +23,8 @@ function Game() {
 	this.mouseX = 0;
 	this.mouseY = 0;
 
+	initParticleSystem(document.getElementById("canvas"));
+
 	if (debug) {
 		this.debugMessageLength = 0;
 		this.debugMessageInitTime = 0;
@@ -107,6 +109,8 @@ Game.prototype.connect = function(username, playerType) {
 			$(".gui").animate({
 				opacity:1
 			}, 1000);
+			
+			createExplosion(game.gameWidth/2, 120, 30, "#000000", '#000000');
 		}
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
 			game.level = new (window[serverMessage.level.name])();
@@ -162,9 +166,11 @@ Game.prototype.connect = function(username, playerType) {
 			if (game.playerSprite.data.level > game.playerLevel) {
 				game.playerLevel = game.playerSprite.data.level;
 				game.showMessage("! LEVEL UP !", "green");
+				createExplosion(game.gameWidth/2, 120, 20, "#00ff00", '#aaaaaa');
 			}
 			else if (game.playerSprite.data.life == 0 && game.playerAlive) {
 				game.showMessage("! YOU DIED !", "red");
+				createExplosion(game.gameWidth/2, 120, 20, "#ff0000", '#aaaaaa');
 			}
 
 			game.playerAlive = game.playerSprite.data.life > 0;
@@ -379,6 +385,8 @@ Game.prototype.tick = function(delta) {
 	if (this.gameDataBar != null) {
 		this.gameDataBar.tick(delta);
 	}
+
+	proton.update();
 
 	if (game.errorMessage != null) {
 		this.ctx.textAlign = 'center';
