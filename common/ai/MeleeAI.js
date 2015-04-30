@@ -2,7 +2,7 @@ var Level = require('./../Sprite');
 
 module.exports = MeleeAI = function() {
 	this.lastActionTime = 0;
-	this.defaultCooldown = 2000;
+	this.defaultCooldown = 3000;
 	this.cooldown = this.defaultCooldown;
 	this.target = null;
 }

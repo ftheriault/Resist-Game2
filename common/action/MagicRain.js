@@ -33,11 +33,7 @@ MagicRain.prototype.update = function (fromSprite, delta) {
 
 		}
 		else {
-			game.ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-			game.ctx.fillRect(0, 0, 700, 700);
-		}
-
-		if (this.data.triggeredTime + this.data.lastTime < (new Date()).getTime()) {
+			createFlies();
 			this.data.triggered = false;
 		}
 	}
