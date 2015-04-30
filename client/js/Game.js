@@ -180,6 +180,10 @@ Game.prototype.connect = function(username, playerType) {
 				if (game.level.spriteList[i].data.id == serverMessage.fromSpriteId) {
 					var previousLife = game.level.spriteList[i].data.life;
 					game.level.spriteList[i].data.life = serverMessage.data;
+
+					if (game.level.spriteList[i].data.isPlayer) {
+						createBloodSpill(game.level.spriteList[i].data.x, game.level.spriteList[i].data.y);
+					}
 					
 					if (serverMessage.data <= 0) {
 						if (game.level.spriteList[i].getDeathSound() != null) {

@@ -59,26 +59,27 @@ function createExplosion (x, y, size, fromColor, toColor) {
 	}, 300);
 }
 
-function emitDebrisParticles() {
-	//Paddle emitter
+function createBloodSpill(x, y) {
 	var myEmitter = new Proton.Emitter();
-	//set Rate
 	myEmitter.rate = new Proton.Rate(Proton.getSpan(15, 20), 0.1);
-	//add Initialize
-	myEmitter.addInitialize(new Proton.Radius(1,4));
+	myEmitter.addInitialize(new Proton.Radius(1,2));
 	myEmitter.addInitialize(new Proton.Life(0.5, 1));
-	//myEmitter.addInitialize(new Proton.V(new Proton.Span(1,3), new Proton.Span(0, 10), 'vector'));
-
 	var minSpeed = 2.0;
-	var maxSpeed = 5.0;
-	
+	var maxSpeed = 5.0;	
 	myEmitter.addInitialize(new Proton.V(new Proton.Span(minSpeed, maxSpeed), new Proton.Span(-70, 140, true), 'polar'));
-	
-	//Behavior
 	myEmitter.addBehaviour(new Proton.Gravity(15));
-	myEmitter.addBehaviour(new Proton.Color('#000000', ['#555555', '#A52A2A']));
-	myEmitter.addBehaviour(new Proton.Alpha(1, 0.6));
+	myEmitter.addBehaviour(new Proton.Color('#cc0000', "#ff0000"));
+	myEmitter.addBehaviour(new Proton.Alpha(1, 0.0));
 	myEmitter.damping = 0.1;
 
-	return myEmitter;
+	myEmitter.p.x = x;
+	myEmitter.p.y = y;
+
+	myEmitter.emit();
+	proton.addEmitter(myEmitter);
+
+	setTimeout(function () {
+		myEmitter.stopEmit();
+		proton.removeEmitter(myEmitter);
+	}, 250);
 }
