@@ -89,14 +89,14 @@ function createFlies() {
 	emitter.damping = 0.0075;
 	emitter.rate = new Proton.Rate(180);
 	emitter.addInitialize(new Proton.ImageTarget(glowParticleImage, 32));
-	emitter.addInitialize(new Proton.Position(new Proton.RectZone(0, 0, 1003, 550)));
+	emitter.addInitialize(new Proton.Position(new Proton.RectZone(0, 0, 1003, 700)));
 	emitter.addInitialize(new Proton.Mass(1), new Proton.Radius(Proton.getSpan(5, 10)));
 	mouseObj = {
 		x : game.gameWidth / 2,
 		y : game.gameHeight / 2
 	};
 	repulsionBehaviour = new Proton.Repulsion(mouseObj, 0, 0);
-	crossZoneBehaviour = new Proton.CrossZone(new Proton.RectZone(-2, 0, 1005, 550), 'cross');
+	crossZoneBehaviour = new Proton.CrossZone(new Proton.RectZone(-2, 0, 1005, 700), 'cross');
 	emitter.addBehaviour(repulsionBehaviour, crossZoneBehaviour);
 	emitter.addBehaviour(new Proton.Scale(Proton.getSpan(.1, .6)));
 	emitter.addBehaviour(new Proton.Alpha(.5));
