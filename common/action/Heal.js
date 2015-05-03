@@ -18,7 +18,7 @@ Heal.prototype.getName = function () {
 }
 
 Heal.prototype.update = function (fromSprite, delta) {
-	this.data.manaCost = 15 + 3 * this.data.level;
+	this.data.manaCost = 15 + 2 * this.data.level;
 }
 
 Heal.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {

@@ -196,9 +196,9 @@ Level.prototype.tick = function () {
 
 	if (goToLevel1) {
 		console.log("- Starting back to Level1");
+		global.waveNumber = 1;
 		global.level = new Level1();
 		global.level.init();
-		global.waveNumber = 1;
 	}
 	
 	if (global.debugMode && this.debugMessageCooldown > 5000) {

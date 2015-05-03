@@ -51,14 +51,14 @@ Level5.prototype.tickLevel = function (now, delta) {
 					var y = 150 + parseInt(Math.random() * 150);
 					npc = new Thief(global.waveNumber);
 					npc.setLocation(-50, y);
-					npc.data.destX = 30;
+					npc.data.destX = 80;
 					npc.data.destY = y;
 				}
 				else if (this.enemyLeft % 2 == 1) {
-					var y = 450 + parseInt(Math.random() * 150);
+					var y = 450 + parseInt(Math.random() * 50);
 					npc = new Skeleton(global.waveNumber);
 					npc.setLocation(-50, y);
-					npc.data.destX = 50;
+					npc.data.destX = 80;
 					npc.data.destY = y;
 				}
 			}
@@ -71,7 +71,7 @@ Level5.prototype.tickLevel = function (now, delta) {
 			}
 
 			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
-				npc.setLocation(npc.data.x + Math.random() * 300, npc.data.y + Math.random() * 300);
+				npc.setLocation(npc.data.x + Math.random() * 100, npc.data.y + Math.random() * 100);
 			}
 			
 			npc.ai = new MeleeAI();

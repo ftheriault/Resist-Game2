@@ -49,7 +49,7 @@ ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 				for (var i = 0; i < global.level.spriteList.length; i++) {
 					if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 						if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
-							global.level.spriteList[i].hit(5 + this.data.level * 3, fromSprite, false);
+							global.level.spriteList[i].hit(5 + this.data.level * 2, fromSprite, false);
 						}
 					}
 				}

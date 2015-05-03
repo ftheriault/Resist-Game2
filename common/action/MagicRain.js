@@ -10,7 +10,7 @@ module.exports = MagicRain = function (data, level) {
 	}
 
 	this.needTarget = false;
-	this.data.lastTime = 200;
+	this.data.lastTime = 20;
 }
 
 MagicRain.prototype = new Action();
@@ -30,10 +30,12 @@ MagicRain.prototype.update = function (fromSprite, delta) {
 
 	if (this.data.triggered && delta != null) {
 		if (global != null && global.level != null) {
-
 		}
 		else {
 			createFlies();
+		}
+
+		if (this.data.triggeredTime + this.data.lastTime < (new Date()).getTime()) {
 			this.data.triggered = false;
 		}
 	}
@@ -43,7 +45,7 @@ MagicRain.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
-	var amount = 4 + parseInt(this.data.level/2);
+	var amount = 4 + parseInt(this.data.level);
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
