@@ -33,6 +33,8 @@ function Game() {
 
 	var tmpGame = this;
 
+	this.music = this.playMusic("theme-menu.mp3");
+
 	fireImage.src = "images/map-assets/fire.png";
 	lavaImage.onload = function() {
 		lavaPattern = tmpGame.ctx.createPattern(this, 'repeat');
@@ -51,6 +53,10 @@ function Game() {
 	document.getElementById("canvas").onmousemove = function (e) { 
 		game.mouseX = e.pageX - document.getElementById("canvas").offsetLeft;
 		game.mouseY = e.pageY - document.getElementById("canvas").offsetTop;
+	}
+
+	document.oncontextmenu = function (e) {
+		e.preventDefault();
 	}
 
 	document.getElementById("canvas").oncontextmenu = function (e) {
