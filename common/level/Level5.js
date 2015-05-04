@@ -9,7 +9,7 @@ var Giant = require('./../npc/Giant');
 var MeleeAI = require('./../ai/MeleeAI');
 
 module.exports = Level5 = function() {
-	Level.call(this, "Level5", 350, 350, 350, 750);
+	Level.call(this, "Level5", 350, 350, 350, 750, "heroic-minority.mp3");
 }
 
 Level5.prototype = new Level();

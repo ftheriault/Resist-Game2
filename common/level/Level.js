@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = Level = function(name, spawnX, spawnY, enemySpawnX, enemySpawnY) {
+module.exports = Level = function(name, spawnX, spawnY, enemySpawnX, enemySpawnY, music) {
 	this.name = name;
 	this.spawnX = spawnX;
 	this.spawnY = spawnY;
@@ -10,6 +10,11 @@ module.exports = Level = function(name, spawnX, spawnY, enemySpawnX, enemySpawnY
 
 	this.previousNow = new Date();
 	this.debugMessageCooldown =0;
+	this.music = music;
+}
+
+Level.prototype.getMusic = function () {
+	return this.music;
 }
 
 Level.prototype.getPlayers = function () {

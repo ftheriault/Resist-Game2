@@ -15,6 +15,7 @@ function Game() {
 	this.ws = null;
 	this.container = null;
 	this.serverLocation = window.location.hostname + ':8081';	
+	this.music = null;
 
 	this.playerId = null;
 	this.playerLevel = 1;
@@ -79,6 +80,24 @@ Game.prototype.playSound = function(path) {
 	audio.addEventListener('ended', function () {
 		document.body.removeChild(audio);		
 	});
+
+	return audio;
+};
+
+Game.prototype.playMusic = function(path) {
+	this.soundId++;
+
+	var audio = document.createElement("audio");
+	audio.setAttribute("autoplay","autoplay");
+	audio.src ='music/' + path;
+	audio.volume = 1;
+	document.body.appendChild(audio);
+
+	audio.addEventListener('ended', function () {
+		document.body.removeChild(audio);		
+	});
+
+	return audio;
 };
 
 Game.prototype.connect = function(username, playerType) {
@@ -113,6 +132,11 @@ Game.prototype.connect = function(username, playerType) {
 			createExplosion(game.gameWidth/2, 120, 30, "#000000", '#000000');
 		}
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
+			if (game.music != null) {
+				game.music.pause();
+				document.body.removeChild(game.music);
+				game.music = null;
+			}
 			game.level = new (window[serverMessage.level.name])();
 			game.level.commonInit();
 			game.level.initLandscape();
@@ -128,6 +152,10 @@ Game.prototype.connect = function(username, playerType) {
 				if (sprite.data.id == game.playerId) {
 					game.playerSprite = sprite;
 				}
+			}
+
+			if (game.level.getMusic() != null) {
+				game.music = game.playMusic(game.level.getMusic());
 			}
 		}
 		else if (serverMessage.type == "UPDATE_SPRITE_PATH") {

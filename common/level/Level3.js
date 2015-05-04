@@ -8,7 +8,7 @@ var Sorcerer = require('./../npc/Sorcerer');
 var MeleeAI = require('./../ai/MeleeAI');
 
 module.exports = Level3 = function() {
-	Level.call(this, "Level3", 350, 350, 350, 750);
+	Level.call(this, "Level3", 350, 350, 350, 750, "steeps-of-destiny.mp3");
 }
 
 Level3.prototype = new Level();

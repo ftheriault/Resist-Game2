@@ -7,7 +7,7 @@ var Thief = require('./../npc/Thief');
 var MeleeAI = require('./../ai/MeleeAI');
 
 module.exports = Level2 = function() {
-	Level.call(this, "Level2", 350, 350, 350, 750);
+	Level.call(this, "Level2", 350, 350, 350, 750, "regular-battle.mp3");
 }
 
 Level2.prototype = new Level();

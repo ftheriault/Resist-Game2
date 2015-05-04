@@ -5,7 +5,7 @@ var Skeleton = require('./../npc/Skeleton');
 var MeleeAI = require('./../ai/MeleeAI');
 
 module.exports = Level1 = function() {
-	Level.call(this, "Level1", 350, 350, 350, 710);
+	Level.call(this, "Level1", 350, 350, 350, 710, "the-looming-battle.mp3");
 }
 
 Level1.prototype = new Level();

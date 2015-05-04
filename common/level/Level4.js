@@ -9,7 +9,7 @@ var Archer = require('./../npc/Archer');
 var MeleeAI = require('./../ai/MeleeAI');
 
 module.exports = Level4 = function() {
-	Level.call(this, "Level4", 350, 350, 350, 750);
+	Level.call(this, "Level4", 350, 350, 350, 750, "the-looming-battle.mp3");
 }
 
 Level4.prototype = new Level();

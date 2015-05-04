@@ -21,7 +21,7 @@ gulp.task('default', function() {
   console.log(" -- Bundle created");
 
   // Create preloader file
-  preloadify(['./client/images', './client/sound'], './client/js/preload.js', './client/');
+  preloadify(['./client/images', './client/music', './client/sound'], './client/js/preload.js', './client/');
   console.log(" -- Preloader created");
 
   console.log(" - Completed");
