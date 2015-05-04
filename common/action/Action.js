@@ -116,13 +116,14 @@ Action.prototype.draw = function (ctx, x, y, size) {
 
 	if (game.playerSprite.data.freeActionPoints > 0) {
 		ctx.strokeStyle = "green";
+		ctx.lineWidth = 4;
 	}
 	else {
 		ctx.strokeStyle = "white";
 	}
 
 	ctx.strokeRect(x, y, size, size);
-
+	ctx.lineWidth = 1;
 }
 
 Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {

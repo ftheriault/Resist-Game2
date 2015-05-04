@@ -41,12 +41,14 @@ GameDataBar.prototype.addStatBox = function (num, statType, caption) {
 
 	if (game.playerSprite.data.freeStatPoints > 0) {
 		this.ctx.strokeStyle = "green";
+		this.ctx.lineWidth = 4;
 	}
 	else {
 		this.ctx.strokeStyle = "white";
 	}
 
 	this.ctx.strokeRect(x, y, sizeX, sizeY);
+	this.ctx.lineWidth = 1;
 	this.ctx.fillText(caption, x + 6, y + sizeY - 13);
 
 	if (this.mouseX != null && this.mouseX > x && this.mouseX < x + sizeX &&
