@@ -20,6 +20,10 @@ MagicPit.prototype.getName = function () {
 	return "Magic Pit";
 }
 
+MagicPit.prototype.getTooltip = function() {
+	return "Creates a magic pit, slowing and damaging enemies (AoE)";
+}
+
 MagicPit.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 10000 - this.data.level * 500;
 	this.data.manaCost = 20 + this.data.level * 3;

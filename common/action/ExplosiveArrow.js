@@ -21,6 +21,10 @@ ExplosiveArrow.prototype.getName = function () {
 	return "Explosive Arrow";
 }
 
+ExplosiveArrow.prototype.getTooltip = function() {
+	return "Arrow that explodes upon impact (AoE)";
+}
+
 ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 4 + this.data.level * 4;
 

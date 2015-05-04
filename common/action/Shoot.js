@@ -21,6 +21,10 @@ Shoot.prototype.getName = function () {
 	return "Shoot";
 }
 
+Shoot.prototype.getTooltip = function() {
+	return "Shoots an arrow";
+}
+
 Shoot.prototype.update = function (fromSprite, delta) {
 	if (!fromSprite.data.isPlayer) {
 		this.maxDistance = 300;

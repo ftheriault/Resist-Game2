@@ -17,6 +17,10 @@ Heal.prototype.getName = function () {
 	return "Heal";
 }
 
+Heal.prototype.getTooltip = function() {
+	return "Heal a friendly player";
+}
+
 Heal.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 15 + 2 * this.data.level;
 }

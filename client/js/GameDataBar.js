@@ -84,8 +84,8 @@ GameDataBar.prototype.tick = function (delta) {
 		this.ctx.fillText("Level : " + game.playerSprite.data.level, 10, 110);
 		this.ctx.fillText("Exp : " + game.playerSprite.data.experience + " / " + game.playerSprite.data.maxExperience, 10, 130);
 
-		this.ctx.fillText("Free action points : " + game.playerSprite.data.freeActionPoints, 10, 170);
-		this.ctx.fillText("Free stat points : " + game.playerSprite.data.freeStatPoints, 10, 190);
+		this.ctx.fillText("Action points : " + game.playerSprite.data.freeActionPoints, 10, 170);
+		this.ctx.fillText("Stat points : " + game.playerSprite.data.freeStatPoints, 10, 190);
 
 		this.addStatBox(1, "STRENGTH", "Strength : " + game.playerSprite.data.strength);
 		this.addStatBox(2, "VITALITY", "Vitality : " + game.playerSprite.data.vitality);

@@ -23,6 +23,10 @@ FireTrap.prototype.getName = function () {
 	return "Fire Trap";
 }
 
+FireTrap.prototype.getTooltip = function() {
+	return "Lay a trap on the ground, exploding upon impact (AoE)";
+}
+
 FireTrap.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 15 + 3 * this.data.level;
 

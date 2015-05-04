@@ -21,6 +21,10 @@ Spin.prototype.getName = function () {
 	return "Spin";
 }
 
+Spin.prototype.getTooltip = function() {
+	return "Damaging all enemies in range (AoE)";
+}
+
 Spin.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 2 + 3 * this.data.level;
 	this.data.distance = 60 + 2 * this.data.level;

@@ -17,6 +17,10 @@ Slash.prototype.getName = function () {
 	return "Slash";
 }
 
+Slash.prototype.getTooltip = function() {
+	return "Slashes sword";
+}
+
 Slash.prototype.update = function (fromSprite, delta) {
 
 }

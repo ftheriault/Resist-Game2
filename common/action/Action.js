@@ -17,6 +17,10 @@ module.exports = Action = function(level, type, cooldown, maxDistance, manaCost)
 	this.data.manaCost = manaCost;
 }
 
+Action.prototype.getTooltip = function() {
+	return "";
+}
+
 Action.prototype.isReady = function() {
 	return this.data.triggeredTime + this.data.cooldown < (new Date()).getTime();
 }
@@ -78,7 +82,7 @@ Action.prototype.tick = function (fromSprite, delta) {
 	this.data.justTriggered = false;
 }
 
-Action.prototype.draw = function (ctx, x, y, size) {
+Action.prototype.draw = function (ctx, x, y, size, over) {
 	if (this.image == null) {
 		this.image = new Image();
 		this.image.src = "images/actions/" + this.type + ".png";

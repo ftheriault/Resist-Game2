@@ -192,3 +192,13 @@ canvas {
 	padding:10px;
 	min-height:500px;
 }
+
+.action-tooltip {
+	position:absolute;
+	z-index:1;
+	width:150px;
+	padding:3px;
+	background-color: black;
+	border:1px solid white;
+	border-radius: 3px;
+}

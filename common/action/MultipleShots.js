@@ -24,6 +24,10 @@ MultipleShots.prototype.getName = function () {
 	return "Multiple Shots";
 }
 
+MultipleShots.prototype.getTooltip = function() {
+	return "More arrows = more kills!";
+}
+
 MultipleShots.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 5 + this.data.level * 5;
 

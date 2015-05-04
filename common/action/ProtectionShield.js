@@ -22,6 +22,10 @@ ProtectionShield.prototype.getName = function () {
 	return "Active Shield";
 }
 
+ProtectionShield.prototype.getTooltip = function() {
+	return "Creates an impenetrable shield";
+}
+
 ProtectionShield.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 500;
 	this.data.manaCost = 5 + this.data.level * 1;

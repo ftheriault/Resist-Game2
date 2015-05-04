@@ -168,7 +168,7 @@ Level.prototype.tick = function () {
 	if (global.wsServer.clients.length > 0) {
 		if (!allPlayersDead) {
 			if (this.startCooldown == null) {
-				this.startCooldown = 10000; // idle period before starting
+				this.startCooldown = 15000; // idle period before starting
 			}
 			else if (this.startCooldown <= 0) {
 				this.tickLevel(now.getTime(), delta);

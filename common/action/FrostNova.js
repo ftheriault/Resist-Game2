@@ -23,6 +23,10 @@ FrostNova.prototype.getName = function () {
 	return "Frost Nova";
 }
 
+FrostNova.prototype.getTooltip = function() {
+	return "Hits and freeze enemy movements (AoE)";
+}
+
 FrostNova.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 10 + 3 * this.data.level;
 
@@ -42,9 +46,9 @@ FrostNova.prototype.update = function (fromSprite, delta) {
 													this.data.y,
 													(percentDone + 0.2) * this.data.distance);  
 
-					degrade.addColorStop(percentDone, 'rgba(200,200,0,0)');  
-					degrade.addColorStop(percentDone + 0.05, 'rgba(200,250,00,' + (0.8 - percentDone)  +')');
-					degrade.addColorStop(percentDone + 0.2, 'rgba(50,50,0,0)');  
+					degrade.addColorStop(percentDone, 'rgba(0,0,200,0)');  
+					degrade.addColorStop(percentDone + 0.05, 'rgba(0,0,250,' + (0.8 - percentDone)  +')');
+					degrade.addColorStop(percentDone + 0.2, 'rgba(0,0,50,0)');  
 
 					game.ctx.fillStyle = degrade;  
 					game.ctx.fillRect(this.data.x - this.data.distance, 
@@ -70,7 +74,7 @@ FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.distance) {
 				global.level.spriteList[i].addModifier("SPEED", -global.level.spriteList[i].getSpeed(), this.type, this.data.effectTime);
-				global.level.spriteList[i].hit(2 + this.data.level * 1, fromSprite, true);
+				global.level.spriteList[i].hit(4 + this.data.level * 1, fromSprite, true);
 			}
 		}
 	}

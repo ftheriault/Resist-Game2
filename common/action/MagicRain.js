@@ -20,6 +20,10 @@ MagicRain.prototype.getName = function () {
 	return "Magic Rain";
 }
 
+MagicRain.prototype.getTooltip = function() {
+	return "Healing heroes and damaging enemies (AoE)";
+}
+
 MagicRain.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 500;
 	this.data.manaCost = 30 + this.data.level * 5;

@@ -23,6 +23,10 @@ FireWell.prototype.getName = function () {
 	return "Fire Well";
 }
 
+FireWell.prototype.getTooltip = function() {
+	return "Creates a big lava pit (AoE)";
+}
+
 FireWell.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 15 + 3 * this.data.level;
 
@@ -56,7 +60,7 @@ FireWell.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
-				global.level.spriteList[i].hit(10 + this.data.level, fromSprite, true);
+				global.level.spriteList[i].hit(10 + this.data.level * 2, fromSprite, true);
 			}
 		}
 	}

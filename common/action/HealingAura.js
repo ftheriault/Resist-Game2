@@ -22,6 +22,10 @@ HealingAura.prototype.getName = function () {
 	return "Healing Aura";
 }
 
+HealingAura.prototype.getTooltip = function() {
+	return "Healing aura";
+}
+
 HealingAura.prototype.update = function (fromSprite, delta) {
 	if (global != null && global.level != null) {
 		if (this.data.triggeredTime + this.data.lastTime < (new Date()).getTime()) {

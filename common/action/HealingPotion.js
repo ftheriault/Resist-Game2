@@ -19,6 +19,10 @@ HealingPotion.prototype.getName = function () {
 	return "Healing Potion";
 }
 
+HealingPotion.prototype.getTooltip = function() {
+	return "Healing potion";
+}
+
 HealingPotion.prototype.update = function (fromSprite, delta) {
 
 }

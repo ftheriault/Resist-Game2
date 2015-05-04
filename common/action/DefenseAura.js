@@ -18,6 +18,10 @@ module.exports = DefenseAura = function (data, level) {
 DefenseAura.prototype = new Action();
 DefenseAura.prototype.constructor = DefenseAura;
 
+DefenseAura.prototype.getTooltip = function() {
+	return "Protection Aura<br/>+1 armor per level";
+}
+
 DefenseAura.prototype.getName = function () {
 	return "Defense Aura";
 }

@@ -21,6 +21,10 @@ MagicBolt.prototype.getName = function () {
 	return "Magic Bolt";
 }
 
+MagicBolt.prototype.getTooltip = function() {
+	return "Magic bolt";
+}
+
 MagicBolt.prototype.update = function (fromSprite, delta) {
 	if (this.data.triggered && delta != null) {
 

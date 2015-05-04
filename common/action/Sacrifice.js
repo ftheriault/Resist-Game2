@@ -18,6 +18,10 @@ Sacrifice.prototype.getName = function () {
 	return "Sacrifice";
 }
 
+Sacrifice.prototype.getTooltip = function() {
+	return "Sacrifices health for killing power";
+}
+
 Sacrifice.prototype.update = function (fromSprite, delta) {
 
 }
