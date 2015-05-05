@@ -27,7 +27,7 @@ GameActionBar.prototype.clickedAt = function(x, y) {
 };
 
 GameActionBar.prototype.tick = function (delta) {
-	var size = 100;
+	var size = 85;
 	var x = (150 - size) /2;
 	var y = (150 - size) /2;
 	var yOffset = 10;

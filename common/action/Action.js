@@ -93,10 +93,10 @@ Action.prototype.draw = function (ctx, x, y, size, over) {
 
 		ctx.fillStyle = "white";
 
-		ctx.font = "13px Arial";
+		ctx.font = "11px Arial";
 		ctx.fillText(this.getName(), x + 5, y + 15);
 
-		ctx.font = "12px Arial";
+		ctx.font = "10px Arial";
 		ctx.fillText("Level : " + this.data.level, x + 5, y + 30);
 
 		if (this.data.passive) {

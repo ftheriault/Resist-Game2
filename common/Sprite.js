@@ -15,7 +15,7 @@ var ExplosiveArrow = require('./action/ExplosiveArrow');
 var FireTrap = require('./action/FireTrap');
 var ProtectionShield = require('./action/ProtectionShield');
 var SwiftAura = require('./action/SwiftAura');
-
+var Strafe = require('./action/Strafe');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -142,6 +142,9 @@ Sprite.prototype.buildActions = function(previousActions) {
 		}
 		else if (actions[i].type == "aura-defense") {
 			this.data.actions.push(new DefenseAura(actions[i].data));
+		}
+		else if (actions[i].type == "strafe") {
+			this.data.actions.push(new Strafe(actions[i].data));
 		}
 
 		if (previousActions != null &&  previousActions.length > i) {

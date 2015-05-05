@@ -18,5 +18,6 @@ var Sprite = require('./Sprite'),
 	Shoot = require('./action/Shoot'),
 	MagicBolt = require('./action/MagicBolt'),
 	FireBolt = require('./action/FireBolt'),
-	HealingPotion = require('./action/HealingPotion')
+	HealingPotion = require('./action/HealingPotion'),
+	HealingPotion = require('./action/Strafe')
 	
