@@ -16,6 +16,7 @@ var FireTrap = require('./action/FireTrap');
 var ProtectionShield = require('./action/ProtectionShield');
 var SwiftAura = require('./action/SwiftAura');
 var Strafe = require('./action/Strafe');
+var Totem = require('./action/Totem');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -145,6 +146,9 @@ Sprite.prototype.buildActions = function(previousActions) {
 		}
 		else if (actions[i].type == "strafe") {
 			this.data.actions.push(new Strafe(actions[i].data));
+		}
+		else if (actions[i].type == "totem") {
+			this.data.actions.push(new Totem(actions[i].data));
 		}
 
 		if (previousActions != null &&  previousActions.length > i) {
