@@ -9,6 +9,10 @@ function showMenu() {
 	$("#loaderPercent").css("display", "none");
 	$(".hidden").fadeIn();
 
+	if (localStorage["playerName"] != null) {
+		$("#player-name").val(localStorage["playerName"]);
+	}
+
 	tmpList.push(new Warrior());
 	tmpList[tmpList.length - 1].type = "Warrior";
 	tmpList[tmpList.length - 1].loadUI();
@@ -23,7 +27,12 @@ function showMenu() {
 	tmpList[tmpList.length - 1].loadUI();
 
 	currentClassSelection = "warrior-class";
-	$("#warrior-class").addClass("selected");
+
+	if (localStorage["playerClass"] != null) {
+		currentClassSelection = localStorage["playerClass"];
+	}
+
+	$("#" + currentClassSelection).addClass("selected");
 
 	$(".player-class").click(function (event) {
 		$("#" + currentClassSelection).removeClass("selected");
@@ -65,6 +74,10 @@ function start(button) {
 
 		playerClass = currentClassSelection.replace("-class", "");
 		playerClass = playerClass.charAt(0).toUpperCase() + playerClass.slice(1);
+
+		localStorage["playerName"] = playerName;
+		localStorage["playerClass"] = currentClassSelection;
+
 		$(".login-section").fadeOut(1000);
 
 		game.connect(playerName, playerClass);
