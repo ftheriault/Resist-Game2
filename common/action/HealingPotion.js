@@ -23,12 +23,20 @@ HealingPotion.prototype.getTooltip = function() {
 	return "Healing potion";
 }
 
+HealingPotion.prototype.getActiveTooltipData = function() {
+	return this.getHeal() + " healing points";
+}
+
+HealingPotion.prototype.getHeal = function() {
+	return 40 + this.data.level * 5;
+};
+
 HealingPotion.prototype.update = function (fromSprite, delta) {
 
 }
 
 HealingPotion.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	fromSprite.heal(40 + this.data.level * 5, fromSprite);
+	fromSprite.heal(this.getHeal(), fromSprite);
 	
 	return true;
 }

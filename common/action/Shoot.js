@@ -25,6 +25,14 @@ Shoot.prototype.getTooltip = function() {
 	return "Shoots an arrow";
 }
 
+Shoot.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage<br/>";
+}
+
+Shoot.prototype.getHit = function() {
+	return 4 + this.data.level * 3;
+}
+
 Shoot.prototype.update = function (fromSprite, delta) {
 	if (!fromSprite.data.isPlayer) {
 		this.maxDistance = 300;
@@ -40,7 +48,7 @@ Shoot.prototype.update = function (fromSprite, delta) {
 					var distance = Math.sqrt(Math.pow(this.data.x - global.level.spriteList[i].data.x, 2) + Math.pow(this.data.y - global.level.spriteList[i].data.y, 2));
 
 					if (distance < global.level.spriteList[i].data.minDistance) {
-						global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite, false);
+						global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 						
 						this.data.triggered = false;
 						fromSprite.broadcastState();

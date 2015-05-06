@@ -26,6 +26,18 @@ FireAura.prototype.getTooltip = function() {
 	return "Fire Aura<br/>+1 hit per level";
 }
 
+FireAura.prototype.getActiveTooltipData = function() {
+	return this.getDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
+}
+
+FireAura.prototype.getDistance = function() {
+	return 100 + 3 * this.data.level;
+}
+
+FireAura.prototype.getHit = function() {
+	return this.data.level;
+};
+
 FireAura.prototype.update = function (fromSprite, delta) {
 	if (global != null && global.level != null) {
 		if (this.data.triggeredTime + this.data.lastTime < (new Date()).getTime()) {
@@ -37,12 +49,12 @@ FireAura.prototype.update = function (fromSprite, delta) {
 
 FireAura.prototype.propagate = function(fromSprite) {
 	fromSprite.addModifier("MISC", 0, this.type, this.data.lastTime + 1000);
-	var distance = 100 + 3 * this.data.level;
+	var distance = this.getDistance();
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < distance) {
-				global.level.spriteList[i].hit(this.data.level, fromSprite, true);
+				global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 			}
 		}
 	}

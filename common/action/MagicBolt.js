@@ -25,6 +25,14 @@ MagicBolt.prototype.getTooltip = function() {
 	return "Magic bolt";
 }
 
+MagicBolt.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage<br/>";
+}
+
+MagicBolt.prototype.getHit = function() {
+	return 4 + this.data.level * 2;
+}
+
 MagicBolt.prototype.update = function (fromSprite, delta) {
 	if (this.data.triggered && delta != null) {
 
@@ -36,7 +44,7 @@ MagicBolt.prototype.update = function (fromSprite, delta) {
 					var distance = Math.sqrt(Math.pow(this.data.x - global.level.spriteList[i].data.x, 2) + Math.pow(this.data.y - global.level.spriteList[i].data.y, 2));
 
 					if (distance < global.level.spriteList[i].data.minDistance) {
-						global.level.spriteList[i].hit(4 + this.data.level * 1, fromSprite, true);
+						global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 						
 						this.data.triggered = false;
 						fromSprite.broadcastState();

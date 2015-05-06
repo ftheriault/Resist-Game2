@@ -21,6 +21,14 @@ Heal.prototype.getTooltip = function() {
 	return "Heal a friendly player";
 }
 
+Heal.prototype.getActiveTooltipData = function() {
+	return this.getHeal() + " heal";
+}
+
+Heal.prototype.getHeal = function() {
+	return 50 + this.data.level * 10;
+};
+
 Heal.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 15 + 2 * this.data.level;
 }
@@ -29,7 +37,7 @@ Heal.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	var success = false;
 	
 	if (fromSprite.data.isPlayer == toSprite.data.isPlayer) {
-		toSprite.heal(40 + this.data.level * 5, fromSprite);
+		toSprite.heal(this.getHeal(), fromSprite);
 		success = true;
 	}
 	

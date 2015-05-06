@@ -22,6 +22,14 @@ DefenseAura.prototype.getTooltip = function() {
 	return "Protection Aura<br/>+1 armor per level";
 }
 
+DefenseAura.prototype.getActiveTooltipData = function() {
+	return "+" + this.getDefBonus() + " armor";
+}
+
+DefenseAura.prototype.getDefBonus = function () {
+	return this.data.level;
+}
+
 DefenseAura.prototype.getName = function () {
 	return "Defense Aura";
 }
@@ -36,7 +44,7 @@ DefenseAura.prototype.update = function (fromSprite, delta) {
 }
 
 DefenseAura.prototype.propagate = function(fromSprite) {
-	var inc = this.data.level;
+	var inc = this.getDefBonus();
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer == global.level.spriteList[i].data.isPlayer) {

@@ -22,6 +22,18 @@ Sacrifice.prototype.getTooltip = function() {
 	return "Sacrifices health for killing power";
 }
 
+Sacrifice.prototype.getActiveTooltipData = function() {
+	return this.getLeech() + " self damage<br>" + this.getHit() + " damage<br/>";
+}
+
+Sacrifice.prototype.getHit = function() {
+	return 6 + this.data.level * 5;
+};
+
+Sacrifice.prototype.getLeech = function() {
+	return this.data.level * 5;
+};
+
 Sacrifice.prototype.update = function (fromSprite, delta) {
 
 }
@@ -30,8 +42,8 @@ Sacrifice.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 	var success = false;
 
 	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
-		toSprite.hit(6 + this.data.level * 3, fromSprite);
-		fromSprite.hit(this.data.level * 2 + parseInt(fromSprite.data.life * 0.1), false);
+		toSprite.hit(this.getHit(), fromSprite);
+		fromSprite.hit(this.getLeech(), false);
 		success = true;
 	}
 

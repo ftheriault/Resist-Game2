@@ -25,6 +25,18 @@ Leech.prototype.getTooltip = function() {
 	return "Leech life from surrounding enemies. The more the better. (AoE)";
 }
 
+Leech.prototype.getActiveTooltipData = function() {
+	return this.getHeal() + " heal per enemy<br>" + this.getHit() + " damage per enemy<br/>";
+}
+
+Leech.prototype.getHit = function() {
+	return 4 + this.data.level;
+};
+
+Leech.prototype.getHeal = function() {
+	return 4 + this.data.level;
+};
+
 Leech.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 2 + 3 * this.data.level;
 	this.data.distance = 60 + 2 * this.data.level;
@@ -75,8 +87,8 @@ Leech.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.distance) {
-				global.level.spriteList[i].hit(4 + this.data.level, fromSprite, false);
-				fromSprite.heal(4 + this.data.level, fromSprite);
+				global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
+				fromSprite.heal(this.getHeal(), fromSprite);
 			}
 		}
 	}

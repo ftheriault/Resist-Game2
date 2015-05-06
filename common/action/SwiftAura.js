@@ -26,6 +26,14 @@ SwiftAura.prototype.getTooltip = function() {
 	return "Increase running speed";
 }
 
+SwiftAura.prototype.getActiveTooltipData = function() {
+	return "+" + parseInt(this.getSpeedBonus() * 1000) + "% speed";
+}
+
+SwiftAura.prototype.getSpeedBonus = function () {
+	return 0.0025 * this.data.level;
+}
+
 SwiftAura.prototype.update = function (fromSprite, delta) {
 	if (global != null && global.level != null) {
 		if (this.data.triggeredTime + this.data.lastTime < (new Date()).getTime()) {
@@ -36,7 +44,7 @@ SwiftAura.prototype.update = function (fromSprite, delta) {
 }
 
 SwiftAura.prototype.propagate = function(fromSprite) {
-	var incPercent = 0.0025 * this.data.level;
+	var incPercent = this.getSpeedBonus();
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer == global.level.spriteList[i].data.isPlayer) {

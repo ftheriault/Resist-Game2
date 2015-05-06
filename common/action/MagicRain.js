@@ -24,6 +24,18 @@ MagicRain.prototype.getTooltip = function() {
 	return "Healing heroes and damaging enemies (AoE)";
 }
 
+MagicRain.prototype.getActiveTooltipData = function() {
+	return this.getHeal() + " heal<br>" + this.getHit() + " damage<br/>";
+}
+
+MagicRain.prototype.getHit = function() {
+	return 4 + parseInt(this.data.level);
+};
+
+MagicRain.prototype.getHeal = function() {
+	return 5 + parseInt(this.data.level * 2);
+};
+
 MagicRain.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 500;
 	this.data.manaCost = 30 + this.data.level * 5;
@@ -49,14 +61,13 @@ MagicRain.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
-	var amount = 4 + parseInt(this.data.level);
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
-			global.level.spriteList[i].hit(amount, fromSprite, true);
+			global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 		}
 		else {
-			global.level.spriteList[i].heal(amount * 2, fromSprite);
+			global.level.spriteList[i].heal(this.getHeal(), fromSprite);
 		}
 	}
 

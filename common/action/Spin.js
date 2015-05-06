@@ -25,9 +25,21 @@ Spin.prototype.getTooltip = function() {
 	return "Damaging all enemies in range (AoE)";
 }
 
+Spin.prototype.getActiveTooltipData = function() {
+	return this.getDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
+}
+
+Spin.prototype.getHit = function() {
+	return 4 + this.data.level * 3;
+}
+
+Spin.prototype.getDistance = function() {
+	return 60 + 2 * this.data.level;
+}
+
 Spin.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 2 + 3 * this.data.level;
-	this.data.distance = 60 + 2 * this.data.level;
+	this.data.distance = this.getDistance();
 
 	if (this.data.triggered && delta != null) {
 		var now = (new Date()).getTime();
@@ -68,8 +80,8 @@ Spin.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
-			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.distance) {
-				global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite, false);
+			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.getDistance) {
+				global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 			}
 		}
 	}

@@ -120,7 +120,7 @@ Action.prototype.draw = function (ctx, x, y, size, over) {
 
 	if (game.playerSprite.data.freeActionPoints > 0) {
 		ctx.strokeStyle = "green";
-		ctx.lineWidth = 4;
+		ctx.lineWidth = 2;
 	}
 	else {
 		ctx.strokeStyle = "white";

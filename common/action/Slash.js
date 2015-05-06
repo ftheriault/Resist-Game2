@@ -21,6 +21,14 @@ Slash.prototype.getTooltip = function() {
 	return "Slashes sword";
 }
 
+Slash.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage<br/>";
+}
+
+Slash.prototype.getHit = function() {
+	return 4 + this.data.level * 2;
+}
+
 Slash.prototype.update = function (fromSprite, delta) {
 
 }
@@ -29,7 +37,7 @@ Slash.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	var success = false;
 
 	if (toSprite != null && fromSprite.data.isPlayer != toSprite.data.isPlayer) {
-		toSprite.hit(3 + this.data.level, fromSprite, false);
+		toSprite.hit(this.getHit(), fromSprite, false);
 		success = true;
 	}
 

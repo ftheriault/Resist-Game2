@@ -27,6 +27,14 @@ FireTrap.prototype.getTooltip = function() {
 	return "Lay a trap on the ground, exploding upon impact (AoE)";
 }
 
+FireTrap.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage<br/>";
+}
+
+FireTrap.prototype.getHit = function() {
+	return 6 + this.data.level * 3;
+};
+
 FireTrap.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 15 + 3 * this.data.level;
 
@@ -52,7 +60,7 @@ FireTrap.prototype.update = function (fromSprite, delta) {
 
 						if (distance < this.data.distance &&
 							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(6 + this.data.level, fromSprite, false);
+							global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}

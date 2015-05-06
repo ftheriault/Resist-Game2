@@ -26,6 +26,14 @@ HealingAura.prototype.getTooltip = function() {
 	return "Healing aura";
 }
 
+HealingAura.prototype.getActiveTooltipData = function() {
+	return this.getHeal() + " heal every 5 sec";
+}
+
+HealingAura.prototype.getHeal = function() {
+	return 2 + this.data.level;
+};
+
 HealingAura.prototype.update = function (fromSprite, delta) {
 	if (global != null && global.level != null) {
 		if (this.data.triggeredTime + this.data.lastTime < (new Date()).getTime()) {
@@ -38,7 +46,7 @@ HealingAura.prototype.update = function (fromSprite, delta) {
 HealingAura.prototype.propagate = function(fromSprite) {
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer == global.level.spriteList[i].data.isPlayer) {
-			global.level.spriteList[i].heal(2 + this.data.level);
+			global.level.spriteList[i].heal(this.getHeal());
 			global.level.spriteList[i].addModifier("MISC", 0, this.type, this.data.lastTime + 1000);
 		}
 	}

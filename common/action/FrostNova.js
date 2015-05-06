@@ -27,6 +27,18 @@ FrostNova.prototype.getTooltip = function() {
 	return "Hits and freeze enemy movements (AoE)";
 }
 
+FrostNova.prototype.getActiveTooltipData = function() {
+	return this.getDistance() + " distance <br>" + this.getHit() + " damage<br/>";
+}
+
+FrostNova.prototype.getHit = function() {
+	return 4 + this.data.level * 2;
+};
+
+FrostNova.prototype.getDistance = function() {
+	return 100 + 10 * this.data.level;
+};
+
 FrostNova.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 10 + 3 * this.data.level;
 
@@ -64,7 +76,7 @@ FrostNova.prototype.update = function (fromSprite, delta) {
 }
 
 FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = 100 + 10 * this.data.level;
+	this.data.distance = this.getDistance();
 	this.data.x = fromSprite.data.x;
 	this.data.y = fromSprite.data.y;
 	this.data.triggered = true;
@@ -74,7 +86,7 @@ FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprit
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.distance) {
 				global.level.spriteList[i].addModifier("SPEED", -global.level.spriteList[i].getSpeed(), this.type, this.data.effectTime);
-				global.level.spriteList[i].hit(4 + this.data.level * 1, fromSprite, true);
+				global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 			}
 		}
 	}

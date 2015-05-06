@@ -25,7 +25,15 @@ MultipleShots.prototype.getName = function () {
 }
 
 MultipleShots.prototype.getTooltip = function() {
-	return "More arrows = more kills!";
+	return "Sends multiple piercing arrows";
+}
+
+MultipleShots.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage per arrow<br/>";
+}
+
+MultipleShots.prototype.getHit = function() {
+	return 4 + parseInt(this.data.level/2);
 }
 
 MultipleShots.prototype.update = function (fromSprite, delta) {
@@ -51,7 +59,7 @@ MultipleShots.prototype.update = function (fromSprite, delta) {
 
 						if (distance < global.level.spriteList[i].data.minDistance &&
 							this.data.tmpAlreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(4 + parseInt(this.data.level/2), fromSprite, false);
+							global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 							this.data.tmpAlreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}

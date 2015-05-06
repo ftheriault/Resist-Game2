@@ -24,6 +24,18 @@ MagicPit.prototype.getTooltip = function() {
 	return "Creates a magic pit, slowing and damaging enemies (AoE)";
 }
 
+MagicPit.prototype.getActiveTooltipData = function() {
+	return this.getDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
+}
+
+MagicPit.prototype.getHit = function() {
+	return 4 + this.data.level * 2;
+}
+
+MagicPit.prototype.getDistance = function() {
+	return 60 + 15 * this.data.level;
+};
+
 MagicPit.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 10000 - this.data.level * 500;
 	this.data.manaCost = 20 + this.data.level * 3;
@@ -55,7 +67,7 @@ MagicPit.prototype.update = function (fromSprite, delta) {
 }
 
 MagicPit.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = 60 + 15 * this.data.level;
+	this.data.distance = this.getDistance();
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
@@ -64,7 +76,7 @@ MagicPit.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
 			if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
 				global.level.spriteList[i].addModifier("SPEED", -global.level.spriteList[i].getSpeed() * 0.8, this.type, this.data.lastTime);
-				global.level.spriteList[i].hit(4 + this.data.level * 2, fromSprite, true);
+				global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 			}
 		}
 	}

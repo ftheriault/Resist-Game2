@@ -26,10 +26,18 @@ ProtectionShield.prototype.getTooltip = function() {
 	return "Creates an impenetrable shield";
 }
 
+ProtectionShield.prototype.getActiveTooltipData = function() {
+	return "last " + parseInt(this.getLastTime()/1000) + " seconds";
+}
+
+ProtectionShield.prototype.getLastTime = function () {
+	return 3000 + this.data.level * 500;
+}
+
 ProtectionShield.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 500;
 	this.data.manaCost = 5 + this.data.level * 1;
-	this.data.lastTime = 3000 + this.data.level * 500;
+	this.data.lastTime = this.getLastTime();
 
 	if (this.data.triggered) {
 		if (global != null && global.level != null) {

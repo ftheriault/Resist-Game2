@@ -26,6 +26,14 @@ Strafe.prototype.getTooltip = function() {
 	return "Machine gun style";
 }
 
+Strafe.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage per arrow<br/>";
+}
+
+Strafe.prototype.getHit = function() {
+	return 3 + parseInt(this.data.level);
+}
+
 Strafe.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 5 + this.data.level * 5;
 
@@ -57,7 +65,7 @@ Strafe.prototype.update = function (fromSprite, delta) {
 						var distance = Math.sqrt(Math.pow(this.data.x - global.level.spriteList[i].data.x, 2) + Math.pow(this.data.y - global.level.spriteList[i].data.y, 2));
 
 						if (distance < global.level.spriteList[i].data.minDistance) {
-							global.level.spriteList[i].hit(3 + parseInt(this.data.level/3), fromSprite, false);
+							global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 							
 							this.data.tmp.splice(j, 1);
 							j--;

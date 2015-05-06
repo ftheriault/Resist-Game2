@@ -46,7 +46,8 @@ GameActionBar.prototype.tick = function (delta) {
 
 			if (over) {
 				if ($("#" + game.playerSprite.data.actions[i].type).length <= 0) {
-					$("#action-gui-div").append("<div class='action-tooltip' style='height:" + size + "px;left:" + (x + this.offsetX + size + 10) + "px;top:" + (y + this.offsetY + size * i + yOffset * i) + "px;' id='" + game.playerSprite.data.actions[i].type + "'>" + game.playerSprite.data.actions[i].getTooltip() + "</div>");
+					var activeTooltipData = game.playerSprite.data.actions[i].getActiveTooltipData();
+					$("#action-gui-div").append("<div class='action-tooltip' style='min-height:" + size + "px;left:" + (x + this.offsetX + size + 10) + "px;top:" + (y + this.offsetY + size * i + yOffset * i) + "px;' id='" + game.playerSprite.data.actions[i].type + "'>" + game.playerSprite.data.actions[i].getTooltip() + "<div style='font-size:0.9em;color:rgb(0, 200, 0);margin-top:1px solid white'>" + activeTooltipData + "</div></div>");
 				}
 			}
 			else {

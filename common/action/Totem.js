@@ -27,6 +27,18 @@ Totem.prototype.getTooltip = function() {
 	return "Creates a totem, damaging close by enemies";
 }
 
+Totem.prototype.getActiveTooltipData = function() {
+	return this.getDistance() + " distance<br/>" + this.getHit() + " damage per wave<br/>";
+}
+
+Totem.prototype.getHit = function() {
+	return 3 + parseInt(this.data.level/2);
+}
+
+Totem.prototype.getDistance = function() {
+	return 40 + 15 * this.data.level;
+}
+
 Totem.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 15 + 3 * this.data.level;
 
@@ -56,7 +68,7 @@ Totem.prototype.update = function (fromSprite, delta) {
 
 						if (distance < this.data.distance &&
 							this.data.tmp[j].alreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(3 + parseInt(this.data.level/2), fromSprite, false);
+							global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 							this.data.tmp[j].alreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}
@@ -126,7 +138,7 @@ Totem.prototype.update = function (fromSprite, delta) {
 }
 
 Totem.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = 40 + 15 * this.data.level;
+	this.data.distance = this.getDistance();
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;

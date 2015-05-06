@@ -24,6 +24,14 @@ FireRain.prototype.getTooltip = function() {
 	return "Deadly rain, burning enemies (AoE)";
 }
 
+FireRain.prototype.getActiveTooltipData = function() {
+	return this.getHit() + " damage<br/>";
+}
+
+FireRain.prototype.getHit = function() {
+	return 6 + parseInt(this.data.level * 1.5);
+};
+
 FireRain.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 250;
 	this.data.manaCost = 30 + this.data.level * 20;
@@ -49,7 +57,7 @@ FireRain.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
-	var amount = 6 + parseInt(this.data.level * 1.5);
+	var amount = this.getHit();
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
