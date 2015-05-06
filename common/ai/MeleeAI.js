@@ -4,19 +4,36 @@ module.exports = MeleeAI = function() {
 	this.lastActionTime = 0;
 	this.defaultCooldown = 3000;
 	this.cooldown = this.defaultCooldown;
+	this.specialCooldown = -1;
+	this.lastSpecialTime = -1;
 	this.target = null;
 }
 
 MeleeAI.prototype.tick = function (sprite) {
 	var now = (new Date()).getTime();
 
+	if (this.specialCooldown === -1) {
+		this.specialCooldown = sprite.getSpecialAIAbilityCooldown();
+		this.lastSpecialTime = now;
+	}
+
 	if (this.lastActionTime + this.cooldown < now) {
 		this.lastActionTime = now;
 		
 		if (!sprite.data.incoming) {
 			this.cooldown = this.defaultCooldown;
+			var triggeredSpecial = false;
 
-			if (this.target != null && this.target.isAlive()) {
+			if (this.specialCooldown != null &&
+				this.lastSpecialTime + this.specialCooldown < now) {
+				this.lastSpecialTime = now;
+				triggeredSpecial = true;
+			}
+
+			if (triggeredSpecial) {
+				sprite.triggerSpecialAIAbility();
+			}
+			else if (this.target != null && this.target.isAlive()) {
 				var success = sprite.data.actions[0].trigger(sprite, this.target.data.x, this.target.data.y, this.target);
 				
 				if (!success && sprite.data.actions[0].maxDistance > sprite.distanceWith(sprite, this.target)) {

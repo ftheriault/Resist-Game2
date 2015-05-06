@@ -34,7 +34,7 @@ FireRain.prototype.getHit = function() {
 
 FireRain.prototype.update = function (fromSprite, delta) {
 	this.data.cooldown = 15000 - this.data.level * 250;
-	this.data.manaCost = 30 + this.data.level * 20;
+	this.data.manaCost = 20 + this.data.level * 15;
 
 	if (this.data.cooldown < 6000) {
 		this.data.cooldown = 6000;		

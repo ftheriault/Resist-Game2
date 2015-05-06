@@ -70,6 +70,14 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 	this.buildActions(previousActions);
 }
 
+Sprite.prototype.triggerSpecialAIAbility = function() {
+	
+};
+
+Sprite.prototype.getSpecialAIAbilityCooldown = function() {
+	return null;
+};
+
 Sprite.prototype.getDeathSound = function() {
 	return  null;
 };
@@ -259,7 +267,7 @@ Sprite.prototype.giveExperience = function(amount) {
 	this.data.experience += parseInt(amount);
 
 	if (this.data.experience >= this.data.maxExperience) {
-		this.data.maxExperience = parseInt(this.data.maxExperience * 1.5);
+		this.data.maxExperience = parseInt(this.data.maxExperience * 1.65);
 		this.data.level += 1;
 		this.data.freeActionPoints += 1;
 		this.data.freeStatPoints += 5;
