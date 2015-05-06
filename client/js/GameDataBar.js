@@ -63,7 +63,7 @@ GameDataBar.prototype.tick = function (delta) {
 		this.ctx.fillRect(0, 0, 150, 700);
 
 		this.ctx.fillStyle = "white";
-		this.ctx.font = "15px Arial";
+		this.ctx.font = "14px Arial";
 
 		var bonusArmor = 0;
 		var bonusSpeed = 0;
@@ -84,13 +84,27 @@ GameDataBar.prototype.tick = function (delta) {
 		this.ctx.fillText("Level : " + game.playerSprite.data.level, 10, 110);
 		this.ctx.fillText("Exp : " + game.playerSprite.data.experience + " / " + game.playerSprite.data.maxExperience, 10, 130);
 
-		this.ctx.fillText("Action points : " + game.playerSprite.data.freeActionPoints, 10, 170);
-		this.ctx.fillText("Stat points : " + game.playerSprite.data.freeStatPoints, 10, 190);
+		this.ctx.fillText("Magic Bonus : " + parseInt((game.playerSprite.getMagicBonus() - 1.0) * 100) + "%", 10, 170);
+		this.ctx.fillText("Physical Bonus : " + parseInt((game.playerSprite.getHitBonus() - 1.0) * 100) + "%", 10, 190);
 
 		this.addStatBox(1, "STRENGTH", "Strength : " + game.playerSprite.data.strength);
 		this.addStatBox(2, "VITALITY", "Vitality : " + game.playerSprite.data.vitality);
 		this.addStatBox(3, "DEXTERITY", "Dexterity : " + game.playerSprite.data.dexterity);
 		this.addStatBox(4, "INTELLIGENCE", "Intelligence : " +  game.playerSprite.data.intelligence);
+
+		if (game.playerSprite.data.freeActionPoints > 0) {
+			this.ctx.fillStyle = "rgb(0, 200, 0)";
+		}
+
+		this.ctx.fillText("Action points : " + game.playerSprite.data.freeActionPoints, 20, 625);
+		this.ctx.fillStyle = "white";
+
+		if (game.playerSprite.data.freeStatPoints > 0) {
+			this.ctx.fillStyle = "rgb(0, 200, 0)";
+		}
+
+		this.ctx.fillText("Stat points : " + game.playerSprite.data.freeStatPoints, 20, 650);
+		this.ctx.fillStyle = "white";
 
 		this.mouseX = null;
 		this.mouseY = null;

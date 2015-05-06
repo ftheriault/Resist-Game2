@@ -68,7 +68,7 @@ Totem.prototype.update = function (fromSprite, delta) {
 
 						if (distance < this.data.distance &&
 							this.data.tmp[j].alreadyHit.indexOf(global.level.spriteList[i].data.id) == -1) {
-							global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
+							global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 							this.data.tmp[j].alreadyHit.push(global.level.spriteList[i].data.id);
 						}
 					}

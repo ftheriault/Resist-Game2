@@ -283,10 +283,19 @@ Sprite.prototype.giveExperience = function(amount) {
 	}
 };
 
+
+Sprite.prototype.getMagicBonus = function () {
+	return this.data.intelligence * 0.005 + 1.0;
+}
+
+Sprite.prototype.getHitBonus = function () {
+	return (this.data.dexterity + this.data.strength) * 0.005 + 1.0 - 0.01;
+}
+
 Sprite.prototype.heal = function (amount, fromSprite) {
 	if (this.isAlive()) {
 		if (this.data.intelligence > 1) {
-			amount *= this.data.intelligence * 0.005 + 1.0;		
+			amount *= this.getMagicBonus();		
 			amount = parseInt(amount);
 		}
 		this.data.life += amount;
@@ -314,10 +323,10 @@ Sprite.prototype.hit = function (amount, fromSprite, isMagic) {
 
 	if (fromSprite.isPlayer) {
 		if (isMagic) {
-			amount *=  this.data.intelligence * 0.005 + 1.0;
+			amount *=  this.getMagicBonus();
 		}
 		else {
-			amount *=  (this.data.dexterity + this.data.strength) * 0.005 + 1.0;	
+			amount *=  this.getHitBonus();	
 		}
 	}
 
