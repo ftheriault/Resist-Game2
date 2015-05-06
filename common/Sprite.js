@@ -17,6 +17,7 @@ var ProtectionShield = require('./action/ProtectionShield');
 var SwiftAura = require('./action/SwiftAura');
 var Strafe = require('./action/Strafe');
 var Totem = require('./action/Totem');
+var Leech = require('./action/Leech');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -150,6 +151,9 @@ Sprite.prototype.buildActions = function(previousActions) {
 		else if (actions[i].type == "totem") {
 			this.data.actions.push(new Totem(actions[i].data));
 		}
+		else if (actions[i].type == "leech") {
+			this.data.actions.push(new Leech(actions[i].data));
+		}
 
 		if (previousActions != null &&  previousActions.length > i) {
 			this.data.actions[i].data.triggeredTime = previousActions[i].data.triggeredTime;
@@ -251,7 +255,7 @@ Sprite.prototype.giveExperience = function(amount) {
 	this.data.experience += parseInt(amount);
 
 	if (this.data.experience >= this.data.maxExperience) {
-		this.data.maxExperience = parseInt(this.data.maxExperience * 1.8);
+		this.data.maxExperience = parseInt(this.data.maxExperience * 1.5);
 		this.data.level += 1;
 		this.data.freeActionPoints += 1;
 		this.data.freeStatPoints += 5;
