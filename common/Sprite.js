@@ -18,6 +18,7 @@ var SwiftAura = require('./action/SwiftAura');
 var Strafe = require('./action/Strafe');
 var Totem = require('./action/Totem');
 var Leech = require('./action/Leech');
+var FireRain = require('./action/FireRain');
 
 module.exports = Sprite = function() {
 	this.data = {
@@ -153,6 +154,9 @@ Sprite.prototype.buildActions = function(previousActions) {
 		}
 		else if (actions[i].type == "leech") {
 			this.data.actions.push(new Leech(actions[i].data));
+		}
+		else if (actions[i].type == "fire-rain") {
+			this.data.actions.push(new FireRain(actions[i].data));
 		}
 
 		if (previousActions != null &&  previousActions.length > i) {

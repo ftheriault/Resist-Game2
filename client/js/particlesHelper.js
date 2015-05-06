@@ -3,6 +3,7 @@ var emitterFire = null;
 
 var fireParticleImage = null;
 var glowParticleImage = null;
+var redGlowParticleImage = null;
 
 function initParticleSystem(canvas) {
 	proton = new Proton();
@@ -14,6 +15,10 @@ function initParticleSystem(canvas) {
 	//Creating glow/fog effect
 	glowParticleImage = new Image();
 	glowParticleImage.src = "images/map-assets/glow.png";
+
+	//Creating glow/fog effect
+	redGlowParticleImage = new Image();
+	redGlowParticleImage.src = "images/map-assets/red-glow.png";
 
 	// add canvas renderer
 	var renderer = new Proton.Renderer('canvas', proton, canvas);
@@ -85,10 +90,18 @@ function createBloodSpill(x, y) {
 }
 
 function createFlies() {
-	emitter = new Proton.Emitter();
+	createFliesWith(glowParticleImage);
+}
+
+function createRedFlies() {
+	createFliesWith(redGlowParticleImage);
+}
+
+function createFliesWith(img) {
+	var emitter = new Proton.Emitter();
 	emitter.damping = 0.0075;
 	emitter.rate = new Proton.Rate(180);
-	emitter.addInitialize(new Proton.ImageTarget(glowParticleImage, 32));
+	emitter.addInitialize(new Proton.ImageTarget(img, 32));
 	emitter.addInitialize(new Proton.Position(new Proton.RectZone(0, 0, 1003, 700)));
 	emitter.addInitialize(new Proton.Mass(1), new Proton.Radius(Proton.getSpan(5, 10)));
 	mouseObj = {

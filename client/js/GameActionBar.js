@@ -30,7 +30,7 @@ GameActionBar.prototype.tick = function (delta) {
 	var size = 85;
 	var x = (150 - size) /2;
 	var y = (150 - size) /2;
-	var yOffset = 10;
+	var yOffset = 5;
 
 	if (game.playerSprite != null && game.playerSprite.data.actions != null) {
 		for (var i = 0; i < game.playerSprite.data.actions.length; i++) {

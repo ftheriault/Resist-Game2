@@ -13,7 +13,7 @@ module.exports = Mage = function() {
 Mage.prototype = new Sprite();
 
 Mage.prototype.initPlayer = function (id, name) {
-	this.build(true, id, name, "Mage", 60, 60, 90, 90, 0.05, [ new FireBolt(null, 1), new FireWell(null, 0), new FrostNova(null, 0), new Teleport(null, 0), new FireAura(null, 0), new HealingPotion(null, 1) ]);
+	this.build(true, id, name, "Mage", 60, 60, 90, 90, 0.05, [ new FireBolt(null, 1), new FireWell(null, 0), new FrostNova(null, 0), new FireRain(null, 0), new Teleport(null, 0), new FireAura(null, 0), new HealingPotion(null, 1) ]);
 }
 
 Mage.prototype.loadUI = function() {	
