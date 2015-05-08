@@ -35,9 +35,9 @@ Level4.prototype.tickLevel = function (now, delta) {
 
 			if (this.enemyLeft % 5 == 0) {
 				npc = new Sorcerer(global.waveNumber);
-				npc.setLocation(-50, 350 + parseInt(Math.random() * 50));
+				npc.setLocation(-50, 600 + parseInt(Math.random() * 50));
 				npc.data.destX = 100;
-				npc.data.destY = 325 + parseInt(Math.random() * 50);
+				npc.data.destY = 550 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 5 == 1) {
 				npc = new Skeleton(global.waveNumber);

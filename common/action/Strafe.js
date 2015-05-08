@@ -31,11 +31,11 @@ Strafe.prototype.getActiveTooltipData = function() {
 }
 
 Strafe.prototype.getHit = function() {
-	return 3 + parseInt(this.data.level);
+	return 3 + parseInt(this.data.level/1.5);
 }
 
 Strafe.prototype.update = function (fromSprite, delta) {
-	this.data.manaCost = 5 + this.data.level * 5;
+	this.data.manaCost = 5 + this.data.level * 6;
 
 	if (this.data.triggered && delta != null) {
 		var angle = this.data.angle;
@@ -43,11 +43,30 @@ Strafe.prototype.update = function (fromSprite, delta) {
 		var y = this.data.y;
 		var updated = false;
 
-		if (this.data.count < this.data.level) {
-			if ((this.data.tmp.length > 0 && this.data.tmp[this.data.tmp.length - 1].t + 250 < (new Date()).getTime()) ||
-				(this.data.tmp.length == 0 && this.data.triggeredTime +  250 < (new Date()).getTime())) {			
+		if (global != null && global.level != null && fromSprite.isAlive() && this.data.count < this.data.level) {
+			if ((this.data.tmp.length > 0 && this.data.tmp[this.data.tmp.length - 1].t + 200 < (new Date()).getTime()) ||
+				(this.data.tmp.length == 0 && this.data.triggeredTime +  200 < (new Date()).getTime())) {			
+				
+				var tmpAngle = angle;
+				var tmp = this.data.count;
+
+				while (tmp > 0) {
+					if (tmp < global.level.spriteList.length &&
+						global.level.spriteList[tmp].data.isPlayer != fromSprite.data.isPlayer) {
+						var toSprite = global.level.spriteList[tmp];
+
+						if (toSprite.isAlive()) {
+							tmpAngle = (Math.PI/180) * this.getAngle(fromSprite.data.x, fromSprite.data.y, toSprite.data.x, toSprite.data.y);
+							break;
+						}
+					}	
+
+					tmp--;
+				}
+				
+
 				this.data.count++;
-				this.data.tmp.push({x : this.data.x, y : this.data.y, t : (new Date()).getTime()});
+				this.data.tmp.push({x : this.data.x, y : this.data.y, t : (new Date()).getTime(), a : tmpAngle});
 				updated = true;
 			}
 		}
@@ -55,6 +74,7 @@ Strafe.prototype.update = function (fromSprite, delta) {
 		for (var j = 0; j < this.data.tmp.length; j++) {
 			this.data.x = this.data.tmp[j].x;
 			this.data.y = this.data.tmp[j].y;
+			this.data.angle = this.data.tmp[j].a;
 			var spliced = false;
 
 			this.moveProjectile(delta);
@@ -115,7 +135,7 @@ Strafe.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) 
 
 	var success = true;
 
-	if (this.data.triggered) {
+	if (this.data.triggered || fromSprite.data.isPlayer == toSprite.data.isPlayer) {
 		success = false;
 	}
 	else {
@@ -128,7 +148,7 @@ Strafe.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) 
 		this.data.tmp = [];
 
 		this.data.angle = (Math.PI/180) * this.getAngle(fromSprite.data.x, fromSprite.data.y, toSprite.data.x, toSprite.data.y);
-		this.data.tmp.push({x : this.data.x, y : this.data.y, t : (new Date()).getTime()});
+		this.data.tmp.push({x : this.data.x, y : this.data.y, t : (new Date()).getTime(), a : this.data.angle});
 	}
 	return success;
 }

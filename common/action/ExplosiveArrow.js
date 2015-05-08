@@ -42,7 +42,6 @@ ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 
 	if (this.data.triggered && delta != null) {
 
-
 		if (global != null && global.level != null) {
 			if (this.data.triggeredState == 1) {
 				this.moveProjectile(delta);
@@ -84,7 +83,7 @@ ExplosiveArrow.prototype.update = function (fromSprite, delta) {
 		    else {
 				game.ctx.save();	
 				game.ctx.beginPath();
-				game.ctx.arc(this.data.x, this.data.y, this.data.distance, 0, 2 * Math.PI, false);
+				game.ctx.arc(this.data.x, this.data.y, this.data.distance * 0.8, 0, 2 * Math.PI, false);
 				game.ctx.globalAlpha = 0.2; 
 				game.ctx.fillStyle = lavaPattern;
 				game.ctx.fill();

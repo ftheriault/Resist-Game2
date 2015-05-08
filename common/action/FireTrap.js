@@ -2,7 +2,7 @@ var Action = require('./Action');
 
 module.exports = FireTrap = function (data, level) {
 	if (data == null) {
-		Action.call(this, level, "fire-trap", 8000, 100);
+		Action.call(this, level, "fire-trap", 10000, 100);
 
 		this.data.speed = 1;
 		this.data.triggered = false;
@@ -32,7 +32,7 @@ FireTrap.prototype.getActiveTooltipData = function() {
 }
 
 FireTrap.prototype.getHit = function() {
-	return 6 + this.data.level * 3;
+	return 6 + this.data.level * 4;
 };
 
 FireTrap.prototype.update = function (fromSprite, delta) {
@@ -103,8 +103,8 @@ FireTrap.prototype.update = function (fromSprite, delta) {
 
 FireTrap.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 	this.data.distance = 40 + 15 * this.data.level;
-	this.data.x = fromSprite.data.x;
-	this.data.y = fromSprite.data.y + 20;
+	this.data.x = mouseX;
+	this.data.y = mouseY;
 	this.data.triggered = true;
 	this.data.triggeredState = 1;
 	this.data.tmpAlreadyHit = [];
