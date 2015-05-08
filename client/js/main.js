@@ -9,6 +9,8 @@ function showMenu() {
 		localStorage["game-volume"] = 1;
 	}
 
+	updateSoundImage();
+
 	menuShown = true;
 	$("#loaderPercent").css("display", "none");
 	$(".hidden").fadeIn();
@@ -77,6 +79,17 @@ function toggleSound() {
 
 	if (game != null) {
 		game.updateVolume(localStorage["game-volume"]);
+	}
+
+	updateSoundImage();
+}
+
+function updateSoundImage() {
+	if (localStorage["game-volume"] == 0) {
+		$(".sound").css("background-image", "url('images/sound-off.png')");
+	}
+	else {
+		$(".sound").css("background-image", "url('images/sound-on.png')");
 	}
 }
 

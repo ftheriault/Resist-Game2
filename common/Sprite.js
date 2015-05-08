@@ -65,6 +65,7 @@ Sprite.prototype.build = function(isPlayer, id, name, type, life, maxLife, mana,
 		this.data.vitality = 0;
 		this.data.intelligence = 0;
 		this.data.strength = 0;
+		this.data.armor = 1;
 	}
 
 	this.buildActions(previousActions);
@@ -310,18 +311,9 @@ Sprite.prototype.heal = function (amount, fromSprite) {
 
 Sprite.prototype.hit = function (amount, fromSprite, isMagic) {
 	var vulnerable = true;
+	var armor = this.data.armor;
 
-	for (var i = 0; i < this.data.modifiers.length; i++) {
-		if (this.data.modifiers[i].type == "INVULNERABLE") {
-			vulnerable = false;
-			break;
-		}
-		else if (this.data.modifiers[i].type == "ARMOR") {
-			amount -= this.data.modifiers[i].mod;
-		}
-	};
-
-	if (fromSprite.isPlayer) {
+	if (fromSprite.data.isPlayer) {
 		if (isMagic) {
 			amount *=  this.getMagicBonus();
 		}
@@ -330,10 +322,26 @@ Sprite.prototype.hit = function (amount, fromSprite, isMagic) {
 		}
 	}
 
+	if (!this.data.isPlayer) {
+		if (global != null) {
+			armor += global.wsServer.clients.length;
+		}
+	}
+
+	for (var i = 0; i < this.data.modifiers.length; i++) {
+		if (this.data.modifiers[i].type == "INVULNERABLE") {
+			vulnerable = false;
+			break;
+		}
+		else if (this.data.modifiers[i].type == "ARMOR") {
+			armor += this.data.modifiers[i].mod;
+		}
+	};
+
 	if (vulnerable) {
 		var finalAmount = amount;
 
-		if (amount - this.armor < amount * 0.25) {
+		if (amount - armor < amount * 0.25) {
 			finalAmount = amount * 0.25;
 		}
 

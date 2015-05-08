@@ -66,6 +66,21 @@ a:hover {
 	display: none;
 }
 
+.command-text {
+	float:left;
+	line-height: 40px;
+	width:500px;
+}
+
+.sound {
+	width:64px;
+	float:right;
+	height:40px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	cursor:pointer;
+}
+
 button.btn-enter {
 	background-color: transparent;
 	border:0px;
@@ -128,7 +143,7 @@ canvas {
 }
 
 .commands {
-	width: 700px;
+	width: 900px;
 	margin: 10px auto 0px auto;
 }
 
