@@ -28,14 +28,14 @@ Totem.prototype.getTooltip = function() {
 }
 
 Totem.prototype.getActiveTooltipData = function() {
-	return this.getDistance() + " distance<br/>" + this.getHit() + " damage per wave<br/>";
+	return this.getSpellDistance() + " distance<br/>" + this.getHit() + " damage per wave<br/>";
 }
 
 Totem.prototype.getHit = function() {
 	return 3 + parseInt(this.data.level/2);
 }
 
-Totem.prototype.getDistance = function() {
+Totem.prototype.getSpellDistance = function() {
 	return 40 + 15 * this.data.level;
 }
 
@@ -138,7 +138,7 @@ Totem.prototype.update = function (fromSprite, delta) {
 }
 
 Totem.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = this.getDistance();
+	this.data.distance = this.getSpellDistance();
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;

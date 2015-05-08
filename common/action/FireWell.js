@@ -28,14 +28,14 @@ FireWell.prototype.getTooltip = function() {
 }
 
 FireWell.prototype.getActiveTooltipData = function() {
-	return this.getDistance() + " distance <br>" + this.getHit() + " damage<br/>";
+	return this.getSpellDistance() + " distance <br>" + this.getHit() + " damage<br/>";
 }
 
 FireWell.prototype.getHit = function() {
 	return 10 + this.data.level * 3;
 };
 
-FireWell.prototype.getDistance = function() {
+FireWell.prototype.getSpellDistance = function() {
 	return 40 + 3 * this.data.level;
 };
 
@@ -64,13 +64,14 @@ FireWell.prototype.update = function (fromSprite, delta) {
 }
 
 FireWell.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = this.getDistance();
+	this.data.distance = this.getSpellDistance();
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
+			
 			if (this.getDistance(this.data.x, this.data.y, global.level.spriteList[i].data.x, global.level.spriteList[i].data.y) < this.data.distance) {
 				global.level.spriteList[i].hit(this.getHit(), fromSprite, true);
 			}

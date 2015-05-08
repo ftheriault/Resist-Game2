@@ -9,6 +9,8 @@ var sandPattern = null;
 var debug = false;
 
 function Game() {
+	this.volume = localStorage["game-volume"];
+
 	this.ctx = document.getElementById("canvas").getContext("2d");
 	this.gameWidth = 700;
 	this.gameHeight = 700;
@@ -81,6 +83,7 @@ Game.prototype.playSound = function(path) {
 	var audio = document.createElement("audio");
 	audio.setAttribute("autoplay","autoplay");
 	audio.src ='sound/' + path;
+	audio.volume = this.volume;
 	document.body.appendChild(audio);
 
 	audio.addEventListener('ended', function () {
@@ -90,13 +93,21 @@ Game.prototype.playSound = function(path) {
 	return audio;
 };
 
+Game.prototype.updateVolume = function(level) {
+	if (game.music != null) {
+		game.music.volume = level;
+	}
+
+	game.volume = level;
+}
+
 Game.prototype.playMusic = function(path) {
 	this.soundId++;
 
 	var audio = document.createElement("audio");
 	audio.setAttribute("autoplay","autoplay");
 	audio.src ='music/' + path;
-	audio.volume = 1;
+	audio.volume = this.volume;
 	document.body.appendChild(audio);
 
 	audio.addEventListener('ended', function () {

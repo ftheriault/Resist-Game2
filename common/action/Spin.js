@@ -26,20 +26,20 @@ Spin.prototype.getTooltip = function() {
 }
 
 Spin.prototype.getActiveTooltipData = function() {
-	return this.getDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
+	return this.getSpellDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
 }
 
 Spin.prototype.getHit = function() {
 	return 4 + this.data.level * 3;
 }
 
-Spin.prototype.getDistance = function() {
+Spin.prototype.getSpellDistance = function() {
 	return 60 + 2 * this.data.level;
 }
 
 Spin.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 2 + 3 * this.data.level;
-	this.data.distance = this.getDistance();
+	this.data.distance = this.getSpellDistance();
 
 	if (this.data.triggered && delta != null) {
 		var now = (new Date()).getTime();

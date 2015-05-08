@@ -5,6 +5,10 @@ var animation = null;
 var tmpList = [];
 
 function showMenu() {
+	if (localStorage["game-volume"] == null) {
+		localStorage["game-volume"] = 1;
+	}
+
 	menuShown = true;
 	$("#loaderPercent").css("display", "none");
 	$(".hidden").fadeIn();
@@ -61,6 +65,19 @@ function showMenu() {
 
 function capitaliseFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function toggleSound() {
+	if (localStorage["game-volume"] == 1) {
+		localStorage["game-volume"] = 0;
+	}
+	else {
+		localStorage["game-volume"] = 1;	
+	}
+
+	if (game != null) {
+		game.updateVolume(localStorage["game-volume"]);
+	}
 }
 
 function start(button) {

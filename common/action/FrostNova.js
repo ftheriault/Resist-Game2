@@ -28,14 +28,14 @@ FrostNova.prototype.getTooltip = function() {
 }
 
 FrostNova.prototype.getActiveTooltipData = function() {
-	return this.getDistance() + " distance <br>" + this.getHit() + " damage<br/>";
+	return this.getSpellDistance() + " distance <br>" + this.getHit() + " damage<br/>";
 }
 
 FrostNova.prototype.getHit = function() {
 	return 4 + this.data.level * 2;
 };
 
-FrostNova.prototype.getDistance = function() {
+FrostNova.prototype.getSpellDistance = function() {
 	return 100 + 10 * this.data.level;
 };
 
@@ -76,7 +76,7 @@ FrostNova.prototype.update = function (fromSprite, delta) {
 }
 
 FrostNova.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = this.getDistance();
+	this.data.distance = this.getSpellDistance();
 	this.data.x = fromSprite.data.x;
 	this.data.y = fromSprite.data.y;
 	this.data.triggered = true;

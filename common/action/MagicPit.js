@@ -25,14 +25,14 @@ MagicPit.prototype.getTooltip = function() {
 }
 
 MagicPit.prototype.getActiveTooltipData = function() {
-	return this.getDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
+	return this.getSpellDistance() + " distance<br/>" + this.getHit() + " damage<br/>";
 }
 
 MagicPit.prototype.getHit = function() {
 	return 4 + this.data.level * 2;
 }
 
-MagicPit.prototype.getDistance = function() {
+MagicPit.prototype.getSpellDistance = function() {
 	return 60 + 15 * this.data.level;
 };
 
@@ -67,7 +67,7 @@ MagicPit.prototype.update = function (fromSprite, delta) {
 }
 
 MagicPit.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = this.getDistance();
+	this.data.distance = this.getSpellDistance();
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
