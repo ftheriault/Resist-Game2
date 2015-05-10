@@ -26,7 +26,7 @@ Leech.prototype.getTooltip = function() {
 }
 
 Leech.prototype.getActiveTooltipData = function() {
-	return this.getHeal() + " heal per enemy<br>" + this.getHit() + " damage per enemy<br/>";
+	return this.getSpellDistance() + " distance<br/>" + this.getHeal() + " heal per enemy<br>" + this.getHit() + " damage per enemy<br/>";
 }
 
 Leech.prototype.getHit = function() {
@@ -37,9 +37,14 @@ Leech.prototype.getHeal = function() {
 	return 4 + this.data.level;
 };
 
+Leech.prototype.getSpellDistance = function() {
+	return 60 + 2 * this.data.level;
+};
+
+
 Leech.prototype.update = function (fromSprite, delta) {
 	this.data.manaCost = 2 + 3 * this.data.level;
-	this.data.distance = 60 + 2 * this.data.level;
+	this.data.distance = this.getSpellDistance();
 
 	if (this.data.triggered && delta != null) {
 		var now = (new Date()).getTime();

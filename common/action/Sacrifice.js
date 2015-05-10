@@ -27,11 +27,11 @@ Sacrifice.prototype.getActiveTooltipData = function() {
 }
 
 Sacrifice.prototype.getHit = function() {
-	return 6 + this.data.level * 5;
+	return 7 + this.data.level * 4;
 };
 
 Sacrifice.prototype.getLeech = function() {
-	return this.data.level * 5;
+	return 2 + this.data.level * 3;
 };
 
 Sacrifice.prototype.update = function (fromSprite, delta) {

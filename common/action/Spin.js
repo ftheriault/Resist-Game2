@@ -30,11 +30,11 @@ Spin.prototype.getActiveTooltipData = function() {
 }
 
 Spin.prototype.getHit = function() {
-	return 4 + this.data.level * 3;
+	return 5 + this.data.level * 3;
 }
 
 Spin.prototype.getSpellDistance = function() {
-	return 60 + 2 * this.data.level;
+	return 65 + 2 * this.data.level;
 }
 
 Spin.prototype.update = function (fromSprite, delta) {
@@ -80,7 +80,7 @@ Spin.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
 
 	for (var i = 0; i < global.level.spriteList.length; i++) {
 		if (fromSprite.data.isPlayer != global.level.spriteList[i].data.isPlayer) {
-			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.data.getDistance) {
+			if (fromSprite.distanceWith(global.level.spriteList[i]) < this.getSpellDistance()) {
 				global.level.spriteList[i].hit(this.getHit(), fromSprite, false);
 			}
 		}
