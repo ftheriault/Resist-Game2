@@ -6,7 +6,7 @@ module.exports = Strafe = function (data, level) {
 		
 		this.data.count = 0;
 		this.data.angle = 0;
-		this.data.speed = 0.8;
+		this.data.speed = 0.6;
 		this.data.triggered = false;
 	}
 	else {
@@ -31,7 +31,7 @@ Strafe.prototype.getActiveTooltipData = function() {
 }
 
 Strafe.prototype.getHit = function() {
-	return 3 + parseInt(this.data.level/1.5);
+	return 3 + parseInt(this.data.level);
 }
 
 Strafe.prototype.update = function (fromSprite, delta) {
@@ -44,8 +44,8 @@ Strafe.prototype.update = function (fromSprite, delta) {
 		var updated = false;
 
 		if (global != null && global.level != null && fromSprite.isAlive() && this.data.count < this.data.level) {
-			if ((this.data.tmp.length > 0 && this.data.tmp[this.data.tmp.length - 1].t + 200 < (new Date()).getTime()) ||
-				(this.data.tmp.length == 0 && this.data.triggeredTime +  200 < (new Date()).getTime())) {			
+			if ((this.data.tmp.length > 0 && this.data.tmp[this.data.tmp.length - 1].t + 250 < (new Date()).getTime()) ||
+				(this.data.tmp.length == 0 && this.data.triggeredTime +  250 < (new Date()).getTime())) {			
 				
 				var tmpAngle = angle;
 				var tmp = this.data.count;
@@ -91,6 +91,7 @@ Strafe.prototype.update = function (fromSprite, delta) {
 							j--;
 							spliced = true;
 							updated = true;
+							break;
 						}
 					}
 				}
@@ -107,7 +108,7 @@ Strafe.prototype.update = function (fromSprite, delta) {
 				this.data.tmp[j].x = this.data.x;
 				this.data.tmp[j].y = this.data.y;
 
-				if (this.data.tmp[j].t + 500 < (new Date()).getTime()) {
+				if (this.data.tmp[j].t + 550 < (new Date()).getTime()) {
 					this.data.tmp.splice(j, 1);
 					j--;
 					continue;
@@ -120,7 +121,7 @@ Strafe.prototype.update = function (fromSprite, delta) {
 		this.data.x = x;
 		this.data.y = y;
 
-		if (this.data.triggeredTime + 1000 < (new Date()).getTime() && 
+		if (this.data.triggeredTime + 2800 < (new Date()).getTime() && 
 			this.data.tmp.length == 0) {
 			this.data.triggered = false;
 		}

@@ -30,7 +30,7 @@ Shoot.prototype.getActiveTooltipData = function() {
 }
 
 Shoot.prototype.getHit = function() {
-	return 4 + this.data.level * 3;
+	return 4 + this.data.level * 2;
 }
 
 Shoot.prototype.update = function (fromSprite, delta) {

@@ -40,19 +40,25 @@ fs.readFile("./data.txt", 'utf8', function (err,data) {
 });
 
 function tick() {
-	var delta = global.level.tick();
-	delta -= sleepTime;
-	var next = sleepTime - delta;
+	try {
+		var delta = global.level.tick();
+		delta -= sleepTime;
+		var next = sleepTime - delta;
 
-	if (delta > 200) {
-		console.log("- Long cycle to process : " + delta + "msec");
+		if (delta > 200) {
+			console.log("- Long cycle to process : " + delta + "msec");
+		}
+
+		if (next <= 0) {
+			next = sleepTime/2;
+		}
+
+		setTimeout(tick, next);
 	}
-
-	if (next <= 0) {
-		next = sleepTime/2;
+	catch (e) {
+		fs.appendFile("resist_error_log.txt", e); 
+		fs.appendFile("resist_error_log.txt", "\n"); 
 	}
-
-	setTimeout(tick, next);
 }
 
 tick();
