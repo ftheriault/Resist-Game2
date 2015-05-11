@@ -589,3 +589,17 @@ Sprite.prototype.draw = function (ctx) {
 		ctx.textAlign = 'left';
 	}
 }
+
+Sprite.prototype.drawLifeManaBars = function (ctx, isPlayerSprite) {
+	if (this.data.life > 0 && this.data.isPlayer) {
+		var height = 5;
+		var width = 20;
+		ctx.fillStyle = "red";
+		ctx.fillRect(this.data.x - (width + this.data.maxLife/width)/2, this.data.y - 25, (width + this.data.maxLife/width) * (1.0 * this.data.life/this.data.maxLife), height);
+
+		if (isPlayerSprite) {
+			ctx.fillStyle = "blue";
+			ctx.fillRect(this.data.x - (width + this.data.maxMana/width)/2, this.data.y - 25 + height, (width + this.data.maxMana/width) * (1.0 * this.data.mana/this.data.maxMana), height);
+		}
+	}
+}

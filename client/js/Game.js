@@ -394,6 +394,10 @@ Game.prototype.tick = function(delta) {
 			this.level.spriteList[i].draw(this.ctx);
 		}
 
+		for (var i = 0; i < this.level.spriteList.length; i++) {
+			this.level.spriteList[i].drawLifeManaBars(this.ctx, this.playerId == this.level.spriteList[i].data.id);
+		}
+
 		if (this.messageInitTime != null) {
 			var sinceTime = (new Date()).getTime() - this.messageInitTime;
 
