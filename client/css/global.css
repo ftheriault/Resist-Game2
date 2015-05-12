@@ -182,6 +182,10 @@ canvas {
     -webkit-transition: background-color 1s, font-size 1s, left 1s ease-out;
 }
 
+canvas {
+	cursor : url('../images/cursor.png'), auto;
+}
+
 .player-class p {
 	height:60px;
 	margin-top: 10px;

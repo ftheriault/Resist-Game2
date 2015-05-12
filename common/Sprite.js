@@ -578,7 +578,7 @@ Sprite.prototype.draw = function (ctx) {
 
 	if (this.data.life > 0) {
 		ctx.fillStyle = "red";
-		ctx.fillRect(this.data.x - (20 + this.data.maxLife/20)/2, this.data.y - 25, (20 + this.data.maxLife/20) * (1.0 * this.data.life/this.data.maxLife), 5);
+		ctx.fillRect(this.data.x - 10, this.data.y - 25, (20) * (1.0 * this.data.life/this.data.maxLife), 5);
 	}
 
 	if (this.data.isPlayer) {
@@ -595,11 +595,11 @@ Sprite.prototype.drawLifeManaBars = function (ctx, isPlayerSprite) {
 		var height = 5;
 		var width = 20;
 		ctx.fillStyle = "red";
-		ctx.fillRect(this.data.x - (width + this.data.maxLife/width)/2, this.data.y - 25, (width + this.data.maxLife/width) * (1.0 * this.data.life/this.data.maxLife), height);
+		ctx.fillRect(this.data.x - 10, this.data.y - 25, (width) * (1.0 * this.data.life/this.data.maxLife), height);
 
 		if (isPlayerSprite) {
 			ctx.fillStyle = "blue";
-			ctx.fillRect(this.data.x - (width + this.data.maxMana/width)/2, this.data.y - 25 + height, (width + this.data.maxMana/width) * (1.0 * this.data.mana/this.data.maxMana), height);
+			ctx.fillRect(this.data.x - 10, this.data.y - 25 + height, (width) * (1.0 * this.data.mana/this.data.maxMana), height);
 		}
 	}
 }
