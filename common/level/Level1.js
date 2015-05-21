@@ -13,7 +13,7 @@ Level1.prototype.constructor = Level1;
 
 Level1.prototype.initLandscape = function () {
 	this.lastEnemySpawnTime = 0;
-	this.enemyLeft = 5 + 2 * global.waveNumber;
+	this.enemyLeft = 5 + global.waveNumber;
 	
 	this.obstacles.push(new Tree(20, 150));
 	this.obstacles.push(new Tree(140, 130));
@@ -39,30 +39,36 @@ Level1.prototype.tickLevel = function (now, delta) {
 			var npc = new Skeleton(global.waveNumber);
 			npc.ai = new MeleeAI();
 
+			var destX = 50;
+			var destY = 50;
+
 			if (this.enemyLeft % 4 == 0) {
 				npc.setLocation(this.enemySpawnX, this.enemySpawnY);
-				npc.data.destX = 350 + parseInt(Math.random() * 20);
-				npc.data.destY = 550 + parseInt(Math.random() * 50);
+				destX = 350 + parseInt(Math.random() * 20);
+				destY = 550 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 4 == 1) {
 				npc.setLocation(350, -50);
-				npc.data.destX = 350;
-				npc.data.destY = 50 + parseInt(Math.random() * 50);
+				destX = 350;
+				destY = 50 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 4 == 2) {
 				npc.setLocation(-50, 350);
-				npc.data.destX = 50;
-				npc.data.destY = 350 + parseInt(Math.random() * 50);
+				destX = 50;
+				destY = 350 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 4 == 3) {
 				npc.setLocation(750, 350);
-				npc.data.destX = 550;
-				npc.data.destY = 350 + parseInt(Math.random() * 50);
+				destX = 550;
+				destY = 350 + parseInt(Math.random() * 50);
 			}
 
 			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
 				npc.setLocation(npc.data.x + Math.random() * 300, npc.data.y + Math.random() * 300);
 			}
+
+			npc.data.destX = destX;
+			npc.data.destY = destY;
 
 			this.spriteList.push(npc);	
 			npc.broadcastState();

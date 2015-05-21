@@ -18,6 +18,7 @@ function Game() {
 	this.container = null;
 	this.serverLocation = window.location.hostname + ':8081';	
 	this.music = null;
+	this.currentWaveNumber = null;
 
 	this.playerId = null;
 	this.playerLevel = 1;
@@ -158,6 +159,7 @@ Game.prototype.connect = function(username, playerType) {
 			game.level.commonInit();
 			game.level.initLandscape();
 			game.maxWaveNumber = serverMessage.maxWaveNumber;
+			game.currentWaveNumber = serverMessage.waveNumber;
 			game.showMessage("Wave " + serverMessage.waveNumber, "white");
 
 			for (var i = 0; i < serverMessage.level.spriteList.length; i++) {
@@ -449,8 +451,10 @@ Game.prototype.tick = function(delta) {
 		this.ctx.textAlign = 'left';
 	}
 
-	if (game.maxWaveNumber != null) {
+	if (this.currentWaveNumber != null && this.maxWaveNumber != null) {
+		this.ctx.font = "13px Arial";
 		this.ctx.fillStyle = "white";
-		this.ctx.fillText("Maximum waves survived : " + game.maxWaveNumber, 10, 680);
+		this.ctx.fillText("Wave #" + this.currentWaveNumber + " (max survived waves = " + this.maxWaveNumber + ")", 10, 680);	
 	}
+
 }

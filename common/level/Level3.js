@@ -16,7 +16,7 @@ Level3.prototype.constructor = Level3;
 
 Level3.prototype.initLandscape = function () {
 	this.lastEnemySpawnTime = 0;
-	this.enemyLeft = 10 + 2 * global.waveNumber;
+	this.enemyLeft = 10 + global.waveNumber;
 	
 	this.obstacles.push(new Tree(350, 527));
 	this.obstacles.push(new Tree(380, 537));
@@ -36,29 +36,35 @@ Level3.prototype.tickLevel = function (now, delta) {
 			this.lastEnemySpawnTime = now;
 
 			var npc = null; 
+			
+			var destX = 50;
+			var destY = 50;
 
 			if (this.enemyLeft % 3 == 0) {
 				npc = new Sorcerer(global.waveNumber);
 				npc.setLocation(-50, 350);
-				npc.data.destX = 30;
-				npc.data.destY = 325 + parseInt(Math.random() * 50);
+				destX = 30;
+				destY = 325 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 3 == 1) {
 				npc = new Skeleton(global.waveNumber);
 				npc.setLocation(750, 350);
-				npc.data.destX = 650;
-				npc.data.destY = 325 + parseInt(Math.random() * 50);
+				destX = 650;
+				destY = 325 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 3 == 2) {
 				npc = new Thief(global.waveNumber);
 				npc.setLocation(350, 750);
-				npc.data.destX = 30;
-				npc.data.destY = 325 + parseInt(Math.random() * 50);
+				destX = 30;
+				destY = 325 + parseInt(Math.random() * 50);
 			}
 
 			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
 				npc.setLocation(npc.data.x + Math.random() * 300, npc.data.y + Math.random() * 300);
 			}
+
+			npc.data.destX = destX;
+			npc.data.destY = destY;
 			
 			npc.ai = new MeleeAI();
 			this.spriteList.push(npc);	

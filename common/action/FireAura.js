@@ -31,7 +31,7 @@ FireAura.prototype.getActiveTooltipData = function() {
 }
 
 FireAura.prototype.getDistance = function() {
-	return 100 + 3 * this.data.level;
+	return 100 + 4 * this.data.level;
 }
 
 FireAura.prototype.getHit = function() {

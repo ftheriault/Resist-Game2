@@ -43,7 +43,11 @@ Level5.prototype.tickLevel = function (now, delta) {
 	if (this.enemyLeft > 0) {
 		if (this.lastEnemySpawnTime + 1500 < now) {
 			this.lastEnemySpawnTime = now;
+
 			var npc = null; 
+			
+			var destX = 50;
+			var destY = 50;
 
 			if (this.giantAdded) {
 				this.enemyLeft--;
@@ -52,28 +56,31 @@ Level5.prototype.tickLevel = function (now, delta) {
 					var y = 150 + parseInt(Math.random() * 150);
 					npc = new Thief(global.waveNumber);
 					npc.setLocation(-50, y);
-					npc.data.destX = 90;
-					npc.data.destY = y;
+					destX = 90;
+					destY = y;
 				}
 				else if (this.enemyLeft % 2 == 1) {
 					var y = 450 + parseInt(Math.random() * 50);
 					npc = new Skeleton(global.waveNumber);
 					npc.setLocation(-50, y);
-					npc.data.destX = 150;
-					npc.data.destY = y;
+					destX = 150;
+					destY = y;
 				}
 			}
 			else {
 				this.giantAdded = true;
 				npc = new Giant(global.waveNumber);
 				npc.setLocation(-60, 350);
-				npc.data.destX = 60;
-				npc.data.destY = 350;
+				destX = 60;
+				destY = 350;
 			}
 
 			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
 				npc.setLocation(npc.data.x + Math.random() * 100, npc.data.y + Math.random() * 100);
 			}
+			
+			npc.data.destX = destX;
+			npc.data.destY = destY;
 			
 			npc.ai = new MeleeAI();
 			this.spriteList.push(npc);	

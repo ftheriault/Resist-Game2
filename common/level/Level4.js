@@ -32,41 +32,47 @@ Level4.prototype.tickLevel = function (now, delta) {
 			this.lastEnemySpawnTime = now;
 
 			var npc = null; 
+			
+			var destX = 50;
+			var destY = 50;
 
 			if (this.enemyLeft % 5 == 0) {
 				npc = new Sorcerer(global.waveNumber);
 				npc.setLocation(-50, 600 + parseInt(Math.random() * 50));
-				npc.data.destX = 100;
-				npc.data.destY = 550 + parseInt(Math.random() * 50);
+				destX = 100;
+				destY = 550 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 5 == 1) {
 				npc = new Skeleton(global.waveNumber);
 				npc.setLocation(750, 350);
-				npc.data.destX = 650;
-				npc.data.destY = 325 + parseInt(Math.random() * 50);
+				destX = 650;
+				destY = 325 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft % 5 == 2) {
 				npc = new Thief(global.waveNumber);
 				npc.setLocation(350, 0);
-				npc.data.destX = 310 + parseInt(Math.random() * 50);
-				npc.data.destY = 100;
+				destX = 310 + parseInt(Math.random() * 50);
+				destY = 100;
 			}
 			else if (this.enemyLeft % 5 == 3) {
 				npc = new Archer(global.waveNumber);
 				npc.setLocation(350, 750);
-				npc.data.destX = 300 + parseInt(Math.random() * 40);
-				npc.data.destY = 650;
+				destX = 300 + parseInt(Math.random() * 40);
+				destY = 650;
 			}
 			else if (this.enemyLeft % 5 == 4) {
 				npc = new Skeleton(global.waveNumber);
 				npc.setLocation(-50, 50);
-				npc.data.destX = 650;
-				npc.data.destY = 325 + parseInt(Math.random() * 50);
+				destX = 650;
+				destY = 325 + parseInt(Math.random() * 50);
 			}
 
 			while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
 				npc.setLocation(npc.data.x + Math.random() * 300, npc.data.y + Math.random() * 300);
 			}
+			
+			npc.data.destX = destX;
+			npc.data.destY = destY;
 			
 			npc.ai = new MeleeAI();
 			this.spriteList.push(npc);	

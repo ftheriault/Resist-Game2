@@ -286,11 +286,11 @@ Sprite.prototype.giveExperience = function(amount) {
 
 
 Sprite.prototype.getMagicBonus = function () {
-	return this.data.intelligence * 0.005 + 1.0;
+	return this.data.intelligence * 0.0075 + 1.0;
 }
 
 Sprite.prototype.getHitBonus = function () {
-	return (this.data.dexterity + this.data.strength) * 0.005 + 1.0 - 0.01;
+	return (this.data.dexterity + this.data.strength) * 0.0075 + 1.0 - 0.01;
 }
 
 Sprite.prototype.heal = function (amount, fromSprite) {
@@ -341,8 +341,8 @@ Sprite.prototype.hit = function (amount, fromSprite, isMagic) {
 	if (vulnerable) {
 		var finalAmount = amount;
 
-		if (amount - armor < amount * 0.25) {
-			finalAmount = amount * 0.25;
+		if (amount - armor < amount * 0.15) {
+			finalAmount = amount * 0.15;
 		}
 
 		if (finalAmount < 1) {

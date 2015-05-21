@@ -31,31 +31,37 @@ Level6.prototype.tickLevel = function (now, delta) {
 			this.lastEnemySpawnTime = now;
 
 			var npc = null;
+			
+			var destX = 50;
+			var destY = 50;
 
 			if (this.enemyLeft == 1) {
 				npc = new Giant(global.waveNumber);
 				npc.setLocation(this.enemySpawnX, this.enemySpawnY);
-				npc.data.destX = 350 + parseInt(Math.random() * 20);
-				npc.data.destY = 550 + parseInt(Math.random() * 50);
+				destX = 350 + parseInt(Math.random() * 20);
+				destY = 550 + parseInt(Math.random() * 50);
 			}
 			else if (this.enemyLeft == 2 || this.enemyLeft == 5) {
 				npc = new Summoner(global.waveNumber);
 				npc.setLocation(750, 350);
-				npc.data.destX = 550;
-				npc.data.destY = 350 + parseInt(Math.random() * 50);
+				destX = 550;
+				destY = 350 + parseInt(Math.random() * 50);
 			}
 			else {
 				npc = new Thief(global.waveNumber);
 				var y = 150 + parseInt(Math.random() * 450);
 				npc.setLocation(-50, y);
-				npc.data.destX = 50;
-				npc.data.destY = y;
+				destX = 50;
+				destY = y;
 			}
 
 			if (npc != null) {
 				while (this.checkSpriteCollision(npc.data.x, npc.data.y, []) != 0) {
 					npc.setLocation(npc.data.x + Math.random() * 100, npc.data.y + Math.random() * 100);
 				}
+			
+				npc.data.destX = destX;
+				npc.data.destY = destY;
 				
 				npc.ai = new MeleeAI();
 				this.spriteList.push(npc);	

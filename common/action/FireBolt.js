@@ -30,7 +30,7 @@ FireBolt.prototype.getActiveTooltipData = function() {
 }
 
 FireBolt.prototype.getHit = function() {
-	return 4 + this.data.level * 4;
+	return 5 + this.data.level * 3;
 }
 
 FireBolt.prototype.update = function (fromSprite, delta) {

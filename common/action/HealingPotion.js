@@ -2,7 +2,7 @@ var Action = require('./Action');
 
 module.exports = HealingPotion = function (data, level) {
 	if (data == null) {
-		Action.call(this, level, "healing-potion", 15000, 0);
+		Action.call(this, level, "healing-potion", 20000, 0);
 	}
 	else {
 		Action.call(this, data.level, "healing-potion", data.cooldown);
@@ -28,7 +28,7 @@ HealingPotion.prototype.getActiveTooltipData = function() {
 }
 
 HealingPotion.prototype.getHeal = function() {
-	return 40 + this.data.level * 5;
+	return 40 + this.data.level * 15;
 };
 
 HealingPotion.prototype.update = function (fromSprite, delta) {
