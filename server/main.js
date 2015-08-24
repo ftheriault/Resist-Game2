@@ -52,13 +52,17 @@ function tick() {
 		if (next <= 0) {
 			next = sleepTime/2;
 		}
-
-		setTimeout(tick, next);
 	}
 	catch (e) {
-		fs.appendFile("resist_error_log.txt", e); 
-		fs.appendFile("resist_error_log.txt", "\n"); 
+		var stats = fs.statSync("resist_error_log.txt")
+
+		if (stats == null || stats["size"] < 1000 * 1000) { // smaller than 1M
+			fs.appendFile("resist_error_log.txt", e); 
+			fs.appendFile("resist_error_log.txt", "\n"); 
+		}
 	}
+
+	setTimeout(tick, next);
 }
 
 tick();
