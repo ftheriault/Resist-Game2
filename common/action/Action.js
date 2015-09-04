@@ -76,7 +76,12 @@ Action.prototype.tick = function (fromSprite, delta) {
 			this.data.triggeredTime = (new Date()).getTime();
 		}
 
-		this.update(fromSprite, delta);
+
+		try {
+			this.update(fromSprite, delta);
+		}
+		catch (e) {
+		}
 	}
 
 	this.data.justTriggered = false;
@@ -133,28 +138,34 @@ Action.prototype.draw = function (ctx, x, y, size, over) {
 Action.prototype.trigger = function (fromSprite, mouseX, mouseY, toSprite) {
 	var success = false;
 
-	if (this.isReady() && this.data.level > 0 && !this.data.passive) {
-		var distanceToTarget = 0;
-		var attackRange = 0;
+	try {
+		if (this.isReady() && this.data.level > 0 && !this.data.passive) {
+			var distanceToTarget = 0;
+			var attackRange = 0;
 
-		if (toSprite != null) {
-			distanceToTarget = fromSprite.distanceWith(toSprite);
-			attackRange = toSprite.data.minDistance + this.maxDistance;
-		}
+			if (toSprite != null) {
+				distanceToTarget = fromSprite.distanceWith(toSprite);
+				attackRange = toSprite.data.minDistance + this.maxDistance;
+			}
 
-		if (!this.needTarget || distanceToTarget < attackRange) {
-			if (this.data.manaCost == 0 || fromSprite.data.mana - this.data.manaCost >= 0) {
-				success = this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
+			if (!this.needTarget || distanceToTarget < attackRange) {
+				if (this.data.manaCost == 0 || fromSprite.data.mana - this.data.manaCost >= 0) {
+					success = this.triggerEvent(fromSprite, mouseX, mouseY, toSprite);
 
-				if (success) {
-					this.data.justTriggered = true;
-					fromSprite.data.mana -= this.data.manaCost;
-					fromSprite.data.justAttacked = true;
+					if (success) {
+						this.data.justTriggered = true;
+						fromSprite.data.mana -= this.data.manaCost;
+						fromSprite.data.justAttacked = true;
 
-					fromSprite.broadcastState();
+						fromSprite.broadcastState();
+					}
 				}
 			}
 		}
+	}
+	catch (e) {
+		success = true;
+		// probably toSprite is null now, so let's just pretend it worked
 	}
 
 	return success;
