@@ -83,8 +83,11 @@ Totem.prototype.update = function (fromSprite, delta) {
 					spliced = true;
 				}
 				else {
-					if (percent + 0.2 > 1) {
+					if (percent + 0.2 >= 1) {
 						percent = 0.8;
+					}
+					else if (percent < 0.01) {
+						percent = 0.01;
 					}
 
 					degrade = game.ctx.createRadialGradient(this.data.x,

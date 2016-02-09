@@ -81,6 +81,7 @@ Action.prototype.tick = function (fromSprite, delta) {
 			this.update(fromSprite, delta);
 		}
 		catch (e) {
+			this.data.triggered = false;
 		}
 	}
 
