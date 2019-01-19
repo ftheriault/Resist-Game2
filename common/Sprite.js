@@ -502,6 +502,20 @@ Sprite.prototype.tick = function(delta){
 				break;
 			}
 		}
+
+		if (this.data.incoming) {
+			if (Math.abs(this.data.x - this.data.destX) <= 1 && Math.abs(this.data.y - this.data.destY) <= 1) {
+				this.stuckCounter++;
+
+				if (this.stuckCounter > 100) {
+					console.log("DEBUG : Killed since stuck");
+					this.data.life = 0;
+				}
+			}
+			else {
+				this.stuckCounter = 0
+			}
+		}
 	}
 
 	for (var i = 0; i < this.data.modifiers.length; i++) {

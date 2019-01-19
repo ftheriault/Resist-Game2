@@ -41,7 +41,7 @@ Level5.prototype.initLandscape = function () {
 // Server only
 Level5.prototype.tickLevel = function (now, delta) {
 	if (this.enemyLeft > 0) {
-		if (this.lastEnemySpawnTime + 1500 < now) {
+		if (this.lastEnemySpawnTime + 2000 < now) {
 			this.lastEnemySpawnTime = now;
 
 			var npc = null; 
@@ -53,17 +53,17 @@ Level5.prototype.tickLevel = function (now, delta) {
 				this.enemyLeft--;
 
 				if (this.enemyLeft % 2 == 0) {
-					var y = 150 + parseInt(Math.random() * 150);
+					var y = 100 + parseInt(Math.random() * 200);
 					npc = new Thief(global.waveNumber);
 					npc.setLocation(-50, y);
 					destX = 90;
 					destY = y;
 				}
 				else if (this.enemyLeft % 2 == 1) {
-					var y = 450 + parseInt(Math.random() * 50);
+					var y = 400 + parseInt(Math.random() * 100);
 					npc = new Skeleton(global.waveNumber);
 					npc.setLocation(-50, y);
-					destX = 150;
+					destX = 90;
 					destY = y;
 				}
 			}

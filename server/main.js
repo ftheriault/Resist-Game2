@@ -27,7 +27,7 @@ global.level.init();
 
 global.debugMode = false;
 
-var sleepTime = 30;
+var sleepTime = 20;
 
 var fs = require('fs');
 fs.readFile("./data.txt", 'utf8', function (err,data) {
@@ -54,6 +54,8 @@ function tick() {
 		}
 	}
 	catch (e) {
+		console.log("- Debug ERROR : ");
+		console.log(e);
 		var stats = fs.statSync("resist_error_log.txt")
 
 		if (stats == null || stats["size"] < 1000 * 1000) { // smaller than 1M

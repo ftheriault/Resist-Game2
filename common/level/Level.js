@@ -93,16 +93,19 @@ Level.prototype.getSpawnPoint = function (isPlayer) {
 
 Level.prototype.checkIfCompleted = function () {
 	var allPlayers = true;
+	var allStuck = true;
 
 	for (var i = 0; i < this.spriteList.length; i++) {
 		if (!this.spriteList[i].data.isPlayer) {
-			allPlayers = false;
-			break;
-		}
+			if (this.spriteList[i].stuckCounter < 750) {
+				allStuck = false;
+			}
 
+			allPlayers = false;
+		}
 	}
 
-	if (allPlayers) {
+	if (allStuck || allPlayers || global.wsServer.clients.length == this.spriteList.length) {
 
 		if (global.maxWaveNumber < global.waveNumber)  {
 			global.maxWaveNumber = global.waveNumber;
@@ -131,6 +134,8 @@ Level.prototype.tick = function () {
 		if (this.debugMessageCooldown > 5000) {
 			console.log("- Debug : aStar queue size : " + this.aStarQueue.length);
 			console.log("- Debug : tick delta : " + delta);
+			console.log("- Debug : player list: " + global.wsServer.clients.length);
+			console.log("- Debug : sprite list size: " + this.spriteList.length);
 		}
 	}
 	

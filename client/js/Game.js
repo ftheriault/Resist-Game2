@@ -152,7 +152,7 @@ Game.prototype.connect = function(username, playerType) {
 		else if (serverMessage.type == "GAME_STATE_UPDATE") {
 			if (game.music != null) {
 				game.music.pause();
-				document.body.removeChild(game.music);
+				game.music.remove();
 				game.music = null;
 			}
 			game.level = new (window[serverMessage.level.name])();

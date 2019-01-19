@@ -32,7 +32,7 @@ FireTrap.prototype.getActiveTooltipData = function() {
 }
 
 FireTrap.prototype.getHit = function() {
-	return 6 + this.data.level * 4;
+	return 6 + this.data.level * 3;
 };
 
 FireTrap.prototype.update = function (fromSprite, delta) {
@@ -102,7 +102,7 @@ FireTrap.prototype.update = function (fromSprite, delta) {
 }
 
 FireTrap.prototype.triggerEvent = function (fromSprite, mouseX, mouseY, toSprite) {
-	this.data.distance = 40 + 15 * this.data.level;
+	this.data.distance = 40 + 10 * this.data.level;
 	this.data.x = mouseX;
 	this.data.y = mouseY;
 	this.data.triggered = true;
