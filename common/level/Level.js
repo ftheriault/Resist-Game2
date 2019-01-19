@@ -93,19 +93,14 @@ Level.prototype.getSpawnPoint = function (isPlayer) {
 
 Level.prototype.checkIfCompleted = function () {
 	var allPlayers = true;
-	var allStuck = true;
 
 	for (var i = 0; i < this.spriteList.length; i++) {
 		if (!this.spriteList[i].data.isPlayer) {
-			if (this.spriteList[i].stuckCounter < 750) {
-				allStuck = false;
-			}
-
 			allPlayers = false;
 		}
 	}
 
-	if (allStuck || allPlayers || global.wsServer.clients.length == this.spriteList.length) {
+	if (allPlayers || global.wsServer.clients.length == this.spriteList.length) {
 
 		if (global.maxWaveNumber < global.waveNumber)  {
 			global.maxWaveNumber = global.waveNumber;
