@@ -32,7 +32,7 @@ FireTrap.prototype.getActiveTooltipData = function() {
 }
 
 FireTrap.prototype.getHit = function() {
-	return 6 + this.data.level * 3;
+	return 6 + this.data.level * 2;
 };
 
 FireTrap.prototype.update = function (fromSprite, delta) {
