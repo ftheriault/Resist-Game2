@@ -9,6 +9,6 @@
     "vinyl-source-stream": "~2.0.0",
     "vinyl-transform": "~1.0.0",
     "browserify": "~16.2.3",
-    "ws": "7.0.0"
+    "ws": "7.4.5"
   }
 }
